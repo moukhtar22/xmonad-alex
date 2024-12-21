@@ -12,6 +12,10 @@
 
 (auto-revert-mode 1)
 
+(use-package vterm
+  :ensure t
+  :defer  t)
+
 (use-package evil
   :ensure t
   :init
@@ -32,6 +36,7 @@
              (help-mode                . emacs)
              (emacs-lisp-mode          . emacs)
              (dired-mode               . emacs)
+             (vterm-mode               . emacs)
              (fundamental-mode         . emacs)))
   (evil-set-initial-state (car p) (cdr p)))
 

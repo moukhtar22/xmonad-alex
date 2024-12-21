@@ -104,6 +104,13 @@ Don't want backup files with weird names, and *probably* useless docstring warni
   (auto-revert-mode 1)
 #+end_src
 
+*** Better Terminal
+#+begin_src emacs-lisp
+  (use-package vterm
+    :ensure t
+    :defer  t)
+#+end_src
+
 *** Vim Layer
 #+begin_src emacs-lisp
   (use-package evil
@@ -130,6 +137,7 @@ Set some sane default modes
                (help-mode                . emacs)
                (emacs-lisp-mode          . emacs)
                (dired-mode               . emacs)
+               (vterm-mode               . emacs)
                (fundamental-mode         . emacs)))
     (evil-set-initial-state (car p) (cdr p)))
 #+end_src

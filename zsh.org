@@ -97,6 +97,25 @@ This needs to be =sourced= inside the =~/.zshrc= file, as such
   eval "$(fzf --zsh)"
 #+end_src
 
+** Emacs Vterm compatability
+Sourced this from https://github.com/akermu/emacs-libvterm
+#+begin_src shell
+  vterm_printf() {
+      if [ -n "$TMUX" ] \
+	  && { [ "${TERM%%-*}" = "tmux" ] \
+	      || [ "${TERM%%-*}" = "screen" ]; }; then
+	  # Tell tmux to pass the escape sequences through
+	  printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+      elif [ "${TERM%%-*}" = "screen" ]; then
+	  # GNU screen (screen, screen-256color, screen-256color-bce)
+	  printf "\eP\e]%s\007\e\\" "$1"
+      else
+	  printf "\e]%s\e\\" "$1"
+      fi
+  }
+#+end_src
+
+
 ** Source Companion Files
 #+begin_src shell
   source ~/.zsh/themes/p10k/powerlevel10k.zsh-theme
