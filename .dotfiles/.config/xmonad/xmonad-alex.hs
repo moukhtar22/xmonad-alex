@@ -1,5 +1,5 @@
 import XMonad
-import XMonad.StackSet (swapMaster)
+import XMonad.StackSet (swapMaster, greedyView)
 import System.Exit
 
 import XMonad.Layout.Gaps
@@ -92,6 +92,9 @@ myStartupHook = do
     spawnOnce "conky"
     spawnOnce "/usr/libexec/notification-daemon"
 
+myExtraWorkspaces = [ (xK_0, "10"), (xK_minus, "11") ]
+myWorkspaces = map show [ 1 .. 9 :: Int ]
+
 main :: IO ()
 main = xmonad
     . ewmh
@@ -104,6 +107,7 @@ main = xmonad
         , startupHook = myStartupHook
         , terminal = "alacritty"
         , borderWidth = 0
+        , workspaces = myWorkspaces ++ map snd myExtraWorkspaces
         }
         `removeKeysP`
         [ "M-p"
@@ -112,6 +116,9 @@ main = xmonad
         ]
         `additionalKeys`
         [ ((shiftMask, xK_Shift_R), spawn "cycle_layout.sh")    -- Okay, this is stupid; keeping it for shits and giggles
+        ] ++ [
+          ((mod4Mask, key), (windows $ greedyView ws))
+          | (key, ws) <- myExtraWorkspaces
         ]
         `additionalKeysP`
         [ ("M-S-d", spawn "~/.config/rofi/implements/launcher.sh")
