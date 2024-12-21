@@ -13,8 +13,7 @@
 (auto-revert-mode 1)
 
 (use-package vterm
-  :ensure t
-  :defer  t)
+  :ensure t)
 
 (use-package evil
   :ensure t

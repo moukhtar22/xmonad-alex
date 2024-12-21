@@ -107,8 +107,7 @@ Don't want backup files with weird names, and *probably* useless docstring warni
 *** Better Terminal
 #+begin_src emacs-lisp
   (use-package vterm
-    :ensure t
-    :defer  t)
+    :ensure t)
 #+end_src
 
 *** Vim Layer
