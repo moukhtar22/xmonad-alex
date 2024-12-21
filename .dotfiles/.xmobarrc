@@ -1,0 +1,43 @@
+-- /* vim: set filetype=haskell : */
+
+Config { font         = "MesloLGS NF 13"
+       , bgColor      = "#000c19"
+       , fgColor      = "#a9b1d6"
+       , position     = TopSize C 100 24
+       , lowerOnStart = True
+       , hideOnStart  = False
+       , allDesktops  = True
+       , persistent   = True
+       , commands = [
+                      -- Cpu usage in percent
+                      Run Cpu ["-t", "<fn=2>\xf108</fn> (<total>%)","-H","50","--high","red"] 20
+                      -- Ram used number and percent
+                    , Run Memory ["-t", "<fn=2>\xf233</fn> <used>M (<usedratio>%)"] 20
+                      -- Echos a "battery" icon in front of the pacman updates.
+                    , Run Com "echo" ["<fn=2>\xf242</fn>"] "baticon" 3600
+                      -- Battery
+                    , Run BatteryP ["BAT0"] ["-t", "<acstatus> Plug (<left>%)"] 60
+                      -- Time and date
+                    , Run Date "<fn=2>\xf017</fn>  %a, %b %d - (%H:%M) " "date" 50
+                      -- Prints out the left side items such as workspaces, layout, etc.
+                    , Run XMonadLog
+                      -- cpu core temperature monitor
+                    , Run CoreTemp       [ "--template" , " <core0>°C|<core1>°C"
+                                         , "--Low"      , "50"        -- units: °C
+                                         , "--High"     , "80"        -- units: °C
+                                         , "--low"      , "orange"
+                                         , "--normal"   , "#f7768e"
+                                         , "--high"     , "darkred"
+                                         ] 50
+                    , Run DynNetwork     [ "--template" , "\xf0aa <dev>: <rx>kB/s"
+                                         , "--Low"      , "1000"       -- units: B/s
+                                         , "--High"     , "5000"       -- units: B/s
+                                         , "--low"      , "#b09aa7"
+                                         , "--normal"   , "#bb9af7"
+                                         , "--high"     , "#cb9afa"
+                                         ] 5
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "       <fc=#f7768e>%XMonadLog%</fc>}<fc=#f7768e>%coretemp%</fc>   <fc=#9ece6a><action=`alacritty -e htop`>%cpu%</action></fc>   <fc=#e0af68><action=`alacritty -e htop`>%memory%</action></fc>   <fc=#bb9af7>%dynnetwork%</fc> { <fc=#f7768e>%baticon%  %battery%</fc>    <fc=#9ece6a><action=`emacsclient -c -a 'emacs' --eval '(doom/window-maximize-buffer(dt/year-calendar))'`>%date%</action></fc>        "
+       }

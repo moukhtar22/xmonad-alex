@@ -1,5 +1,5 @@
 import XMonad
-import XMonad.StackSet (swapMaster, greedyView)
+import XMonad.StackSet (swapMaster, greedyView, shift)
 import System.Exit
 
 import XMonad.Layout.Gaps
@@ -117,7 +117,10 @@ main = xmonad
         `additionalKeys`
         [ ((shiftMask, xK_Shift_R), spawn "cycle_layout.sh")    -- Okay, this is stupid; keeping it for shits and giggles
         ] ++ [
-          ((mod4Mask, key), (windows $ greedyView ws))
+          ((mod4Mask, key), windows $ greedyView ws)
+          | (key, ws) <- myExtraWorkspaces
+        ] ++ [
+          ((mod4Mask .|. shiftMask, key), windows $ shift ws)
           | (key, ws) <- myExtraWorkspaces
         ]
         `additionalKeysP`
