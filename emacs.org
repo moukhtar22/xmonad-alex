@@ -190,9 +190,10 @@ Yasnippets, for, well, snippets
   (use-package lsp-mode
     :ensure t
     :hook
-    (c-mode   . lsp-deferred)
-    (c++-mode . lsp-deferred)
-    (lua-mode . lsp-deferred))
+    (c-mode       . lsp-deferred)
+    (haskell-mode . lsp-deferred)
+    (c++-mode     . lsp-deferred)
+    (lua-mode     . lsp-deferred))
 #+end_src
 *** Magit
 #+begin_src emacs-lisp
@@ -238,7 +239,7 @@ Yasnippets, for, well, snippets
   (use-package rainbow-blocks
     :ensure t
     :hook
-    (emacs-lisp-mode . rainbow-delimiters-mode)
+    (prog-mode       . rainbow-delimiters-mode)
     (emacs-lisp-mode . rainbow-identifiers-mode))
 #+end_src
 

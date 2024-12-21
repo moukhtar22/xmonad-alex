@@ -76,9 +76,10 @@
 (use-package lsp-mode
   :ensure t
   :hook
-  (c-mode   . lsp-deferred)
-  (c++-mode . lsp-deferred)
-  (lua-mode . lsp-deferred))
+  (c-mode       . lsp-deferred)
+  (haskell-mode . lsp-deferred)
+  (c++-mode     . lsp-deferred)
+  (lua-mode     . lsp-deferred))
 
 (use-package magit
   :ensure t
@@ -107,7 +108,7 @@
 (use-package rainbow-blocks
   :ensure t
   :hook
-  (emacs-lisp-mode . rainbow-delimiters-mode)
+  (prog-mode       . rainbow-delimiters-mode)
   (emacs-lisp-mode . rainbow-identifiers-mode))
 
 (add-hook 'org-mode-hook
