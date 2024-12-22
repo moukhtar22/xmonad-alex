@@ -89,7 +89,7 @@ myStartupHook = do
     spawnOnce "~/.cabal/bin/xmobar"
     spawnOnce "redshift"
     spawnOnce "picom -b"
-    spawnOnce "conky"
+    spawnOnce "conky.sh"
     spawnOnce "/usr/libexec/notification-daemon"
 
 myExtraWorkspaces = [ (xK_0, "10"), (xK_minus, "11") ]
