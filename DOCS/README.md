@@ -3,9 +3,9 @@ These are the dots for my XMonad installation, xmonad-alex; so that I can reprod
 changing systems.
 
 ## Screenshots
-![Emacs(Org Mode)](../Screenshots/SS1-emacs.png)
-![Empty Screen](../Screenshots/SS2-empty.png)
-![Fetch](../Screenshots/SS3-fastfetch.png)
+![Empty Screen](../Screenshots/SS1-Empty.png)
+![Emacs](../Screenshots/SS2-Emacs.png)
+![Fetch](../Screenshots/SS3-Fetch.png)
 
 ## Installation Dependencies, for the WM
 - **git**: If you're here, you probably already have it installed.
