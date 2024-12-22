@@ -15,7 +15,7 @@ import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.StatusBar
 
-import XMonad.Util.EZConfig (additionalKeysP, removeKeysP, additionalKeys)
+import XMonad.Util.EZConfig (additionalKeysP, removeKeysP, additionalKeys, additionalMouseBindings)
 import XMonad.Util.SpawnOnce
 
 import XMonad.Actions.Submap (visualSubmap, subName)
@@ -114,8 +114,12 @@ main = xmonad
         , "M-S-q"
         , "M-S-c"
         ]
+        `additionalMouseBindings`
+        [ ((0, 8), const $ spawn "xdotool type -")
+        , ((0, 9), const $ spawn "xdotool type +")
+        ]
         `additionalKeys`
-        [ ((shiftMask, xK_Shift_R), spawn "cycle_layout.sh")    -- Okay, this is stupid; keeping it for shits and giggles
+        [ ((shiftMask, xK_Shift_R), spawn "cycle_layout.sh")
         ] ++ [
           ((mod4Mask, key), windows $ greedyView ws)
           | (key, ws) <- myExtraWorkspaces
