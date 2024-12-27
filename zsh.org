@@ -53,6 +53,7 @@
   alias rexmonad="xmonad --recompile&& xmonad --restart"
   alias rexinit="grep -P '(xinput|xset|setxkb)' ~/.xinitrc| bash -"
   alias wallpaper="nitrogen --no-recurse ~/Wallpapers/"
+  alias forgosleep="systemd-inhibit --what=handle-lid-switch:sleep:idle"
 #+end_src
 
 
