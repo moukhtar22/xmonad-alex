@@ -97,6 +97,7 @@ Don't want backup files with weird names, and *probably* useless docstring warni
 #+begin_src emacs-lisp
   (setq-default global-display-line-numbers-mode t)
   (setq-default display-line-numbers 'relative)
+  (setq         column-number-mode    t)
 #+end_src
 
 *** Auto Revert Mode
@@ -131,6 +132,7 @@ To make the integration a bit better,
 Set some sane default modes
 #+begin_src emacs-lisp
   (dolist (p '((prog-mode                . normal)
+               (minibuffer-mode          . emacs)
                (minibuffer-inactive-mode . emacs)
                (haskell-mode             . emacs)
                (help-mode                . emacs)
@@ -199,6 +201,12 @@ Yasnippets, for, well, snippets
     (use-package magit
       :ensure t
       :defer  t)
+#+end_src
+
+
+** Auto Mode Alist Settings
+#+begin_src emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.latex\\'" . latex-mode))
 #+end_src
 
 

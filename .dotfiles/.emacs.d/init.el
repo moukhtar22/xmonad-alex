@@ -9,6 +9,7 @@
 
 (setq-default global-display-line-numbers-mode t)
 (setq-default display-line-numbers 'relative)
+(setq         column-number-mode    t)
 
 (auto-revert-mode 1)
 
@@ -30,6 +31,7 @@
   (evil-collection-init))
 
 (dolist (p '((prog-mode                . normal)
+             (minibuffer-mode          . emacs)
              (minibuffer-inactive-mode . emacs)
              (haskell-mode             . emacs)
              (help-mode                . emacs)
@@ -83,6 +85,8 @@
 (use-package magit
   :ensure t
   :defer  t)
+
+(add-to-list 'auto-mode-alist '("\\.latex\\'" . latex-mode))
 
 (use-package doom-themes
   :ensure t
