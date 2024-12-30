@@ -2,7 +2,7 @@
 
 STATUS_FILE=/tmp/current-variant
 
-[ -f $STATUS_FILE ] || echo "qwerty" > $STATUS_FILE
+[ -f $STATUS_FILE ] || echo "colemak-dh" > $STATUS_FILE
 
 CURRENT_VARIANT="$(cat $STATUS_FILE)"
 if [[ $CURRENT_VARIANT = "qwerty" ]]; then

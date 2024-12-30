@@ -38,6 +38,7 @@ echo "# XKB Options" >> ~/.xinitrc
 echo "setxkbmap -option caps:swapescape" >> ~/.xinitrc
 echo "setxkbmap -option altwin:swap_lalt_lwin" >> ~/.xinitrc
 echo "setxkbmap -option ctrl:menu_rctrl" >> ~/.xinitrc
+echo "setxkbmap -variant colemak_dh" >> ~/.xinitrc
 echo "" >> ~/.xinitrc
 
 #########################
