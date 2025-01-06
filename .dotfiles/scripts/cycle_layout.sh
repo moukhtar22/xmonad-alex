@@ -6,10 +6,6 @@ STATUS_FILE=/tmp/current-variant
 
 CURRENT_VARIANT="$(cat $STATUS_FILE)"
 if [[ $CURRENT_VARIANT = "qwerty" ]]; then
-    notify-send -t 300 "Switching to DVORAK"
-    setxkbmap -variant dvorak
-    echo "dvorak" > $STATUS_FILE
-elif [[ $CURRENT_VARIANT = "dvorak" ]]; then
     notify-send -t 300 "Switching to colemak Mod-DH"
     setxkbmap -variant colemak_dh
     echo "colemak-dh" > $STATUS_FILE
