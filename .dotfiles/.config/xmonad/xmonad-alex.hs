@@ -131,8 +131,9 @@ main = xmonad
         [ ("M-S-d", spawn "~/.config/rofi/implements/launcher.sh")
         -- The Application submap
         , ("M-d", visualSubmap def $ fromList
-                [ ((0, xK_z), subName "Zathura" $ spawn "~/.config/rofi/implements/fzathura.sh")
-                , ((shiftMask, xK_z), subName "Zathura -- selector" $ spawn "~/.config/rofi/implements/fzathura.sh --menu")
+                [ ((0, xK_z), subName "Zathura" $ spawn "~/.config/rofi/implements/fzathura.sh --resume")
+                , ((shiftMask, xK_z), subName "Zathura -- Menu" $ spawn "~/.config/rofi/implements/fzathura.sh --menu")
+                , ((0, xK_n), subName "Zathura -- No Save" $ spawn "~/.config/rofi/implements/fzathura.sh --no-save-recent --menu")
                 , ((0, xK_w), subName "Wezterm" $ spawn "wezterm")
                 , ((0, xK_g), subName "Gimp" $ spawn "gimp")
                 , ((0, xK_e), subName "Emacs" $ spawn "emacs")
