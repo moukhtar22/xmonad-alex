@@ -28,21 +28,21 @@ eval set -- "$GETOPTS_OUT"
 # Set the PDF to open
 while true; do
     case "$1" in
-	-r | --resume )
+	-r | --resume )    # Resume last opened PDF
 	    PDF="$(cat $RECENTS_FILE)"
 	    [ -z $PDF ] && echo "recents file was empty"
 	    shift
 	    ;;
-	-n | --no-save-recent )
+	-n | --no-save-recent )    # Do not overwrite recents file
 	    echo "The recents file will not be overwritten"
 	    SAVE_RECENT=0
 	    shift
 	    ;;
-	-p | --pdf )
+	-p | --pdf )    # Manually specify the file name
 	    PDF="$2"
 	    shift 2
 	    ;;
-	-m | --menu )
+	-m | --menu )    # Selection Menu
 	    DOCUMENTS=""
 	    [ -d $HOME/Documents ] || exit 1
 	    cd $HOME/Documents
