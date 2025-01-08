@@ -1,6 +1,9 @@
 # Zathura configuration file
 # See man `man zathurarc'
 
+# Clipbaord
+set selection-clipboard clipboard
+
 # Open document in width mode by default
 set adjust-open "width"
 

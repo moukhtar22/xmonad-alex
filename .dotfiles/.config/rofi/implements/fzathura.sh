@@ -7,7 +7,6 @@ PDF=
 SAVE_RECENT=1
 
 open_pdf() {
-    echo "$PDF"
     if [[ -z "$PDF" ]]; then
 	notify-send -t 500 "No pdf was specified"
 	exit 1
@@ -55,13 +54,12 @@ while true; do
 		    cd ..
 		fi
 	    done
-	    SELECTED_PDF="$(echo -e $DOCUMENTS| rofi -i -dmenu -theme $HOME/.config/rofi/themes/dmenu.rasi)"
-	    echo $SELECTED_PDF
-	    if [ -z "$SELECTED_PDF" ]; then
+	    SELECTED="$(echo -e $DOCUMENTS| rofi -i -dmenu -theme $HOME/.config/rofi/themes/dmenu.rasi)"
+	    if [ -z "$SELECTED" ]; then
 		echo "Nothing was selected"
 		exit 1
 	    fi
-	    PDF="$HOME/Documents/$SELECTED_PDF"
+	    PDF="$HOME/Documents/$SELECTED"
 	    shift
 	    ;;
 	* ) break ;;
