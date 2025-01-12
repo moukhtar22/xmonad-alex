@@ -67,7 +67,7 @@
 
 (use-package yasnippet
   :ensure t
-  :hook prog-mode-hook
+  :hook (prog-mode . org-mode)
   :config
   (yas-global-mode 1))
 (use-package yasnippet-snippets
