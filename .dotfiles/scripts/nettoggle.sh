@@ -2,7 +2,7 @@
 
 try_connecting () {
     for network in $(cat ~/.networks); do
-        iwctl station wlan0 connect $network&& notify-send "Connect to $network"&& exit 0
+        iwctl station wlan0 connect $network&& notify-send "Connected to $network"&& exit 0
     done
 }
 
