@@ -16,6 +16,11 @@
 (use-package vterm
   :ensure t)
 
+(use-package pdf-tools
+  :ensure t
+  :config
+  (pdf-loader-install))
+
 (use-package evil
   :ensure t
   :init

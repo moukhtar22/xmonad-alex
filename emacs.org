@@ -111,6 +111,15 @@ Don't want backup files with weird names, and *probably* useless docstring warni
     :ensure t)
 #+end_src
 
+*** Better PDF Tooling
+#+begin_src emacs-lisp
+  (use-package pdf-tools
+    :ensure t
+    :config
+    (pdf-loader-install))
+#+end_src
+
+
 *** Vim Layer
 #+begin_src emacs-lisp
   (use-package evil
