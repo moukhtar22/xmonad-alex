@@ -301,6 +301,12 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
                 (display-line-numbers-mode -1)
                 (setq org-startup-indented t)))
 #+end_src
+#+begin_src emacs-lisp
+  (use-package olivetti
+    :config
+    (setq olivetti-body-width 100)
+    :hook org-mode)
+#+end_src
 
 *** Miscellaneous
 #+begin_src emacs-lisp

@@ -146,6 +146,11 @@
             (display-line-numbers-mode -1)
             (setq org-startup-indented t)))
 
+(use-package olivetti
+  :config
+  (setq olivetti-body-width 100)
+  :hook org-mode)
+
 (add-hook 'org-mode-hook
           (lambda()
             (setq-local electric-pair-inhibit-predicate
