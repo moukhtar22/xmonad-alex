@@ -93,6 +93,13 @@
   :ensure t
   :defer  t)
 
+(use-package rainbow-delimiters
+  :ensure t
+  :hook emacs-lisp-mode)
+(use-package rainbow-identifiers
+  :ensure t
+  :hook prog-mode)
+
 (add-to-list 'auto-mode-alist '("\\.latex\\'" . latex-mode))
 
 (use-package doom-themes
@@ -105,10 +112,6 @@
   (doom-themes-org-config))
 
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(default ((t (:family "JetBrains Mono" :foundry "JB" :slant normal :weight regular :height 143 :width normal)))))
 
 (use-package doom-modeline
@@ -181,10 +184,3 @@
       '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
         (c "https://github.com/tree-sitter/tree-sitter-c")
         (bash "https://github.com/tree-sitter/tree-sitter-bash")))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(yasnippet-snippets vterm vertico rainbow-mode rainbow-identifiers rainbow-delimiters pdf-tools org-bullets olivetti marginalia magit lsp-haskell evil-collection doom-themes doom-modeline corfu all-the-icons)))
