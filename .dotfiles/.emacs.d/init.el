@@ -70,6 +70,13 @@
   :config
   (setq corfu-auto t))
 
+(use-package yasnippet
+  :ensure t
+  :hook ((prog-mode . yas-minor-mode)
+         (org-mode  . yas-minor-mode))
+  :config
+  (yas-reload-all))
+
 (use-package lsp-mode
   :ensure t
   :hook
@@ -94,10 +101,6 @@
   (doom-themes-org-config))
 
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(default ((t (:family "JetBrains Mono" :foundry "JB" :slant normal :weight regular :height 143 :width normal)))))
 
 (use-package doom-modeline
@@ -165,10 +168,3 @@
       '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
         (c "https://github.com/tree-sitter/tree-sitter-c")
         (bash "https://github.com/tree-sitter/tree-sitter-bash")))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(vterm vertico slime rainbow-mode rainbow-delimiters rainbow-blocks pdf-tools org-bullets marginalia magit lsp-mode evil-collection doom-themes doom-modeline corfu all-the-icons)))

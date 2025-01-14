@@ -119,7 +119,6 @@ Don't want backup files with weird names, and *probably* useless docstring warni
     (pdf-loader-install))
 #+end_src
 
-
 *** Vim Layer
 #+begin_src emacs-lisp
   (use-package evil
@@ -182,6 +181,15 @@ Corfu, for auto completion popups
     (global-corfu-mode)
     :config
     (setq corfu-auto t))
+#+end_src
+Yasnippet, for snippets
+#+begin_src emacs-lisp
+  (use-package yasnippet
+    :ensure t
+    :hook ((prog-mode . yas-minor-mode)
+           (org-mode  . yas-minor-mode))
+    :config
+    (yas-reload-all))
 #+end_src
 
 *** LSP Mode
