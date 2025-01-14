@@ -183,17 +183,6 @@ Corfu, for auto completion popups
     :config
     (setq corfu-auto t))
 #+end_src
-Yasnippets, for, well, snippets
-#+begin_src emacs-lisp
-  (use-package yasnippet
-    :ensure t
-    :hook (prog-mode . org-mode)
-    :config
-    (yas-global-mode 1))
-  (use-package yasnippet-snippets
-    :ensure t
-    :after yasnippet)
-#+end_src
 
 *** LSP Mode
 #+begin_src emacs-lisp
@@ -248,15 +237,6 @@ Yasnippets, for, well, snippets
   (use-package all-the-icons
     :ensure t
     :after  doom-modeline)
-#+end_src
-
-*** Better Highlighting
-#+begin_src emacs-lisp
-  (use-package rainbow-blocks
-    :ensure t
-    :hook
-    (prog-mode       . rainbow-delimiters-mode)
-    (emacs-lisp-mode . rainbow-identifiers-mode))
 #+end_src
 
 
@@ -327,15 +307,6 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
 
 
 ** Programming
-
-*** Superior Lisp
-#+begin_src emacs-lisp
-  (use-package slime
-    :ensure t
-    :defer  t
-    :init
-    (setq inferior-lisp-program "sbcl"))
-#+end_src
 
 *** Sane Indentation for the C Family
 #+begin_src emacs-lisp

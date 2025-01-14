@@ -70,15 +70,6 @@
   :config
   (setq corfu-auto t))
 
-(use-package yasnippet
-  :ensure t
-  :hook (prog-mode . org-mode)
-  :config
-  (yas-global-mode 1))
-(use-package yasnippet-snippets
-  :ensure t
-  :after yasnippet)
-
 (use-package lsp-mode
   :ensure t
   :hook
@@ -103,6 +94,10 @@
   (doom-themes-org-config))
 
 (custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(default ((t (:family "JetBrains Mono" :foundry "JB" :slant normal :weight regular :height 143 :width normal)))))
 
 (use-package doom-modeline
@@ -112,12 +107,6 @@
 (use-package all-the-icons
   :ensure t
   :after  doom-modeline)
-
-(use-package rainbow-blocks
-  :ensure t
-  :hook
-  (prog-mode       . rainbow-delimiters-mode)
-  (emacs-lisp-mode . rainbow-identifiers-mode))
 
 (add-hook 'org-mode-hook
           (lambda() (setq jit-lock-defer-time 0.15)))
@@ -161,12 +150,6 @@
                            (if (char-equal c ?<) t
                              (,electric-pair-inhibit-predicate c))))))
 
-(use-package slime
-  :ensure t
-  :defer  t
-  :init
-  (setq inferior-lisp-program "sbcl"))
-
 (add-hook 'prog-mode-hook
           (lambda()
             (setq c-indentation-style 'k&r
@@ -182,3 +165,10 @@
       '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
         (c "https://github.com/tree-sitter/tree-sitter-c")
         (bash "https://github.com/tree-sitter/tree-sitter-bash")))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(vterm vertico slime rainbow-mode rainbow-delimiters rainbow-blocks pdf-tools org-bullets marginalia magit lsp-mode evil-collection doom-themes doom-modeline corfu all-the-icons)))
