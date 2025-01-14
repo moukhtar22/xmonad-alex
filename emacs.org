@@ -18,7 +18,7 @@ instead.
 and it disables cursor blinking too./
 
 #+begin_src emacs-lisp
-  (visual-line-mode nil)
+  (visual-line-mode -1)
   (setq-default truncate-lines t)
   (setq-default blink-cursor-mode nil)
   (setq-default inhibit-startup-screen t)
@@ -117,6 +117,10 @@ Don't want backup files with weird names, and *probably* useless docstring warni
     :ensure t
     :config
     (pdf-loader-install))
+
+  (add-hook 'pdf-view-mode-hook
+            (lambda()
+              (display-line-numbers-mode -1)))
 #+end_src
 
 *** Vim Layer
@@ -296,10 +300,10 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
     :hook (org-mode . org-bullets-mode))
 #+end_src
  #+begin_src emacs-lisp
-    (add-hook 'org-mode-hook
-              (lambda()
-                (display-line-numbers-mode -1)
-                (setq org-startup-indented t)))
+   (add-hook 'org-mode-hook
+             (lambda()
+               (display-line-numbers-mode -1)
+               (setq org-startup-indented  t)))
 #+end_src
 #+begin_src emacs-lisp
   (use-package olivetti

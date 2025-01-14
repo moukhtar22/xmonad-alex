@@ -1,4 +1,4 @@
-(visual-line-mode nil)
+(visual-line-mode -1)
 (setq-default truncate-lines t)
 (setq-default blink-cursor-mode nil)
 (setq-default inhibit-startup-screen t)

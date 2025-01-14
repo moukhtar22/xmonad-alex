@@ -21,6 +21,10 @@
   :config
   (pdf-loader-install))
 
+(add-hook 'pdf-view-mode-hook
+          (lambda()
+            (display-line-numbers-mode -1)))
+
 (use-package evil
   :ensure t
   :init
@@ -101,6 +105,10 @@
   (doom-themes-org-config))
 
 (custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(default ((t (:family "JetBrains Mono" :foundry "JB" :slant normal :weight regular :height 143 :width normal)))))
 
 (use-package doom-modeline
@@ -144,7 +152,7 @@
 (add-hook 'org-mode-hook
           (lambda()
             (display-line-numbers-mode -1)
-            (setq org-startup-indented t)))
+            (setq org-startup-indented  t)))
 
 (use-package olivetti
   :config
@@ -173,3 +181,10 @@
       '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
         (c "https://github.com/tree-sitter/tree-sitter-c")
         (bash "https://github.com/tree-sitter/tree-sitter-bash")))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(yasnippet-snippets vterm vertico rainbow-mode rainbow-identifiers rainbow-delimiters pdf-tools org-bullets olivetti marginalia magit lsp-haskell evil-collection doom-themes doom-modeline corfu all-the-icons)))
