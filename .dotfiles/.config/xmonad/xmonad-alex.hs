@@ -50,9 +50,9 @@ myTabConfig = def { decoHeight = 1
                   , urgentTextColor = "#FFFFFF"}
 
 myLayoutHook =
-    onWorkspace "9" simpleFloat $
+    onWorkspace "10" simpleFloat $
+    onWorkspace "9" (avoidStruts Full ||| tiled) $
     onWorkspace "8" (avoidStruts Full ||| tiled) $
-    onWorkspace "7" (avoidStruts Full ||| tiled) $
     avoidStruts $ spacingWithEdge 4 $ gaps [(U, 5), (R, 3), (D, 3), (L, 3)] $
             tiled
         ||| mastered (1/100) (1/2) (tabbed shrinkText myTabConfig)
@@ -92,7 +92,7 @@ myStartupHook = do
     spawnOnce "conky.sh"
     spawnOnce "/usr/libexec/notification-daemon"
 
-myExtraWorkspaces = [ (xK_0, "10"), (xK_minus, "11") ]
+myExtraWorkspaces = [ (xK_0, "10"), (xK_minus, "11"), (xK_equal, "12") ]
 myWorkspaces = map show [ 1 .. 9 :: Int ]
 
 main :: IO ()
@@ -102,12 +102,12 @@ main = xmonad
     . withEasySB (statusBarProp "xmobar" (pure myXmobarPP)) defToggleStrutsKey
     $ def
         { modMask = mod4Mask
+        , workspaces = myWorkspaces ++ map snd myExtraWorkspaces
         , layoutHook = myLayoutHook
         , manageHook = myManageHook <+> manageHook def
         , startupHook = myStartupHook
         , terminal = "alacritty"
         , borderWidth = 0
-        , workspaces = myWorkspaces ++ map snd myExtraWorkspaces
         }
         `removeKeysP`
         [ "M-p"
