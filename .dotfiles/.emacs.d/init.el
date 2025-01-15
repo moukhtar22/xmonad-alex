@@ -95,10 +95,10 @@
 
 (use-package rainbow-delimiters
   :ensure t
-  :hook emacs-lisp-mode)
+  :hook prog-mode)
 (use-package rainbow-identifiers
   :ensure t
-  :hook prog-mode)
+  :hook emacs-lisp-mode)
 
 (add-to-list 'auto-mode-alist '("\\.latex\\'" . latex-mode))
 

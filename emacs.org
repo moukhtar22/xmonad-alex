@@ -218,10 +218,10 @@ Mainly for emacs lisp, but the delimitors work for other languages too
 #+begin_src emacs-lisp
   (use-package rainbow-delimiters
     :ensure t
-    :hook emacs-lisp-mode)
+    :hook prog-mode)
   (use-package rainbow-identifiers
     :ensure t
-    :hook prog-mode)
+    :hook emacs-lisp-mode)
 #+end_src
 
 
