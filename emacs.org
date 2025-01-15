@@ -290,7 +290,8 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
   (add-hook 'org-mode-hook
             (lambda()
               (setq org-preview-latex-default-process 'dvipng
-                    org-startup-with-latex-preview     t)))
+                    org-startup-with-latex-preview     t
+                    org-format-latex-options           (plist-put org-format-latex-options :scale 2.0))))
 #+end_src
 
 *** Org Babel Settings
@@ -319,7 +320,7 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
 #+begin_src emacs-lisp
   (use-package olivetti
     :config
-    (setq olivetti-body-width 100)
+    (setq-default olivetti-body-width 120)
     :hook org-mode)
 #+end_src
 

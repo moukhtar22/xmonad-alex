@@ -138,7 +138,8 @@
 (add-hook 'org-mode-hook
           (lambda()
             (setq org-preview-latex-default-process 'dvipng
-                  org-startup-with-latex-preview     t)))
+                  org-startup-with-latex-preview     t
+                  org-format-latex-options           (plist-put org-format-latex-options :scale 2.0))))
 
 (add-hook 'org-mode-hook
           (lambda()
@@ -159,7 +160,7 @@
 
 (use-package olivetti
   :config
-  (setq olivetti-body-width 100)
+  (setq-default olivetti-body-width 120)
   :hook org-mode)
 
 (add-hook 'org-mode-hook
