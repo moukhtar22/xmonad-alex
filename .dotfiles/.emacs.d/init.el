@@ -7,9 +7,11 @@
 (electric-pair-mode)
 (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
 
-(setq-default global-display-line-numbers-mode t)
-(setq-default display-line-numbers 'relative)
-(setq         column-number-mode    t)
+(add-hook 'prog-mode-hook
+          (lambda()
+            (setq display-line-numbers-type 'relative)
+            (display-line-numbers-mode)))
+(setq column-number-mode t)
 
 (auto-revert-mode 1)
 
@@ -20,10 +22,6 @@
   :ensure t
   :config
   (pdf-loader-install))
-
-(add-hook 'pdf-view-mode-hook
-          (lambda()
-            (display-line-numbers-mode -1)))
 
 (use-package evil
   :ensure t
@@ -155,7 +153,6 @@
 
 (add-hook 'org-mode-hook
           (lambda()
-            (display-line-numbers-mode -1)
             (setq org-startup-indented  t)))
 
 (use-package olivetti

@@ -95,9 +95,11 @@ Don't want backup files with weird names, and *probably* useless docstring warni
 
 *** Line Numbering
 #+begin_src emacs-lisp
-  (setq-default global-display-line-numbers-mode t)
-  (setq-default display-line-numbers 'relative)
-  (setq         column-number-mode    t)
+  (add-hook 'prog-mode-hook
+            (lambda()
+              (setq display-line-numbers-type 'relative)
+              (display-line-numbers-mode)))
+  (setq column-number-mode t)
 #+end_src
 
 *** Auto Revert Mode
@@ -117,10 +119,6 @@ Don't want backup files with weird names, and *probably* useless docstring warni
     :ensure t
     :config
     (pdf-loader-install))
-
-  (add-hook 'pdf-view-mode-hook
-            (lambda()
-              (display-line-numbers-mode -1)))
 #+end_src
 
 *** Vim Layer
@@ -314,7 +312,6 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
  #+begin_src emacs-lisp
    (add-hook 'org-mode-hook
              (lambda()
-               (display-line-numbers-mode -1)
                (setq org-startup-indented  t)))
 #+end_src
 #+begin_src emacs-lisp
