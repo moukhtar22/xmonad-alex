@@ -117,8 +117,7 @@ Don't want backup files with weird names, and *probably* useless docstring warni
 #+begin_src emacs-lisp
   (use-package pdf-tools
     :ensure t
-    :config
-    (pdf-loader-install))
+    :hook   (doc-view-mode . pdf-tools-install))
 #+end_src
 
 *** Vim Layer
@@ -330,7 +329,6 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
                              (if (char-equal c ?<) t
                                (,electric-pair-inhibit-predicate c))))))
 #+end_src
-
 
 
 ** Programming

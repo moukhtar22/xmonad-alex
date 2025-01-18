@@ -20,8 +20,7 @@
 
 (use-package pdf-tools
   :ensure t
-  :config
-  (pdf-loader-install))
+  :hook   (doc-view-mode . pdf-tools-install))
 
 (use-package evil
   :ensure t
