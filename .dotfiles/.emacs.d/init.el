@@ -82,9 +82,15 @@
   :ensure t
   :hook
   (c-mode       . lsp-deferred)
+  (c-ts-mode    . lsp-deferred)
   (haskell-mode . lsp-deferred)
   (c++-mode     . lsp-deferred)
+  (c++-ts-mode  . lsp-deferred)
   (lua-mode     . lsp-deferred))
+
+(use-package lsp-ui
+  :ensure t
+  :after  lsp-mode)
 
 (use-package magit
   :ensure t
@@ -109,6 +115,10 @@
   (doom-themes-org-config))
 
 (custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(default ((t (:family "JetBrains Mono" :foundry "JB" :slant normal :weight regular :height 143 :width normal)))))
 
 (use-package doom-modeline
@@ -180,4 +190,18 @@
 (setq treesit-language-source-alist
       '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
         (c "https://github.com/tree-sitter/tree-sitter-c")
-        (bash "https://github.com/tree-sitter/tree-sitter-bash")))
+        (bash "https://github.com/tree-sitter/tree-sitter-bash")
+        (java "https://github.com/tree-sitter/tree-sitter-java")))
+
+(setq major-mode-remap-alist
+      '((c-mode    . c-ts-mode)
+        (c++-mode  . c++-ts-mode)
+        (bash-mode . bash-ts-mode)
+        (java-mode . java-ts-mode)))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(lsp-ui yasnippet-snippets vterm vertico treemacs request rainbow-mode rainbow-identifiers rainbow-delimiters pdf-tools org-bullets olivetti marginalia magit lsp-haskell lsp-docker evil-collection doom-themes doom-modeline corfu bui all-the-icons)))
