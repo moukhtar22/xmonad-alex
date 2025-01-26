@@ -15,6 +15,9 @@
 
 (auto-revert-mode 1)
 
+(setq read-file-name-completion-ignore-case t
+      read-buffer-completion-ignore-case    t)
+
 (use-package vterm
   :ensure t)
 

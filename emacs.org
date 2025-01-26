@@ -107,6 +107,12 @@ Don't want backup files with weird names, and *probably* useless docstring warni
   (auto-revert-mode 1)
 #+end_src
 
+*** Case Sensitivity
+#+begin_src emacs-lisp
+  (setq read-file-name-completion-ignore-case t
+        read-buffer-completion-ignore-case    t)
+#+end_src
+
 *** Better Terminal
 #+begin_src emacs-lisp
   (use-package vterm
