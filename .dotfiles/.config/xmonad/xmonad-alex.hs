@@ -134,7 +134,7 @@ main = xmonad
                 [ ((0, xK_z), subName "Zathura -- Resume" $ spawn "~/.config/rofi/implements/fzathura.sh --resume")
                 , ((shiftMask, xK_z), subName "Zathura" $ spawn "~/.config/rofi/implements/fzathura.sh --menu")
                 , ((controlMask, xK_z), subName "Zathura -- No Save" $ spawn "~/.config/rofi/implements/fzathura.sh --no-save-recent --menu")
-                , ((0, xK_w), subName "Wezterm" $ spawn "wezterm")
+                , ((0, xK_w), subName "URxvt" $ spawn "urxvt")
                 , ((0, xK_g), subName "Gimp" $ spawn "gimp")
                 , ((0, xK_e), subName "Emacs" $ spawn "emacs")
                 , ((0, xK_v), subName "Volume" $ spawn "pavucontrol")
@@ -144,6 +144,7 @@ main = xmonad
         , ("M-a", visualSubmap def $ fromList
                 [ ((0, xK_r), subName "RPCS3" $ spawn "~/.local/bin/rpcs3-v0.0.33-17020-d51d5ce8_linux64.AppImage")
                 , ((0, xK_d), subName "Dolphin" $ spawn "dolphin-emu")
+                , ((0, xK_c), subName "Citra" $ spawn "~/.local/bin/citra-qt.AppImage")
                 ]
         )
         , ("M-q", kill)

@@ -285,8 +285,8 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
 #+begin_src emacs-lisp
   (add-hook 'org-mode-hook
             (lambda()
-              (setq org-latex-src-block-backend 'listing
-                    org-lagex-listings-options  '(("numbers" "left")
+              (setq org-latex-src-block-backend 'listings
+                    org-latex-listings-options  '(("numbers" "left")
                                                   ("breaklines" "true")
                                                   ("upquote" "true")
                                                   ("autogobble" "true")

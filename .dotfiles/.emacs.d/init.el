@@ -137,8 +137,8 @@
 
 (add-hook 'org-mode-hook
           (lambda()
-            (setq org-latex-src-block-backend 'listing
-                  org-lagex-listings-options  '(("numbers" "left")
+            (setq org-latex-src-block-backend 'listings
+                  org-latex-listings-options  '(("numbers" "left")
                                                 ("breaklines" "true")
                                                 ("upquote" "true")
                                                 ("autogobble" "true")
@@ -201,10 +201,3 @@
         (c++-mode  . c++-ts-mode)
         (bash-mode . bash-ts-mode)
         (java-mode . java-ts-mode)))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(lsp-ui yasnippet-snippets vterm vertico treemacs request rainbow-mode rainbow-identifiers rainbow-delimiters pdf-tools org-bullets olivetti marginalia magit lsp-haskell lsp-docker evil-collection doom-themes doom-modeline corfu bui all-the-icons)))
