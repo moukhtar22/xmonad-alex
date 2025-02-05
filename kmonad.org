@@ -61,9 +61,9 @@ Layouts can be switched by holding the ~esc~ button and pressing
     @lswch
     grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
     tab   q    w    f    p    b    j    l    u    y    ;    [    ]    \   
-    @msc  a    r    s    t    g    m    n    e    i    o    '    ret      
+    @msc  a    r    s    t    g    m    n    e    i    o    '    @retnum      
     lsft  x    c    d    v    z    k    h    ,    .    /         rsft          
-    lctl  lalt lmet           spc            ralt   fn     rctl  @num          
+    lctl  lalt lmet           spc            ralt   fn     rctl  ret
   )
 #+end_src
 ** QWERTY
@@ -106,14 +106,15 @@ Layouts can be switched by holding the ~esc~ button and pressing
     XX   XX  XX  XX  XX  XX   XX  XX  XX  XX  XX  XX  XX  XX
     XX   7   8   9   0   XX   XX  XX  XX  XX  XX  XX  XX  XX 
     bspc 4   5   6   -   XX   XX  XX  XX  XX  XX  XX  XX    
-    lsft 1   2   3   +   XX   XX  XX  XX  XX  XX      rsft        
+    lsft 1   2   3   =   XX   XX  XX  XX  XX  XX      rsft        
     XX   XX  XX         spc       XX  XX  XX  XX        
   )
 #+end_src
 *** Alias
 #+begin_src lisp
   (defalias
-    num (layer-toggle numeric))
+    num (layer-toggle numeric)
+    retnum (tap-next-press ret @num))
 #+end_src
 ** Movement Layer
 #+begin_src text
