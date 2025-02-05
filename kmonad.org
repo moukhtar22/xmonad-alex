@@ -1,0 +1,134 @@
+#+Author: Alex Rosegrid
+#+Title: KMonad Configuration
+#+Startup: indent
+
+#+PROPERTY: header-args :tangle ".dotfiles/.config/kmonad/kmonad-alex.kbd"
+
+* Set Mode for The Config File
+#+begin_src lisp
+  ;; -*- lisp -*-
+#+end_src
+
+
+* A Dummy Layer Skeleton
+#+begin_src :tangle no
+  (deflayer dummy
+    _
+    _    _    _    _    _    _    _    _    _    _    _    _    _    _
+    _    _    _    _    _    _    _    _    _    _    _    _    _    _   
+    _    _    _    _    _    _    _    _    _    _    _    _    _      
+    _    _    _    _    _    _    _    _    _    _    _         _          
+    _    _    _           _            _    _    _    _          
+  )
+#+end_src
+
+
+* KMonad Configuration
+~input~ needs modification depending on hardware
+#+begin_src lisp
+  (defcfg
+    input          (device-file "/dev/input/by-id/usb-HTLTEK_Gaming_keyboard-event-kbd")
+    output         (uinput-sink "KMonad Alex"
+                    "sleep 1 && setxkbmap -option compore:ralt && xset r rate 310 30")
+    cmp-seq         cmp
+    cmp-seq-delay   5
+    fallthrough     true
+    allow-cmd       false
+    implicit-around around)
+#+end_src
+
+* Main Key Configuration Source 
+This corresponds to a 60% ANSI US keyboard (barring the function keys, since
+I do not see the need to customize those)
+#+begin_src text
+  (defsrc
+    esc
+    grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+    tab  q    w    e    r    t    y    u    i    o    p    [    ]    \   
+    caps a    s    d    f    g    h    j    k    l    ;    '    ret      
+    lsft z    x    c    v    b    n    m    ,    .    /         rsft          
+    lctl lmet lalt           spc            ralt   fn     cmp   rctl          
+  )
+#+end_src
+
+* Keyboard Layout Layers
+Layouts can be switched by holding the ~esc~ button and pressing
+  - 1 :: COLEMAK-DH
+  - 2 :: QWERTY
+** COLEMAK Mod DH
+#+begin_src text
+  (deflayer colemak-dh-cust
+    @lswch
+    grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
+    tab   q    w    f    p    b    j    l    u    y    ;    [    ]    \   
+    @msc  a    r    s    t    g    m    n    e    i    o    '    ret      
+    lsft  x    c    d    v    z    k    h    ,    .    /         rsft          
+    lctl  lalt lmet           spc            ralt   fn     rctl  @num          
+  )
+#+end_src
+** QWERTY
+#+begin_src text
+  (deflayer qwerty
+    @lswch
+    grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
+    tab   q    w    e    r    t    y    u    i    o    p    [    ]    \   
+    @msc  a    s    d    f    g    h    j    k    l    ;    '    ret      
+    lsft  z    x    c    v    b    n    m    ,    .    /         rsft          
+    lctl lmet lalt           spc             ralt   fn     cmp   rctl          
+  )
+#+end_src
+** Layout Switching
+#+begin_src text
+  (deflayer layoutswitch
+    XX
+    XX  @col @qwr XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX
+    XX  XX   XX   XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX 
+    XX  XX   XX   XX  XX  XX  XX  XX  XX  XX  XX  XX  XX    
+    XX  XX   XX   XX  XX  XX  XX  XX  XX  XX  XX      XX        
+    XX  XX   XX          XX           XX  XX  XX  XX        
+  )
+#+end_src
+*** Alias
+#+begin_src lisp
+  (defalias
+    col   (layer-switch colemak-dh-cust)
+    qwr   (layer-switch qwerty)
+    lswch (tap-next-press caps (layer-toggle layoutswitch)))
+#+end_src
+
+
+
+* Utility Layers
+** Easier Numeric Input
+#+begin_src text
+  (deflayer numeric
+    XX
+    XX   XX  XX  XX  XX  XX   XX  XX  XX  XX  XX  XX  XX  XX
+    XX   7   8   9   0   XX   XX  XX  XX  XX  XX  XX  XX  XX 
+    bspc 4   5   6   -   XX   XX  XX  XX  XX  XX  XX  XX    
+    lsft 1   2   3   +   XX   XX  XX  XX  XX  XX      rsft        
+    XX   XX  XX         spc       XX  XX  XX  XX        
+  )
+#+end_src
+*** Alias
+#+begin_src lisp
+  (defalias
+    num (layer-toggle numeric))
+#+end_src
+** Movement Layer
+#+begin_src text
+  (deflayer movement
+    XX
+    XX   XX  XX  XX  XX  XX  XX  XX    XX  XX    XX  XX  XX  XX
+    XX   XX  XX  XX  XX  XX  lft down  up  rght  XX  XX  XX  XX  
+    XX   XX  XX  XX  XX  XX  h   j     k   l     XX  XX  XX    
+    lsft XX  XX  XX  XX  XX  XX  XX    XX  XX    XX      rsft
+    _    _   _        spc        _     _   _     _       
+  )
+#+end_src
+*** Alias
+#+begin_src lisp
+  (defalias
+    mov (layer-toggle numeric)
+    msc (tap-next-press esc @mov))
+#+end_src

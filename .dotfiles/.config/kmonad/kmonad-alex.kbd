@@ -1,0 +1,86 @@
+;; -*- lisp -*-
+
+(deflayer dummy
+  _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _   
+  _    _    _    _    _    _    _    _    _    _    _    _    _      
+  _    _    _    _    _    _    _    _    _    _    _         _          
+  _    _    _           _            _    _    _    _          
+)
+
+(defcfg
+  input          (device-file "/dev/input/by-id/usb-HTLTEK_Gaming_keyboard-event-kbd")
+  output         (uinput-sink "KMonad Alex"
+                  "sleep 1 && setxkbmap -option compore:ralt && xset r rate 310 30")
+  cmp-seq         cmp
+  cmp-seq-delay   5
+  fallthrough     true
+  allow-cmd       false
+  implicit-around around)
+
+(defsrc
+  esc
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \   
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret      
+  lsft z    x    c    v    b    n    m    ,    .    /         rsft          
+  lctl lmet lalt           spc            ralt   fn     cmp   rctl          
+)
+
+(deflayer colemak-dh-cust
+  @lswch
+  grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab   q    w    f    p    b    j    l    u    y    ;    [    ]    \   
+  @msc  a    r    s    t    g    m    n    e    i    o    '    ret      
+  lsft  x    c    d    v    z    k    h    ,    .    /         rsft          
+  lctl  lalt lmet           spc            ralt   fn     rctl  @num          
+)
+
+(deflayer qwerty
+  @lswch
+  grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab   q    w    e    r    t    y    u    i    o    p    [    ]    \   
+  @msc  a    s    d    f    g    h    j    k    l    ;    '    ret      
+  lsft  z    x    c    v    b    n    m    ,    .    /         rsft          
+  lctl lmet lalt           spc             ralt   fn     cmp   rctl          
+)
+
+(deflayer layoutswitch
+  XX
+  XX  @col @qwr XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX
+  XX  XX   XX   XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX 
+  XX  XX   XX   XX  XX  XX  XX  XX  XX  XX  XX  XX  XX    
+  XX  XX   XX   XX  XX  XX  XX  XX  XX  XX  XX      XX        
+  XX  XX   XX          XX           XX  XX  XX  XX        
+)
+
+(defalias
+  col   (layer-switch colemak-dh-cust)
+  qwr   (layer-switch qwerty)
+  lswch (tap-next-press caps (layer-toggle layoutswitch)))
+
+(deflayer numeric
+  XX
+  XX   XX  XX  XX  XX  XX   XX  XX  XX  XX  XX  XX  XX  XX
+  XX   7   8   9   0   XX   XX  XX  XX  XX  XX  XX  XX  XX 
+  bspc 4   5   6   -   XX   XX  XX  XX  XX  XX  XX  XX    
+  lsft 1   2   3   +   XX   XX  XX  XX  XX  XX      rsft        
+  XX   XX  XX         spc       XX  XX  XX  XX        
+)
+
+(defalias
+  num (layer-toggle numeric))
+
+(deflayer movement
+  XX
+  XX   XX  XX  XX  XX  XX  XX  XX    XX  XX    XX  XX  XX  XX
+  XX   XX  XX  XX  XX  XX  lft down  up  rght  XX  XX  XX  XX  
+  XX   XX  XX  XX  XX  XX  h   j     k   l     XX  XX  XX    
+  lsft XX  XX  XX  XX  XX  XX  XX    XX  XX    XX      rsft
+  _    _   _        spc        _     _   _     _       
+)
+
+(defalias
+  mov (layer-toggle numeric)
+  msc (tap-next-press esc @mov))
