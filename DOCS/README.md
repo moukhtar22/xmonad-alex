@@ -29,6 +29,7 @@ changing systems.
 - **Firefox**: as the web browser
 - **Zathura**: as the primary pdf viewer
 - **zsh**: as the shell
+- **KMonad**: QMK like keyboard management
 
 ## Usage Directions
 1. `git clone` this repository to your `$HOME` directory.
@@ -73,3 +74,6 @@ The first time around, run `startx` with a bare bones `.xinitrc`, with just the 
 *This is a script to find the touchpad xinput id, and set the acceleration and tapping properties
 accordingly. Additionally, it also sets the keyboard repeat rate and delay, and changes the
 keymaps.*
+
+### KMonad
+You can grab a statically linked binary [here](https://github.com/kmonad/kmonad/releases).
