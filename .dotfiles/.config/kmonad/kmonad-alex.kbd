@@ -1,14 +1,5 @@
 ;; -*- lisp -*-
 
-(deflayer dummy
-  _
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _   
-  _    _    _    _    _    _    _    _    _    _    _    _    _      
-  _    _    _    _    _    _    _    _    _    _    _         _          
-  _    _    _           _            _    _    _    _          
-)
-
 (defcfg
   input          (device-file "/dev/input/by-id/usb-HTLTEK_Gaming_keyboard-event-kbd")
   output         (uinput-sink "KMonad Alex"
@@ -82,5 +73,5 @@
 )
 
 (defalias
-  mov (layer-toggle numeric)
+  mov (layer-toggle movement)
   msc (tap-next-press esc @mov))

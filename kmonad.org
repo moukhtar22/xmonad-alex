@@ -11,7 +11,7 @@
 
 
 * A Dummy Layer Skeleton
-#+begin_src :tangle no
+#+begin_src text :tangle no
   (deflayer dummy
     _
     _    _    _    _    _    _    _    _    _    _    _    _    _    _
@@ -129,6 +129,6 @@ Layouts can be switched by holding the ~esc~ button and pressing
 *** Alias
 #+begin_src lisp
   (defalias
-    mov (layer-toggle numeric)
+    mov (layer-toggle movement)
     msc (tap-next-press esc @mov))
 #+end_src
