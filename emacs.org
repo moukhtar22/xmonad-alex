@@ -209,12 +209,20 @@ Yasnippet, for snippets
     (haskell-mode . lsp-deferred)
     (c++-mode     . lsp-deferred)
     (c++-ts-mode  . lsp-deferred)
-    (lua-mode     . lsp-deferred))
+    (lua-mode     . lsp-deferred)
+    (python-mode  . lsp-deferred))
 
   (use-package lsp-ui
     :ensure t
     :after  lsp-mode)
 #+end_src
+**** Some languages seem to require their own lsp packages
+#+begin_src emacs-lisp
+  (use-package lsp-pyright
+    :ensure t
+    :defer  t)
+#+end_src
+
 *** Magit
 #+begin_src emacs-lisp
     (use-package magit
