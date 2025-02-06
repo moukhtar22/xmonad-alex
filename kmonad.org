@@ -96,25 +96,23 @@ Layouts can be switched by holding the ~esc~ button and pressing
     lswch (tap-next-press caps (layer-toggle layoutswitch)))
 #+end_src
 
-
-
 * Utility Layers
 ** Easier Numeric Input
 The ~space bar~ is swapped with ~left meta~ to help with XMonad workspace switching
 #+begin_src text
   (deflayer numeric
     XX
-    XX   XX  XX  XX  XX  XX   XX  XX  XX  XX  XX  XX  XX  XX
-    XX   7   8   9   0   XX   XX  XX  XX  XX  XX  XX  XX  XX 
-    bspc 4   5   6   -   XX   XX  XX  XX  XX  XX  XX  XX    
-    lsft 1   2   3   =   XX   XX  XX  XX  XX  XX      rsft        
+    XX   XX  XX  XX  XX  XX   XX  XX  XX  XX    XX  XX  XX  XX
+    XX   7   8   9   0   XX   XX  XX  XX  XX    XX  XX  XX  XX 
+    bspc 4   5   6   -   XX   XX  XX  XX  rsft  XX  XX  XX    
+    lsft 1   2   3   =   XX   XX  XX  XX  XX    XX      rsft        
     XX   XX  spc    lmet      XX  XX  XX  XX        
   )
 #+end_src
 *** Alias
 #+begin_src lisp
   (defalias
-    num (layer-toggle numeric)
+    num    (layer-toggle numeric)
     retnum (tap-next-press ret @num))
 #+end_src
 ** Movement Layer
@@ -124,8 +122,8 @@ The ~space bar~ is swapped with ~left meta~ to help with XMonad workspace switch
     XX   XX  XX  XX  XX  XX  XX  XX    XX  XX    XX  XX  XX  XX
     XX   XX  XX  XX  XX  XX  lft down  up  rght  XX  XX  XX  XX  
     XX   XX  XX  XX  XX  XX  h   j     k   l     XX  XX  XX    
-    lsft XX  XX  XX  XX  XX  XX  XX    XX  XX    XX      rsft
-    _    _   _        spc        _     _   _     _       
+    lsft XX  XX  XX  XX  XX  XX  XX    XX  XX    XX      spc
+    _    _   _        lsft       _     _   _     _       
   )
 #+end_src
 *** Alias
