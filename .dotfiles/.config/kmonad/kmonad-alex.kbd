@@ -25,7 +25,7 @@
   tab   q    w    f    p    b    j    l    u    y    ;    [    ]    \   
   @msc  a    r    s    t    g    m    n    e    i    o    '    @retnum      
   lsft  x    c    d    v    z    k    h    ,    .    /         rsft          
-  lctl  lalt lmet           spc            ralt   fn     rctl  ret
+  @ctlk lalt lmet           spc            ralt   fn     rctl  ret
 )
 
 (deflayer qwerty
@@ -51,26 +51,30 @@
   qwr   (layer-switch qwerty)
   lswch (tap-next-press caps (layer-toggle layoutswitch)))
 
+(defalias
+  ctlk-raw (stepped (press-only lctl) (release-only lctl))
+  ctlk     (tap-next-press @ctlk-raw lctl))
+
 (deflayer numeric
   XX
   XX   XX  XX  XX  XX  XX   XX  XX  XX  XX    XX  XX  XX  XX
   XX   7   8   9   0   XX   XX  XX  XX  XX    XX  XX  XX  XX 
   bspc 4   5   6   -   XX   XX  XX  XX  rsft  XX  XX  XX    
-  lsft 1   2   3   =   XX   XX  XX  XX  XX    XX      rsft        
+  lsft 1   2   3   =   XX   XX  /   _   _     XX      rsft        
   XX   XX  spc    lmet      XX  XX  XX  XX        
 )
 
 (defalias
-  num (layer-toggle numeric)
+  num    (layer-toggle numeric)
   retnum (tap-next-press ret @num))
 
 (deflayer movement
   XX
-  XX   XX  XX  XX  XX  XX  XX  XX    XX  XX    XX  XX  XX  XX
-  XX   XX  XX  XX  XX  XX  lft down  up  rght  XX  XX  XX  XX  
-  XX   XX  XX  XX  XX  XX  h   j     k   l     XX  XX  XX    
-  lsft XX  XX  XX  XX  XX  XX  XX    XX  XX    XX      spc
-  _    _   _        lsft       _     _   _     _       
+  XX   XX XX    XX  XX  XX  XX  XX    XX  XX    XX  XX  XX  XX
+  XX   XX XX    XX  XX  XX  lft down  up  rght  XX  XX  XX  XX  
+  XX   XX lctl  XX  XX  XX  h   j     k   l     XX  XX  lmet
+  lsft XX XX    XX  XX  XX  XX  XX    XX  XX    XX      spc
+  _    _   _        lsft       _     _   _      _       
 )
 
 (defalias
