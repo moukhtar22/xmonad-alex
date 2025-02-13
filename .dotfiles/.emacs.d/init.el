@@ -123,10 +123,6 @@
   (doom-themes-org-config))
 
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(default ((t (:family "JetBrains Mono" :foundry "JB" :slant normal :weight regular :height 143 :width normal)))))
 
 (use-package doom-modeline
@@ -189,6 +185,14 @@
             (setq c-indentation-style 'k&r
                   c-basic-offset       4)))
 
+(use-package elpy
+  :ensure t
+  :hook python-mode
+  :init
+  (elpy-enable)
+  :config
+  (setenv "WORKON_HOME" "~/.venvs"))
+
 (add-hook 'prog-mode-hook
           (lambda()
             (setq treesit-font-lock-level 4
@@ -206,10 +210,3 @@
         (c++-mode  . c++-ts-mode)
         (bash-mode . bash-ts-mode)
         (java-mode . java-ts-mode)))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(yasnippet-snippets vterm vertico rainbow-mode rainbow-identifiers rainbow-delimiters pdf-tools org-bullets olivetti marginalia magit lua-mode lsp-ui lsp-pyright lsp-haskell evil-collection doom-themes doom-modeline corfu all-the-icons)))
