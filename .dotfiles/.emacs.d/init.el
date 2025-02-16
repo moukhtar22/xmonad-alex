@@ -187,9 +187,7 @@
 
 (use-package elpy
   :ensure t
-  :hook python-mode
-  :init
-  (elpy-enable)
+  :hook (python-mode . elpy-enable)
   :config
   (setenv "WORKON_HOME" "~/.venvs"))
 

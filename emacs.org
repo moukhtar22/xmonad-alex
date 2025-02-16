@@ -366,13 +366,10 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
 #+begin_src emacs-lisp
   (use-package elpy
     :ensure t
-    :hook python-mode
-    :init
-    (elpy-enable)
+    :hook (python-mode . elpy-enable)
     :config
     (setenv "WORKON_HOME" "~/.venvs"))
 #+end_src
-
 
 *** Treesitter Settings
 #+begin_src emacs-lisp
