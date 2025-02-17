@@ -4,6 +4,8 @@
 (recentf-mode 1)
 (global-set-key "\C-xf" 'recentf-open-files)
 
+(global-set-key "\C-xwb" 'switch-to-buffer-other-window)
+
 (electric-pair-mode)
 (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
 
@@ -113,6 +115,8 @@
 
 (add-to-list 'auto-mode-alist '("\\.latex\\'" . latex-mode))
 
+(setq auth-source-save-behavior nil)
+
 (use-package doom-themes
   :ensure t
   :config
@@ -179,6 +183,18 @@
                         `(lambda(c)
                            (if (char-equal c ?<) t
                              (,electric-pair-inhibit-predicate c))))))
+
+(use-package lua-mode
+  :ensure t
+  :defer  t)
+
+(use-package haskell-mode
+  :ensure t
+  :defer  t)
+
+(use-package portage-modes
+  :ensure t
+  :defer  t)
 
 (add-hook 'prog-mode-hook
           (lambda()
