@@ -214,6 +214,7 @@ Yasnippet, for snippets
     (haskell-mode . lsp-deferred)
     (c++-mode     . lsp-deferred)
     (c++-ts-mode  . lsp-deferred)
+    (java-ts-mode . lsp-deferred)
     (lua-mode     . lsp-deferred)
     (python-mode  . lsp-deferred))
 
@@ -397,6 +398,23 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
     :config
     (setenv "WORKON_HOME" "~/.venvs"))
 #+end_src
+
+*** Java Settings
+#+begin_src emacs-lisp
+  (use-package dap-mode
+    :ensure t
+    :defer  t)
+  (use-package lsp-treemacs
+    :ensure t
+    :defer  t)
+  (use-package treemacs
+    :ensure t
+    :defer  t)
+  (use-package lsp-java
+    :ensure t
+    :defer  t)
+#+end_src
+
 
 *** Treesitter Settings
 #+begin_src emacs-lisp

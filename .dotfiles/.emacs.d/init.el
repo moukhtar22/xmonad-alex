@@ -91,6 +91,7 @@
   (haskell-mode . lsp-deferred)
   (c++-mode     . lsp-deferred)
   (c++-ts-mode  . lsp-deferred)
+  (java-ts-mode . lsp-deferred)
   (lua-mode     . lsp-deferred)
   (python-mode  . lsp-deferred))
 
@@ -206,6 +207,19 @@
   :hook (python-mode . elpy-enable)
   :config
   (setenv "WORKON_HOME" "~/.venvs"))
+
+(use-package dap-mode
+  :ensure t
+  :defer  t)
+(use-package lsp-treemacs
+  :ensure t
+  :defer  t)
+(use-package treemacs
+  :ensure t
+  :defer  t)
+(use-package lsp-java
+  :ensure t
+  :defer  t)
 
 (add-hook 'prog-mode-hook
           (lambda()
