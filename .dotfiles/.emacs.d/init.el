@@ -128,6 +128,10 @@
   (doom-themes-org-config))
 
 (custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(default ((t (:family "JetBrains Mono" :foundry "JB" :slant normal :weight regular :height 143 :width normal)))))
 
 (use-package doom-modeline
@@ -183,7 +187,8 @@
             (setq-local electric-pair-inhibit-predicate
                         `(lambda(c)
                            (if (char-equal c ?<) t
-                             (,electric-pair-inhibit-predicate c))))))
+                             (,electric-pair-inhibit-predicate c))))
+	    (corfu-mode -1)))
 
 (use-package lua-mode
   :ensure t
@@ -238,3 +243,15 @@
         (c++-mode  . c++-ts-mode)
         (bash-mode . bash-ts-mode)
         (java-mode . java-ts-mode)))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(all-the-icons corfu doom-modeline doom-themes elpy evil-collection
+		   haskell-mode lsp-haskell lsp-java lsp-pyright
+		   lsp-ui lua-mode magit marginalia olivetti
+		   org-bullets pdf-tools portage-modes
+		   rainbow-delimiters rainbow-identifiers rainbow-mode
+		   vertico vterm yasnippet-snippets)))
