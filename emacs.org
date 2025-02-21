@@ -236,6 +236,13 @@ Yasnippet, for snippets
       :defer  t)
 #+end_src
 
+*** Projectile
+#+begin_src emacs-lisp
+  (use-package projectile
+    :ensure t
+    :bind ("C-c p" . projectile-command-map))
+#+end_src
+
 *** Rainbows
 Mainly for emacs lisp, but the delimitors work for other languages too
 #+begin_src emacs-lisp
