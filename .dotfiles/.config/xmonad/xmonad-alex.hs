@@ -91,6 +91,7 @@ myStartupHook = do
     spawnOnce "picom -b"
     spawnOnce "conky.sh"
     spawnOnce "/usr/libexec/notification-daemon"
+    spawnOnce "emacs --daemon"
 
 myExtraWorkspaces = [ (xK_0, "10"), (xK_minus, "11"), (xK_equal, "12") ]
 myWorkspaces = map show [ 1 .. 9 :: Int ]
@@ -136,7 +137,7 @@ main = xmonad
                 , ((controlMask, xK_z), subName "Zathura -- No Save" $ spawn "~/.config/rofi/implements/fzathura.sh --no-save-recent --menu")
                 , ((0, xK_w), subName "URxvt" $ spawn "urxvt")
                 , ((0, xK_g), subName "Gimp" $ spawn "gimp")
-                , ((0, xK_e), subName "Emacs" $ spawn "emacs")
+                , ((0, xK_e), subName "Emacs" $ spawn "emacsclient --create-frame")
                 , ((0, xK_v), subName "Volume" $ spawn "pavucontrol")
                 , ((0, xK_p), subName "Private Window" $ spawn "~/.local/bin/firefox --private-window")
                 ])
