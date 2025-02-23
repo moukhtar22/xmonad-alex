@@ -170,22 +170,22 @@
   :ensure t
   :after  doom-modeline)
 
-(defvar myLatex/main-tex-file nil)
-(defun myLatex/set-main-tex-file()
-  (setq myLatex/main-tex-file (file-relative-name buffer-file-name))
-  (remove-hook 'latex-mode-hook 'myLatex/set-main-tex-file))
+(defvar myLaTeX/main-tex-file nil)
+(defun myLaTeX/set-main-tex-file()
+  (setq myLaTeX/main-tex-file (file-relative-name buffer-file-name))
+  (remove-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file))
+(add-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file)
 
-(defun myLatex/latex-single-file-compile()
+(defun myLaTeX/latex-single-file-compile()
   (interactive)
   (save-window-excursion
     (async-shell-command (concat "latexmk -quiet -lualatex -f -auxdir=$HOME/.texbuild/ -outdir=pdf/ "
-				 myLatex/main-tex-file))))
+				 myLaTeX/main-tex-file))))
 
 (add-hook 'latex-mode-hook
 	  (lambda()
-	    (myLatex/set-main-tex-file)
-	    (local-set-key (kbd "C-c l r") 'myLatex/set-main-tex-file)
-	    (local-set-key (kbd "C-c l c") 'myLatex/latex-single-file-compile)))
+	    (local-set-key (kbd "C-c l r") 'myLaTeX/set-main-tex-file)
+	    (local-set-key (kbd "C-c l c") 'myLaTeX/latex-single-file-compile)))
 
 (add-hook 'org-mode-hook
           (lambda() (setq jit-lock-defer-time 0.15)))
