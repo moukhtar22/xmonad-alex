@@ -4,3 +4,4 @@
 /.dotfiles/.config/nvim/syntax/*.vim
 /.dotfiles/.config/zathura/recent.log
 /.dotfiles/.config/xmonad/dist-newstyle/
+*.elc
