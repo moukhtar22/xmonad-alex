@@ -47,6 +47,7 @@
 (dolist (p '((prog-mode                . normal)
              (minibuffer-mode          . emacs)
              (minibuffer-inactive-mode . emacs)
+	     (messages-buffer-mode     . emacs)
              (haskell-mode             . emacs)
              (help-mode                . emacs)
              (emacs-lisp-mode          . emacs)
@@ -85,6 +86,15 @@
          (org-mode  . yas-minor-mode))
   :config
   (yas-reload-all))
+
+(use-package consult
+  :ensure t
+  :bind
+  ("C-c c b" . consult-buffer)
+  ("C-c c w" . consult-buffer-other-window)
+  ("C-c c /" . consult-ripgrep)
+  (:map org-mode-map
+  ("C-c c o" . consult-outline)))
 
 (use-package lsp-mode
   :ensure t
@@ -232,8 +242,7 @@
             (setq-local electric-pair-inhibit-predicate
                         `(lambda(c)
                            (if (char-equal c ?<) t
-                             (,electric-pair-inhibit-predicate c))))
-	    (corfu-mode -1)))
+                             (,electric-pair-inhibit-predicate c))))))
 
 (use-package lua-mode
   :ensure t
