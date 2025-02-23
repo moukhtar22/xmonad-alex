@@ -9,10 +9,12 @@
 (electric-pair-mode)
 (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
 
-(add-hook 'prog-mode-hook
-          (lambda()
-            (setq display-line-numbers-type 'relative)
-            (display-line-numbers-mode)))
+(defun pref/set-line-number-mode()
+  (setq display-line-numbers-type 'relative)
+  (display-line-numbers-mode))
+(add-hook 'prog-mode-hook 'pref/set-line-number-mode)
+(add-hook 'latex-mode-hook 'pref/set-line-number-mode)
+
 (setq column-number-mode t)
 
 (auto-revert-mode 1)
@@ -31,7 +33,8 @@
   :ensure t
   :init
   (setq evil-want-integration t
-        evil-want-keybinding  nil)
+        evil-want-keybinding  nil
+	evil-undo-system #'undo-redo)
   :config
   (evil-mode 1))
 
@@ -93,13 +96,38 @@
   (c++-ts-mode  . lsp-deferred)
   (java-ts-mode . lsp-deferred)
   (lua-mode     . lsp-deferred)
-  (python-mode  . lsp-deferred))
+  (python-mode  . lsp-deferred)
+  (latex-mode   . lsp-deferred)
+  :config
+  (setq-default lsp-enable-on-type-formatting   nil
+		lsp-java-format-on-type-enabled nil))
 
 (use-package lsp-ui
   :ensure t
   :after  lsp-mode)
 
 (use-package lsp-pyright
+  :ensure t
+  :defer  t)
+
+(use-package dap-mode
+  :ensure t
+  :defer  t)
+(use-package lsp-treemacs
+  :ensure t
+  :defer  t)
+(use-package treemacs
+  :ensure t
+  :defer  t)
+(use-package lsp-java
+  :ensure t
+  :defer  t)
+
+(use-package lsp-haskell
+  :ensure t
+  :defer  t)
+
+(use-package lsp-latex
   :ensure t
   :defer  t)
 
@@ -141,6 +169,23 @@
 (use-package all-the-icons
   :ensure t
   :after  doom-modeline)
+
+(defvar myLatex/main-tex-file nil)
+(defun myLatex/set-main-tex-file()
+  (setq myLatex/main-tex-file (file-relative-name buffer-file-name))
+  (remove-hook 'latex-mode-hook 'myLatex/set-main-tex-file))
+
+(defun myLatex/latex-single-file-compile()
+  (interactive)
+  (save-window-excursion
+    (async-shell-command (concat "latexmk -quiet -lualatex -f -auxdir=$HOME/.texbuild/ -outdir=pdf/ "
+				 myLatex/main-tex-file))))
+
+(add-hook 'latex-mode-hook
+	  (lambda()
+	    (myLatex/set-main-tex-file)
+	    (local-set-key (kbd "C-c l r") 'myLatex/set-main-tex-file)
+	    (local-set-key (kbd "C-c l c") 'myLatex/latex-single-file-compile)))
 
 (add-hook 'org-mode-hook
           (lambda() (setq jit-lock-defer-time 0.15)))
@@ -213,18 +258,10 @@
   :config
   (setenv "WORKON_HOME" "~/.venvs"))
 
-(use-package dap-mode
-  :ensure t
-  :defer  t)
-(use-package lsp-treemacs
-  :ensure t
-  :defer  t)
-(use-package treemacs
-  :ensure t
-  :defer  t)
-(use-package lsp-java
-  :ensure t
-  :defer  t)
+(defun myJava/insert-compile-command()
+  (interactive)
+  (insert (concat "javac " (file-relative-name buffer-file-name))))
+(add-hook 'java-ts-mode-hook (lambda() (local-set-key (kbd "C-c j c") 'myJava/insert-compile-command)))
 
 (add-hook 'prog-mode-hook
           (lambda()
