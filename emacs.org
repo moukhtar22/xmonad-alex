@@ -64,6 +64,10 @@ Don't want backup files with weird names, and *probably* useless docstring warni
         native-comp-async-report-warnings-errors 'silent
         byte-compile-warnings '(not docstrings))
 #+end_src
+For Emacs 30+, disable ispell completion (Conflicts with =corfu=)
+#+begin_src emacs-lisp
+  (setq text-mode-ispell-word-completion nil)
+#+end_src
 
 
 * Init Settings

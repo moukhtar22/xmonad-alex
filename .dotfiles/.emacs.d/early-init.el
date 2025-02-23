@@ -18,3 +18,5 @@
 (setq make-backup-files nil
       native-comp-async-report-warnings-errors 'silent
       byte-compile-warnings '(not docstrings))
+
+(setq text-mode-ispell-word-completion nil)
