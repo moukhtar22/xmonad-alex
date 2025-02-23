@@ -29,33 +29,6 @@
   :ensure t
   :hook   (doc-view-mode . pdf-tools-install))
 
-(use-package evil
-  :ensure t
-  :init
-  (setq evil-want-integration t
-        evil-want-keybinding  nil
-	evil-undo-system #'undo-redo)
-  :config
-  (evil-mode 1))
-
-(use-package evil-collection
-  :after evil
-  :ensure t
-  :config
-  (evil-collection-init))
-
-(dolist (p '((prog-mode                . normal)
-             (minibuffer-mode          . emacs)
-             (minibuffer-inactive-mode . emacs)
-	     (messages-buffer-mode     . emacs)
-             (haskell-mode             . emacs)
-             (help-mode                . emacs)
-             (emacs-lisp-mode          . emacs)
-             (dired-mode               . emacs)
-             (vterm-mode               . emacs)
-             (fundamental-mode         . emacs)))
-  (evil-set-initial-state (car p) (cdr p)))
-
 (use-package vertico
   :ensure t
   :defer  t
@@ -95,6 +68,37 @@
   ("C-c c /" . consult-ripgrep)
   (:map org-mode-map
   ("C-c c o" . consult-outline)))
+
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-r") 'isearch-backward-regexp)
+
+(use-package evil
+  :ensure t
+  :init
+  (setq evil-want-integration t
+        evil-want-keybinding  nil
+	evil-undo-system #'undo-redo)
+  :config
+  (evil-mode 1))
+
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (evil-collection-init))
+
+(dolist (p '((prog-mode                . normal)
+             (minibuffer-mode          . emacs)
+             (minibuffer-inactive-mode . emacs)
+	     (messages-buffer-mode     . emacs)
+	     (Buffer-menu-mode         . emacs)
+             (haskell-mode             . emacs)
+             (help-mode                . emacs)
+             (emacs-lisp-mode          . emacs)
+             (dired-mode               . emacs)
+             (vterm-mode               . emacs)
+             (fundamental-mode         . emacs)))
+  (evil-set-initial-state (car p) (cdr p)))
 
 (use-package lsp-mode
   :ensure t

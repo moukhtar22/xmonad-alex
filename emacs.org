@@ -137,40 +137,6 @@ For Emacs 30+, disable ispell completion (Conflicts with =corfu=)
     :hook   (doc-view-mode . pdf-tools-install))
 #+end_src
 
-*** Vim Layer
-#+begin_src emacs-lisp
-  (use-package evil
-    :ensure t
-    :init
-    (setq evil-want-integration t
-          evil-want-keybinding  nil
-  	evil-undo-system #'undo-redo)
-    :config
-    (evil-mode 1))
-#+end_src
-To make the integration a bit better,
-#+begin_src emacs-lisp
-  (use-package evil-collection
-    :after evil
-    :ensure t
-    :config
-    (evil-collection-init))
-#+end_src
-Set some sane default modes
-#+begin_src emacs-lisp
-  (dolist (p '((prog-mode                . normal)
-               (minibuffer-mode          . emacs)
-               (minibuffer-inactive-mode . emacs)
-  	     (messages-buffer-mode     . emacs)
-               (haskell-mode             . emacs)
-               (help-mode                . emacs)
-               (emacs-lisp-mode          . emacs)
-               (dired-mode               . emacs)
-               (vterm-mode               . emacs)
-               (fundamental-mode         . emacs)))
-    (evil-set-initial-state (car p) (cdr p)))
-#+end_src
-
 *** Completion and Hints
 Vertico, to get a vertical list of available commands
 #+begin_src emacs-lisp
@@ -222,6 +188,46 @@ Yasnippet, for snippets
     ("C-c c /" . consult-ripgrep)
     (:map org-mode-map
     ("C-c c o" . consult-outline)))
+#+end_src
+Swap =isearch= with =isearch-regexp=
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-s") 'isearch-forward-regexp)
+  (global-set-key (kbd "C-r") 'isearch-backward-regexp)
+#+end_src
+
+*** Vim Layer
+#+begin_src emacs-lisp
+  (use-package evil
+    :ensure t
+    :init
+    (setq evil-want-integration t
+          evil-want-keybinding  nil
+  	evil-undo-system #'undo-redo)
+    :config
+    (evil-mode 1))
+#+end_src
+To make the integration a bit better,
+#+begin_src emacs-lisp
+  (use-package evil-collection
+    :after evil
+    :ensure t
+    :config
+    (evil-collection-init))
+#+end_src
+Set some sane default modes
+#+begin_src emacs-lisp
+  (dolist (p '((prog-mode                . normal)
+               (minibuffer-mode          . emacs)
+               (minibuffer-inactive-mode . emacs)
+  	     (messages-buffer-mode     . emacs)
+  	     (Buffer-menu-mode         . emacs)
+               (haskell-mode             . emacs)
+               (help-mode                . emacs)
+               (emacs-lisp-mode          . emacs)
+               (dired-mode               . emacs)
+               (vterm-mode               . emacs)
+               (fundamental-mode         . emacs)))
+    (evil-set-initial-state (car p) (cdr p)))
 #+end_src
 
 *** LSP Mode
@@ -435,7 +441,7 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
 #+end_src
 
 *** Miscellaneous
-Disable =<= and ~corfu~
+Disable =<=
 #+begin_src emacs-lisp
   (add-hook 'org-mode-hook
             (lambda()
