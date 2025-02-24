@@ -42,6 +42,18 @@ pacman -Syu --noconfirm || print_error "Failed to update the system."
 print_message "Installing essential tools..."
 pacman -S --needed --noconfirm git base-devel || print_error "Failed to install essential tools."
 
+# Install Haskell (ghcup)
+print_message "Installing Haskell via ghcup..."
+curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+source ~/.ghcup/env || print_error "Failed to source ghcup environment."
+
+# Install cabal and GHC
+print_message "Installing cabal and GHC..."
+ghcup install ghc latest
+ghcup set ghc latest
+ghcup install cabal latest
+cabal update || print_error "Failed to update cabal."
+
 # Clone the repository
 REPO_URL="https://github.com/moukhtar22/xmonad-alex.git"
 INSTALL_DIR="$HOME/xmonad-alex"
@@ -57,9 +69,8 @@ fi
 print_message "Installing dependencies..."
 DEPENDENCIES=(
     xorg-server xorg-xinit xorg-xrandr xorg-xsetroot
-    xmonad xmonad-contrib xmobar
-    alacritty feh picom rofi dunst
-    firefox thunar ranger neovim
+    xmobar picom conky nitrogen notification-daemon redshift unclutter rofi
+    emacs alacritty wezterm firefox zathura zsh kmonad
 )
 
 pacman -S --needed --noconfirm "${DEPENDENCIES[@]}" || print_error "Failed to install dependencies."
@@ -76,6 +87,11 @@ cp "$INSTALL_DIR/.xinitrc" "$HOME/" || print_error "Failed to copy .xinitrc."
 # Set up XMonad as the default session
 print_message "Setting up XMonad as the default session..."
 echo "exec xmonad" >> "$HOME/.xinitrc"
+
+# Install XMonad using cabal
+print_message "Building and installing XMonad with cabal..."
+cd "$INSTALL_DIR" || print_error "Failed to navigate to installation directory."
+cabal install xmonad xmonad-contrib || print_error "Failed to install XMonad with cabal."
 
 # Post-installation message
 print_message "Installation completed successfully!"
