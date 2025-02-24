@@ -283,6 +283,10 @@
   :config
   (setenv "WORKON_HOME" "~/.venvs"))
 
+(add-hook 'python-mode-hook
+	  (lambda()
+	    (corfu-mode -1)))
+
 (defun myJava/insert-compile-command()
   (interactive)
   (insert (concat "javac " (file-relative-name buffer-file-name))))

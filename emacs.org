@@ -501,6 +501,12 @@ Disable =<=
     :config
     (setenv "WORKON_HOME" "~/.venvs"))
 #+end_src
+Since it seems like a headache to remove =company= mode, let's just remove =corfu=
+#+begin_src emacs-lisp
+  (add-hook 'python-mode-hook
+  	  (lambda()
+  	    (corfu-mode -1)))
+#+end_src
 
 *** Java Settings
 #+begin_src emacs-lisp
