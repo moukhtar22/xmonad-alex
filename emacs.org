@@ -215,6 +215,15 @@ To make the integration a bit better,
     :config
     (evil-collection-init))
 #+end_src
+Vim surround emulation
+#+begin_src emacs-lisp
+  (use-package evil-surround
+    :after evil
+    :ensure t
+    :config
+    (global-evil-surround-mode 1))
+#+end_src
+
 Set some sane default modes
 #+begin_src emacs-lisp
   (dolist (p '((prog-mode                . normal)
