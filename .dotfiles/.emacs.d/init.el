@@ -45,7 +45,7 @@
 
 (use-package corfu
   :ensure t
-  :defer  t
+  :after  orderless
   :custom
   (corfu-cycle t)
   :init
@@ -59,6 +59,14 @@
          (org-mode  . yas-minor-mode))
   :config
   (yas-reload-all))
+
+(use-package orderless
+  :ensure t
+  :defer  t
+  :custom
+  (completion-category-defaults    nil)
+  (completion-styles             '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package consult
   :ensure t
@@ -109,7 +117,20 @@
 
 (use-package lsp-mode
   :ensure t
+  :custom
+  (lsp-completion-provider :none)
+  :init
+  (defun myLsp/orderless-dispatch-flex-first(_pattern index _total)
+    (and (eq index 0) 'orderless-flex))
+  
+  (defun myLsp/lsp-mode-setup-completion()
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+	  '(orderless))
+    (add-hook 'orderless-style-dispatchers #'myLsp/orderless-dispatch-flex-first nil 'local))
+  
   :hook
+  (lsp-completion-mode . myLsp/lsp-mode-setup-completion)
+  
   (c-mode       . lsp-deferred)
   (c-ts-mode    . lsp-deferred)
   (haskell-mode . lsp-deferred)
@@ -119,6 +140,7 @@
   (lua-mode     . lsp-deferred)
   (python-mode  . lsp-deferred)
   (latex-mode   . lsp-deferred)
+  
   :config
   (setq-default lsp-enable-on-type-formatting   nil
 		lsp-java-format-on-type-enabled nil))
