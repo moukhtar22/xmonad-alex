@@ -119,7 +119,12 @@
 
 (use-package lsp-ui
   :ensure t
-  :after  lsp-mode)
+  :after  lsp-mode
+  :config
+  (setq lsp-ui-doc-show-with-mouse  nil
+	lsp-ui-doc-show-with-cursor t
+	lsp-ui-doc-delay            0.5
+	lsp-ui-sideline-enable      nil))
 
 (use-package lsp-pyright
   :ensure t

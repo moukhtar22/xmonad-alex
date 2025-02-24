@@ -251,7 +251,12 @@ Set some sane default modes
 
   (use-package lsp-ui
     :ensure t
-    :after  lsp-mode)
+    :after  lsp-mode
+    :config
+    (setq lsp-ui-doc-show-with-mouse  nil
+  	lsp-ui-doc-show-with-cursor t
+  	lsp-ui-doc-delay            0.5
+  	lsp-ui-sideline-enable      nil))
 #+end_src
 **** Some languages seem to require their own lsp packages
 ***** Python
