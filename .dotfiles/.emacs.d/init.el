@@ -65,9 +65,10 @@
   :bind
   ("C-c c b" . consult-buffer)
   ("C-c c w" . consult-buffer-other-window)
-  ("C-c c /" . consult-ripgrep)
-  (:map org-mode-map
-  ("C-c c o" . consult-outline)))
+  ("C-c c /" . consult-ripgrep))
+(add-hook 'org-mode-hook
+	  (lambda()
+	    (local-set-key (kbd "C-c c o") 'consult-outline)))
 
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
