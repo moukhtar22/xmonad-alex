@@ -247,6 +247,7 @@ Set some sane default modes
                (emacs-lisp-mode          . emacs)
                (dired-mode               . emacs)
                (vterm-mode               . emacs)
+  	     (inferior-python-mode     . emacs)
                (fundamental-mode         . emacs)))
     (evil-set-initial-state (car p) (cdr p)))
 #+end_src
@@ -527,12 +528,6 @@ Disable =<=
     :hook (python-mode . elpy-enable)
     :config
     (setenv "WORKON_HOME" "~/.venvs"))
-#+end_src
-Since it seems like a headache to remove =company= mode, let's just remove =corfu=
-#+begin_src emacs-lisp
-  (add-hook 'python-mode-hook
-  	  (lambda()
-  	    (corfu-mode -1)))
 #+end_src
 
 *** Java Settings

@@ -112,6 +112,7 @@
              (emacs-lisp-mode          . emacs)
              (dired-mode               . emacs)
              (vterm-mode               . emacs)
+	     (inferior-python-mode     . emacs)
              (fundamental-mode         . emacs)))
   (evil-set-initial-state (car p) (cdr p)))
 
@@ -304,10 +305,6 @@
   :hook (python-mode . elpy-enable)
   :config
   (setenv "WORKON_HOME" "~/.venvs"))
-
-(add-hook 'python-mode-hook
-	  (lambda()
-	    (corfu-mode -1)))
 
 (defun myJava/insert-compile-command()
   (interactive)
