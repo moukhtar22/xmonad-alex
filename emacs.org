@@ -96,10 +96,38 @@ For Emacs 30+, disable ispell completion (Conflicts with =corfu=)
   (global-set-key "\C-xwb" 'switch-to-buffer-other-window)
 #+end_src
 
-*** Electric Modes
+*** Pairing
+For the most part, use =electric-pair= mode
 #+begin_src emacs-lisp
   (electric-pair-mode)
   (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
+#+end_src
+**** Disable angle bracket pairing in =org-mode=
+#+begin_src emacs-lisp
+  (add-hook 'org-mode-hook
+            (lambda()
+              (setq-local electric-pair-inhibit-predicate
+                          `(lambda(c)
+                             (if (char-equal c ?<) t
+                               (,electric-pair-inhibit-predicate c))))))
+#+end_src
+**** Smartparens Mode
+For =prog-mode= disabled =electric-pair-mode=
+#+begin_src emacs-lisp
+  (add-hook 'prog-mode-hook
+  	  (lambda()
+  	    (electric-pair-local-mode -1)))
+#+end_src
+and use =smartparens-mode=
+#+begin_src emacs-lisp
+  (use-package smartparens
+    :ensure t
+    :hook  (prog-mode)
+    :config
+    (require 'smartparens-config)
+    (sp-with-modes 'sh-mode
+      (sp-local-pair "[" "]"   :actions '(wrap insert navigate))
+      (sp-local-pair "[ " " ]" :actions '(wrap insert navigate))))
 #+end_src
 
 *** Line Numbering
@@ -481,17 +509,6 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
     :config
     (setq-default olivetti-body-width 120)
     :hook org-mode)
-#+end_src
-
-*** Miscellaneous
-Disable =<=
-#+begin_src emacs-lisp
-  (add-hook 'org-mode-hook
-            (lambda()
-              (setq-local electric-pair-inhibit-predicate
-                          `(lambda(c)
-                             (if (char-equal c ?<) t
-                               (,electric-pair-inhibit-predicate c))))))
 #+end_src
 
 

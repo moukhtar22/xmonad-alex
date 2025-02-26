@@ -9,6 +9,26 @@
 (electric-pair-mode)
 (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
 
+(add-hook 'org-mode-hook
+          (lambda()
+            (setq-local electric-pair-inhibit-predicate
+                        `(lambda(c)
+                           (if (char-equal c ?<) t
+                             (,electric-pair-inhibit-predicate c))))))
+
+(add-hook 'prog-mode-hook
+	  (lambda()
+	    (electric-pair-local-mode -1)))
+
+(use-package smartparens
+  :ensure t
+  :hook  (prog-mode)
+  :config
+  (require 'smartparens-config)
+  (sp-with-modes 'sh-mode
+    (sp-local-pair "[" "]"   :actions '(wrap insert navigate))
+    (sp-local-pair "[ " " ]" :actions '(wrap insert navigate))))
+
 (defun pref/set-line-number-mode()
   (setq display-line-numbers-type 'relative)
   (display-line-numbers-mode))
@@ -275,13 +295,6 @@
   :config
   (setq-default olivetti-body-width 120)
   :hook org-mode)
-
-(add-hook 'org-mode-hook
-          (lambda()
-            (setq-local electric-pair-inhibit-predicate
-                        `(lambda(c)
-                           (if (char-equal c ?<) t
-                             (,electric-pair-inhibit-predicate c))))))
 
 (use-package lua-mode
   :ensure t
