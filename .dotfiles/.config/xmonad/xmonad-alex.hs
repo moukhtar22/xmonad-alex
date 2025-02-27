@@ -120,8 +120,7 @@ main = xmonad
         , ((0, 9), const $ spawn "xdotool type +")
         ]
         `additionalKeys`
-        [ ((shiftMask, xK_Shift_R), spawn "cycle_layout.sh")
-        ] ++ [
+        [
           ((mod4Mask, key), windows $ greedyView ws)
           | (key, ws) <- myExtraWorkspaces
         ] ++ [
