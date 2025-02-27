@@ -239,22 +239,38 @@
   :ensure t
   :after  doom-modeline)
 
+(defun myLaTeX/is-project-root(directory counter)
+  (if (file-exists-p (concat directory "cfg.cfg"))
+      directory
+    (if (< counter 3)
+	(myLaTeX/is-project-root (file-name-parent-directory directory) (+ 1 counter))
+      nil)))
+
+(defun myLaTeX/get-project-root()
+  (myLaTeX/is-project-root (file-name-directory buffer-file-name) 1))
+
 (defvar myLaTeX/main-tex-file nil)
 (defun myLaTeX/set-main-tex-file()
   (setq myLaTeX/main-tex-file (file-relative-name buffer-file-name))
   (remove-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file))
 (add-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file)
 
-(defun myLaTeX/latex-single-file-compile()
+(defun myLaTeX/single-file-compile()
   (interactive)
   (save-window-excursion
     (async-shell-command (concat "latexmk -quiet -lualatex -f -auxdir=$HOME/.texbuild/ -outdir=pdf/ "
 				 myLaTeX/main-tex-file))))
 
+(defun myLaTeX/project-complie()
+  (interactive)
+  (save-window-excursion
+    (async-shell-command (concat (concat "cd " (myLaTeX/get-project-root)) " && mktex"))))
+
 (add-hook 'latex-mode-hook
 	  (lambda()
 	    (local-set-key (kbd "C-c l r") 'myLaTeX/set-main-tex-file)
-	    (local-set-key (kbd "C-c l c") 'myLaTeX/latex-single-file-compile)))
+	    (local-set-key (kbd "C-c l c") 'myLaTeX/single-file-compile)
+	    (local-set-key (kbd "C-c l m") 'myLaTeX/project-complie)))
 
 (add-hook 'org-mode-hook
           (lambda() (setq jit-lock-defer-time 0.15)))

@@ -430,6 +430,19 @@ Never save authentication sources
 
 
 ** LaTeX Mode
+*** Get LaTeX Project Root
+All my LaTeX projects have a =cfg.cfg= file in their root directories
+#+begin_src emacs-lisp
+  (defun myLaTeX/is-project-root(directory counter)
+    (if (file-exists-p (concat directory "cfg.cfg"))
+        directory
+      (if (< counter 3)
+  	(myLaTeX/is-project-root (file-name-parent-directory directory) (+ 1 counter))
+        nil)))
+
+  (defun myLaTeX/get-project-root()
+    (myLaTeX/is-project-root (file-name-directory buffer-file-name) 1))
+#+end_src
 *** Single File Compilation
 #+begin_src emacs-lisp
   (defvar myLaTeX/main-tex-file nil)
@@ -438,16 +451,26 @@ Never save authentication sources
     (remove-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file))
   (add-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file)
 
-  (defun myLaTeX/latex-single-file-compile()
+  (defun myLaTeX/single-file-compile()
     (interactive)
     (save-window-excursion
       (async-shell-command (concat "latexmk -quiet -lualatex -f -auxdir=$HOME/.texbuild/ -outdir=pdf/ "
   				 myLaTeX/main-tex-file))))
-
+#+end_src
+*** Full Project Compilation
+#+begin_src emacs-lisp
+  (defun myLaTeX/project-complie()
+    (interactive)
+    (save-window-excursion
+      (async-shell-command (concat (concat "cd " (myLaTeX/get-project-root)) " && mktex"))))
+#+end_src
+*** Keybindings
+#+begin_src emacs-lisp
   (add-hook 'latex-mode-hook
   	  (lambda()
   	    (local-set-key (kbd "C-c l r") 'myLaTeX/set-main-tex-file)
-  	    (local-set-key (kbd "C-c l c") 'myLaTeX/latex-single-file-compile)))
+  	    (local-set-key (kbd "C-c l c") 'myLaTeX/single-file-compile)
+  	    (local-set-key (kbd "C-c l m") 'myLaTeX/project-complie)))
 #+end_src
 
 
