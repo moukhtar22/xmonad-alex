@@ -9,12 +9,16 @@
 (electric-pair-mode)
 (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
 
-(add-hook 'org-mode-hook
+(defun pref/disable-electric-angle-bracket-pairing()
+  (setq-local electric-pair-inhibit-predicate
+              `(lambda(c)
+                 (if (char-equal c ?<) t
+		   (,electric-pair-inhibit-predicate c)))))
+
+(add-hook 'electric-pair-mode-hook
           (lambda()
-            (setq-local electric-pair-inhibit-predicate
-                        `(lambda(c)
-                           (if (char-equal c ?<) t
-                             (,electric-pair-inhibit-predicate c))))))
+            (if (derived-mode-p 'org-mode)
+		(pref/disable-electric-angle-bracket-pairing))))
 
 (add-hook 'prog-mode-hook
 	  (lambda()
@@ -86,7 +90,9 @@
   :custom
   (completion-category-defaults    nil)
   (completion-styles             '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion)))))
+  (completion-category-overrides '((file (styles basic partial-completion))))
+  :config
+  (setq	orderless-component-separator "[-]"))
 
 (use-package consult
   :ensure t
@@ -173,7 +179,8 @@
   (setq lsp-ui-doc-show-with-mouse  nil
 	lsp-ui-doc-show-with-cursor t
 	lsp-ui-doc-delay            0.5
-	lsp-ui-sideline-enable      nil))
+	lsp-ui-sideline-enable      nil
+	lsp-eldoc-enable-hover      nil))
 
 (use-package lsp-pyright
   :ensure t

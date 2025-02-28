@@ -104,12 +104,16 @@ For the most part, use =electric-pair= mode
 #+end_src
 **** Disable angle bracket pairing in =org-mode=
 #+begin_src emacs-lisp
-  (add-hook 'org-mode-hook
+  (defun pref/disable-electric-angle-bracket-pairing()
+    (setq-local electric-pair-inhibit-predicate
+                `(lambda(c)
+                   (if (char-equal c ?<) t
+  		   (,electric-pair-inhibit-predicate c)))))
+
+  (add-hook 'electric-pair-mode-hook
             (lambda()
-              (setq-local electric-pair-inhibit-predicate
-                          `(lambda(c)
-                             (if (char-equal c ?<) t
-                               (,electric-pair-inhibit-predicate c))))))
+              (if (derived-mode-p 'org-mode)
+  		(pref/disable-electric-angle-bracket-pairing))))
 #+end_src
 **** Smartparens Mode
 For =prog-mode= disabled =electric-pair-mode=
@@ -214,7 +218,9 @@ Yasnippet, for snippets
     :custom
     (completion-category-defaults    nil)
     (completion-styles             '(orderless basic))
-    (completion-category-overrides '((file (styles basic partial-completion)))))
+    (completion-category-overrides '((file (styles basic partial-completion))))
+    :config
+    (setq	orderless-component-separator "[-]"))
 #+end_src
 
 *** Navigation Enhancement
@@ -321,7 +327,8 @@ Additional UI features
     (setq lsp-ui-doc-show-with-mouse  nil
   	lsp-ui-doc-show-with-cursor t
   	lsp-ui-doc-delay            0.5
-  	lsp-ui-sideline-enable      nil))
+  	lsp-ui-sideline-enable      nil
+  	lsp-eldoc-enable-hover      nil))
 #+end_src
 **** Some languages seem to require their own lsp packages
 ***** Python
