@@ -471,13 +471,28 @@ All my LaTeX projects have a =cfg.cfg= file in their root directories
     (save-window-excursion
       (async-shell-command (concat (concat "cd " (myLaTeX/get-project-root)) " && mktex"))))
 #+end_src
+*** Open PDF in Zathura
+#+begin_src emacs-lisp
+  (defun myLaTeX/choose-file()
+    (interactive)
+    (read-file-name "Which PDF? "
+  		  (concat (myLaTeX/get-project-root) "pdf/")))
+
+  (defun myLaTeX/open-pdf-zathura()
+    (interactive)
+    (save-window-excursion
+      (async-shell-command (concat "zathura --fork "
+  				 (myLaTeX/choose-file)))))
+#+end_src
+
 *** Keybindings
 #+begin_src emacs-lisp
   (add-hook 'latex-mode-hook
   	  (lambda()
   	    (local-set-key (kbd "C-c l r") 'myLaTeX/set-main-tex-file)
   	    (local-set-key (kbd "C-c l c") 'myLaTeX/single-file-compile)
-  	    (local-set-key (kbd "C-c l m") 'myLaTeX/project-complie)))
+  	    (local-set-key (kbd "C-c l m") 'myLaTeX/project-complie)
+  	    (local-set-key (kbd "C-c l z") 'myLaTeX/open-pdf-zathura)))
 #+end_src
 
 

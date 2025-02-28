@@ -273,11 +273,23 @@
   (save-window-excursion
     (async-shell-command (concat (concat "cd " (myLaTeX/get-project-root)) " && mktex"))))
 
+(defun myLaTeX/choose-file()
+  (interactive)
+  (read-file-name "Which PDF? "
+		  (concat (myLaTeX/get-project-root) "pdf/")))
+
+(defun myLaTeX/open-pdf-zathura()
+  (interactive)
+  (save-window-excursion
+    (async-shell-command (concat "zathura --fork "
+				 (myLaTeX/choose-file)))))
+
 (add-hook 'latex-mode-hook
 	  (lambda()
 	    (local-set-key (kbd "C-c l r") 'myLaTeX/set-main-tex-file)
 	    (local-set-key (kbd "C-c l c") 'myLaTeX/single-file-compile)
-	    (local-set-key (kbd "C-c l m") 'myLaTeX/project-complie)))
+	    (local-set-key (kbd "C-c l m") 'myLaTeX/project-complie)
+	    (local-set-key (kbd "C-c l z") 'myLaTeX/open-pdf-zathura)))
 
 (add-hook 'org-mode-hook
           (lambda() (setq jit-lock-defer-time 0.15)))
