@@ -6,20 +6,6 @@
 
 (global-set-key "\C-xwb" 'switch-to-buffer-other-window)
 
-(electric-pair-mode)
-(setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
-
-(defun pref/disable-electric-angle-bracket-pairing()
-  (setq-local electric-pair-inhibit-predicate
-              `(lambda(c)
-                 (if (char-equal c ?<) t
-		   (,electric-pair-inhibit-predicate c)))))
-
-(add-hook 'electric-pair-mode-hook
-          (lambda()
-            (if (derived-mode-p 'org-mode)
-		(pref/disable-electric-angle-bracket-pairing))))
-
 (add-hook 'prog-mode-hook
 	  (lambda()
 	    (electric-pair-local-mode -1)))

@@ -97,25 +97,6 @@ For Emacs 30+, disable ispell completion (Conflicts with =corfu=)
 #+end_src
 
 *** Pairing
-For the most part, use =electric-pair= mode
-#+begin_src emacs-lisp
-  (electric-pair-mode)
-  (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
-#+end_src
-**** Disable angle bracket pairing in =org-mode=
-#+begin_src emacs-lisp
-  (defun pref/disable-electric-angle-bracket-pairing()
-    (setq-local electric-pair-inhibit-predicate
-                `(lambda(c)
-                   (if (char-equal c ?<) t
-  		   (,electric-pair-inhibit-predicate c)))))
-
-  (add-hook 'electric-pair-mode-hook
-            (lambda()
-              (if (derived-mode-p 'org-mode)
-  		(pref/disable-electric-angle-bracket-pairing))))
-#+end_src
-**** Smartparens Mode
 For =prog-mode= disabled =electric-pair-mode=
 #+begin_src emacs-lisp
   (add-hook 'prog-mode-hook
@@ -220,7 +201,7 @@ Yasnippet, for snippets
     (completion-styles             '(orderless basic))
     (completion-category-overrides '((file (styles basic partial-completion))))
     :config
-    (setq	orderless-component-separator "[-]"))
+    (setq	orderless-component-separator "[- ]"))
 #+end_src
 
 *** Navigation Enhancement
