@@ -6,16 +6,6 @@
 
 (global-set-key "\C-xwb" 'switch-to-buffer-other-window)
 
-(electric-pair-mode)
-(setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
-
-(add-hook 'org-mode-hook
-          (lambda()
-            (setq-local electric-pair-inhibit-predicate
-                        `(lambda(c)
-                           (if (char-equal c ?<) t
-                             (,electric-pair-inhibit-predicate c))))))
-
 (add-hook 'prog-mode-hook
 	  (lambda()
 	    (electric-pair-local-mode -1)))
@@ -86,7 +76,9 @@
   :custom
   (completion-category-defaults    nil)
   (completion-styles             '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion)))))
+  (completion-category-overrides '((file (styles basic partial-completion))))
+  :config
+  (setq	orderless-component-separator "[-]"))
 
 (use-package consult
   :ensure t
@@ -173,7 +165,8 @@
   (setq lsp-ui-doc-show-with-mouse  nil
 	lsp-ui-doc-show-with-cursor t
 	lsp-ui-doc-delay            0.5
-	lsp-ui-sideline-enable      nil))
+	lsp-ui-sideline-enable      nil
+	lsp-eldoc-enable-hover      nil))
 
 (use-package lsp-pyright
   :ensure t
@@ -239,22 +232,50 @@
   :ensure t
   :after  doom-modeline)
 
+(defun myLaTeX/is-project-root(directory counter)
+  (if (file-exists-p (concat directory "cfg.cfg"))
+      directory
+    (if (< counter 3)
+	(myLaTeX/is-project-root (file-name-parent-directory directory) (+ 1 counter))
+      nil)))
+
+(defun myLaTeX/get-project-root()
+  (myLaTeX/is-project-root (file-name-directory buffer-file-name) 1))
+
 (defvar myLaTeX/main-tex-file nil)
 (defun myLaTeX/set-main-tex-file()
   (setq myLaTeX/main-tex-file (file-relative-name buffer-file-name))
   (remove-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file))
 (add-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file)
 
-(defun myLaTeX/latex-single-file-compile()
+(defun myLaTeX/single-file-compile()
   (interactive)
   (save-window-excursion
     (async-shell-command (concat "latexmk -quiet -lualatex -f -auxdir=$HOME/.texbuild/ -outdir=pdf/ "
 				 myLaTeX/main-tex-file))))
 
+(defun myLaTeX/project-complie()
+  (interactive)
+  (save-window-excursion
+    (async-shell-command (concat (concat "cd " (myLaTeX/get-project-root)) " && mktex"))))
+
+(defun myLaTeX/choose-file()
+  (interactive)
+  (read-file-name "Which PDF? "
+		  (concat (myLaTeX/get-project-root) "pdf/")))
+
+(defun myLaTeX/open-pdf-zathura()
+  (interactive)
+  (save-window-excursion
+    (async-shell-command (concat "zathura --fork "
+				 (myLaTeX/choose-file)))))
+
 (add-hook 'latex-mode-hook
 	  (lambda()
 	    (local-set-key (kbd "C-c l r") 'myLaTeX/set-main-tex-file)
-	    (local-set-key (kbd "C-c l c") 'myLaTeX/latex-single-file-compile)))
+	    (local-set-key (kbd "C-c l c") 'myLaTeX/single-file-compile)
+	    (local-set-key (kbd "C-c l m") 'myLaTeX/project-complie)
+	    (local-set-key (kbd "C-c l z") 'myLaTeX/open-pdf-zathura)))
 
 (add-hook 'org-mode-hook
           (lambda() (setq jit-lock-defer-time 0.15)))

@@ -97,21 +97,6 @@ For Emacs 30+, disable ispell completion (Conflicts with =corfu=)
 #+end_src
 
 *** Pairing
-For the most part, use =electric-pair= mode
-#+begin_src emacs-lisp
-  (electric-pair-mode)
-  (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
-#+end_src
-**** Disable angle bracket pairing in =org-mode=
-#+begin_src emacs-lisp
-  (add-hook 'org-mode-hook
-            (lambda()
-              (setq-local electric-pair-inhibit-predicate
-                          `(lambda(c)
-                             (if (char-equal c ?<) t
-                               (,electric-pair-inhibit-predicate c))))))
-#+end_src
-**** Smartparens Mode
 For =prog-mode= disabled =electric-pair-mode=
 #+begin_src emacs-lisp
   (add-hook 'prog-mode-hook
@@ -214,7 +199,9 @@ Yasnippet, for snippets
     :custom
     (completion-category-defaults    nil)
     (completion-styles             '(orderless basic))
-    (completion-category-overrides '((file (styles basic partial-completion)))))
+    (completion-category-overrides '((file (styles basic partial-completion))))
+    :config
+    (setq	orderless-component-separator "[- ]"))
 #+end_src
 
 *** Navigation Enhancement
@@ -321,7 +308,8 @@ Additional UI features
     (setq lsp-ui-doc-show-with-mouse  nil
   	lsp-ui-doc-show-with-cursor t
   	lsp-ui-doc-delay            0.5
-  	lsp-ui-sideline-enable      nil))
+  	lsp-ui-sideline-enable      nil
+  	lsp-eldoc-enable-hover      nil))
 #+end_src
 **** Some languages seem to require their own lsp packages
 ***** Python
@@ -430,6 +418,19 @@ Never save authentication sources
 
 
 ** LaTeX Mode
+*** Get LaTeX Project Root
+All my LaTeX projects have a =cfg.cfg= file in their root directories
+#+begin_src emacs-lisp
+  (defun myLaTeX/is-project-root(directory counter)
+    (if (file-exists-p (concat directory "cfg.cfg"))
+        directory
+      (if (< counter 3)
+  	(myLaTeX/is-project-root (file-name-parent-directory directory) (+ 1 counter))
+        nil)))
+
+  (defun myLaTeX/get-project-root()
+    (myLaTeX/is-project-root (file-name-directory buffer-file-name) 1))
+#+end_src
 *** Single File Compilation
 #+begin_src emacs-lisp
   (defvar myLaTeX/main-tex-file nil)
@@ -438,16 +439,41 @@ Never save authentication sources
     (remove-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file))
   (add-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file)
 
-  (defun myLaTeX/latex-single-file-compile()
+  (defun myLaTeX/single-file-compile()
     (interactive)
     (save-window-excursion
       (async-shell-command (concat "latexmk -quiet -lualatex -f -auxdir=$HOME/.texbuild/ -outdir=pdf/ "
   				 myLaTeX/main-tex-file))))
+#+end_src
+*** Full Project Compilation
+#+begin_src emacs-lisp
+  (defun myLaTeX/project-complie()
+    (interactive)
+    (save-window-excursion
+      (async-shell-command (concat (concat "cd " (myLaTeX/get-project-root)) " && mktex"))))
+#+end_src
+*** Open PDF in Zathura
+#+begin_src emacs-lisp
+  (defun myLaTeX/choose-file()
+    (interactive)
+    (read-file-name "Which PDF? "
+  		  (concat (myLaTeX/get-project-root) "pdf/")))
 
+  (defun myLaTeX/open-pdf-zathura()
+    (interactive)
+    (save-window-excursion
+      (async-shell-command (concat "zathura --fork "
+  				 (myLaTeX/choose-file)))))
+#+end_src
+
+*** Keybindings
+#+begin_src emacs-lisp
   (add-hook 'latex-mode-hook
   	  (lambda()
   	    (local-set-key (kbd "C-c l r") 'myLaTeX/set-main-tex-file)
-  	    (local-set-key (kbd "C-c l c") 'myLaTeX/latex-single-file-compile)))
+  	    (local-set-key (kbd "C-c l c") 'myLaTeX/single-file-compile)
+  	    (local-set-key (kbd "C-c l m") 'myLaTeX/project-complie)
+  	    (local-set-key (kbd "C-c l z") 'myLaTeX/open-pdf-zathura)))
 #+end_src
 
 
