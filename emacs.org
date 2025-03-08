@@ -185,8 +185,9 @@ Yasnippet, for snippets
 #+begin_src emacs-lisp
   (use-package yasnippet
     :ensure t
-    :hook ((prog-mode . yas-minor-mode)
-           (org-mode  . yas-minor-mode))
+    :hook ((prog-mode  . yas-minor-mode)
+           (org-mode   . yas-minor-mode)
+  	 (latex-mode . yas-minor-mode))
     :config
     (yas-reload-all))
 #+end_src
@@ -547,6 +548,10 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
     :defer  t)
 
   (use-package haskell-mode
+    :ensure t
+    :defer  t)
+
+  (use-package rust-mode
     :ensure t
     :defer  t)
 

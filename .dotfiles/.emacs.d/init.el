@@ -65,8 +65,9 @@
 
 (use-package yasnippet
   :ensure t
-  :hook ((prog-mode . yas-minor-mode)
-         (org-mode  . yas-minor-mode))
+  :hook ((prog-mode  . yas-minor-mode)
+         (org-mode   . yas-minor-mode)
+	 (latex-mode . yas-minor-mode))
   :config
   (yas-reload-all))
 
@@ -78,7 +79,7 @@
   (completion-styles             '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion))))
   :config
-  (setq	orderless-component-separator "[-]"))
+  (setq	orderless-component-separator "[- ]"))
 
 (use-package consult
   :ensure t
@@ -322,6 +323,10 @@
   :defer  t)
 
 (use-package haskell-mode
+  :ensure t
+  :defer  t)
+
+(use-package rust-mode
   :ensure t
   :defer  t)
 
