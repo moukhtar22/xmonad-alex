@@ -17,7 +17,16 @@
   (require 'smartparens-config)
   (sp-with-modes 'sh-mode
     (sp-local-pair "[" "]"   :actions '(wrap insert navigate))
-    (sp-local-pair "[ " " ]" :actions '(wrap insert navigate))))
+    (sp-local-pair "[ " " ]" :actions '(wrap insert navigate)))
+
+  (sp-local-pair 'prog-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
+  (defun my-create-newline-and-enter-sexp (&rest _ignored)
+    "Open a new brace or bracket expression, with relevant newlines and indent.
+         - Taken from https://github.com/Fuco1/smartparens/issues/80"
+    (newline)
+    (indent-according-to-mode)
+    (forward-line -1)
+    (indent-according-to-mode)))
 
 (defun pref/set-line-number-mode()
   (setq display-line-numbers-type 'relative)
@@ -61,7 +70,8 @@
   :init
   (global-corfu-mode)
   :config
-  (setq corfu-auto t))
+  (setq corfu-auto           t
+	corfu-on-exact-match nil))
 
 (use-package yasnippet
   :ensure t
