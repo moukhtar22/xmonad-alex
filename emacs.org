@@ -105,7 +105,6 @@ For =prog-mode= disabled =electric-pair-mode=
 #+end_src
 and use =smartparens-mode=
 #+begin_src emacs-lisp
-
   (use-package smartparens
     :ensure t
     :hook  (prog-mode)
@@ -114,15 +113,7 @@ and use =smartparens-mode=
     (sp-with-modes 'sh-mode
       (sp-local-pair "[" "]"   :actions '(wrap insert navigate))
       (sp-local-pair "[ " " ]" :actions '(wrap insert navigate)))
-
-    (sp-local-pair 'prog-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
-    (defun my-create-newline-and-enter-sexp (&rest _ignored)
-      "Open a new brace or bracket expression, with relevant newlines and indent.
-           - Taken from https://github.com/Fuco1/smartparens/issues/80"
-      (newline)
-      (indent-according-to-mode)
-      (forward-line -1)
-      (indent-according-to-mode)))
+    (sp-local-pair 'prog-mode "{" nil :post-handlers '(("||\n[i]" "RET"))))
 #+end_src
 
 *** Line Numbering
@@ -190,7 +181,8 @@ Corfu, for auto completion popups
     (global-corfu-mode)
     :config
     (setq corfu-auto           t
-  	corfu-on-exact-match nil))
+  	corfu-on-exact-match nil)
+    (keymap-unset corfu-map "RET"))
 #+end_src
 Yasnippet, for snippets
 #+begin_src emacs-lisp
