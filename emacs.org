@@ -141,7 +141,16 @@ and use =smartparens-mode=
 *** Better Terminal
 #+begin_src emacs-lisp
   (use-package vterm
-    :ensure t)
+    :ensure t
+    :init
+    (defun pref/new-terminal()
+      (interactive)
+      (split-window-below)
+      (other-window 1)
+      (vterm)
+      (rename-uniquely))
+    :bind
+    ("C-c t" . pref/new-terminal))
 #+end_src
 
 *** Better PDF Tooling
@@ -571,6 +580,16 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
                     c-basic-offset       4)))
 #+end_src
 
+*** General Programming Key Binds
+**** Run Compile Command
+#+begin_src emacs-lisp
+  (defun myProg/compile()
+    (interactive) (compile compile-command))
+  (add-hook 'prog-mode-hook (lambda() (local-set-key (kbd "C-c r c") 'myProg/compile)))
+#+end_src
+**** Split Window and Open a new Treminal
+
+
 *** Python Settings
 **** ELPY
 #+begin_src emacs-lisp
@@ -586,7 +605,7 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
   (defun myJava/insert-compile-command()
     (interactive)
     (insert (concat "javac " (file-relative-name buffer-file-name))))
-  (add-hook 'java-ts-mode-hook (lambda() (local-set-key (kbd "C-c j c") 'myJava/insert-compile-command)))
+  (add-hook 'java-ts-mode-hook (lambda() (local-set-key (kbd "C-c r C") 'myJava/insert-compile-command)))
 #+end_src
 
 *** Treesitter Settings

@@ -34,7 +34,16 @@
       read-buffer-completion-ignore-case    t)
 
 (use-package vterm
-  :ensure t)
+  :ensure t
+  :init
+  (defun pref/new-terminal()
+    (interactive)
+    (split-window-below)
+    (other-window 1)
+    (vterm)
+    (rename-uniquely))
+  :bind
+  ("C-c t" . pref/new-terminal))
 
 (use-package pdf-tools
   :ensure t
@@ -342,6 +351,10 @@
             (setq c-indentation-style 'k&r
                   c-basic-offset       4)))
 
+(defun myProg/compile()
+  (interactive) (compile compile-command))
+(add-hook 'prog-mode-hook (lambda() (local-set-key (kbd "C-c r c") 'myProg/compile)))
+
 (use-package elpy
   :ensure t
   :hook (python-mode . elpy-enable)
@@ -351,7 +364,7 @@
 (defun myJava/insert-compile-command()
   (interactive)
   (insert (concat "javac " (file-relative-name buffer-file-name))))
-(add-hook 'java-ts-mode-hook (lambda() (local-set-key (kbd "C-c j c") 'myJava/insert-compile-command)))
+(add-hook 'java-ts-mode-hook (lambda() (local-set-key (kbd "C-c r C") 'myJava/insert-compile-command)))
 
 (add-hook 'prog-mode-hook
           (lambda()
