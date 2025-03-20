@@ -127,19 +127,23 @@
   :config
   (global-evil-surround-mode 1))
 
-(dolist (p '((prog-mode                . normal)
-             (minibuffer-mode          . emacs)
-             (minibuffer-inactive-mode . emacs)
-	     (messages-buffer-mode     . emacs)
-	     (Buffer-menu-mode         . emacs)
-             (haskell-mode             . emacs)
-             (help-mode                . emacs)
-             (emacs-lisp-mode          . emacs)
-             (dired-mode               . emacs)
-             (vterm-mode               . emacs)
-	     (inferior-python-mode     . emacs)
-             (fundamental-mode         . emacs)))
-  (evil-set-initial-state (car p) (cdr p)))
+(require 'compile)
+(require 'vterm)
+(setq evil-normal-state-modes '(prog-mode))
+(setq evil-insert-state-modes nil)
+(setq evil-emacs-state-modes (append '(minibuffer-mode
+				       minibuffer-inactive-mode
+				       messages-buffer-mode
+				       Buffer-menu-mode
+				       haskell-mode
+				       help-mode
+				       compilation-mode
+				       emacs-lisp-mode
+				       dired-mode
+				       vterm-mode
+				       inferior-python-mode
+				       fundamental-mode)
+				     evil-emacs-state-modes))
 
 (use-package lsp-mode
   :ensure t
