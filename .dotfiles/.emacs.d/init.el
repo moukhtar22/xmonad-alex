@@ -81,6 +81,13 @@
          (org-mode   . yas-minor-mode)
 	 (latex-mode . yas-minor-mode))
   :config
+  (define-key yas-minor-mode-map (kbd "<tab>") nil)
+  (define-key yas-minor-mode-map (kbd "TAB") nil)
+  (define-key yas/keymap         (kbd "TAB") nil)
+  (define-key yas/keymap         (kbd "<backtab>") nil)
+  (define-key yas-minor-mode-map (kbd "C-<tab>") #'yas-expand)
+  (define-key yas/keymap         (kbd "C-j") #'yas-next-field)
+  (define-key yas/keymap         (kbd "C-S-j") #'yas-prev-field)
   (yas-reload-all))
 
 (use-package orderless
@@ -129,21 +136,23 @@
 
 (require 'compile)
 (require 'vterm)
-(setq evil-normal-state-modes '(prog-mode))
-(setq evil-insert-state-modes nil)
-(setq evil-emacs-state-modes (append '(minibuffer-mode
-				       minibuffer-inactive-mode
-				       messages-buffer-mode
-				       Buffer-menu-mode
-				       haskell-mode
-				       help-mode
-				       compilation-mode
-				       emacs-lisp-mode
-				       dired-mode
-				       vterm-mode
-				       inferior-python-mode
-				       fundamental-mode)
-				     evil-emacs-state-modes))
+(setq prefs/evil-emacs-state-modes
+      '(minibuffer-mode
+	minibuffer-inactive-mode
+	messages-buffer-mode
+	Buffer-menu-mode
+	haskell-mode
+	help-mode
+	compilation-mode
+	emacs-lisp-mode
+	dired-mode
+	vterm-mode
+	inferior-python-mode
+	fundamental-mode))
+(setq evil-normal-state-modes '(prog-mode)
+      evil-insert-state-modes  nil
+      evil-emacs-state-modes   (append prefs/evil-emacs-state-modes
+				       evil-emacs-state-modes))
 
 (use-package lsp-mode
   :ensure t
