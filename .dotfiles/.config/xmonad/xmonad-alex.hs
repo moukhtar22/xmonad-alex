@@ -1,5 +1,7 @@
+{-# LANGUAGE QuasiQuotes #-}
+
 import XMonad
-import XMonad.StackSet (swapMaster, greedyView, shift)
+import XMonad.StackSet (swapMaster, greedyView, shift, sink)
 import System.Exit
 
 import XMonad.Layout.Gaps
@@ -23,6 +25,10 @@ import XMonad.Actions.Submap (visualSubmap, subName)
 import Data.Map (fromList)
 import XMonad.Actions.GridSelect (goToSelected)
 
+import Text.RE.TDFA.String
+
+(~=) :: Query String -> RE -> Query Bool
+(~=) q r = q >>= \s -> return $ matched $ s ?=~ r
 
 myManageHook = composeAll
     [ className =? "pavucontrol" --> doCenterFloat
@@ -31,9 +37,13 @@ myManageHook = composeAll
     -- For Jubin's 8085simulator
     , stringProperty "WM_NAME" =? "Save Mnemonics" --> doCenterFloat
     , stringProperty "WM_NAME" =? "Warning ! " --> doCenterFloat
-    --
-    , stringProperty "WM_NAME" =? "Quit GIMP" --> doCenterFloat
+    -- Gimp Rules
+    , (role =? "gimp-toolbox" <||> role ~= [re|gimp-image-window-.*|]) --> (ask >>= doF . sink)
+    , className =? "Gimp" --> doCenterFloat
+    -- Float all Java AWT projects
+    , className ~= [re|Awt.*|] --> doCenterFloat
     ]
+    where role = stringProperty "WM_WINDOW_ROLE"
 
 -- This is more or less a hack
 -- Couldn't remove the text, so had the fg color match the bg

@@ -43,6 +43,8 @@ executable xmonad-alex
                     , xmonad
                     , xmonad-contrib
                     , containers
+                    , text
+                    , regex
 
     hs-source-dirs:   .
 
