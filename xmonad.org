@@ -1,0 +1,51 @@
+#+Author: Alex Rosegrid
+#+Title: XMonad WM Configuration
+#+Startup: show3levels indent
+
+#+PROPERTY: header-args:haskell :tangle .dotfiles/.config/xmonad/xmonad-alex-org.hs
+
+* Language Pragmas
+Need these for using regex for Manage Hook rules
+#+begin_src haskell
+  {-# LANGUAGE QuasiQuotes #-}
+#+end_src
+
+* Imports
+** XMonad Exclusive Packages
+*** The XMonad package itself
+#+begin_src haskell
+  import XMonad
+#+end_src
+*** Layout related packages
+#+begin_src haskell
+  import qualified XMonad.StackSet as StackSet
+  import XMonad.Layout.Gaps (gaps)
+  import XMonad.Layout.Spacing (spacingWithEdge)
+  import XMonad.Layout.SimpleFloat (simpleFloat, shrinkText)
+  import XMonad.Layout.PerWorkspace (onWorkspace)
+  import XMonad.Layout.Tabbed
+  import XMonad.Layout.Master (mastered)
+#+end_src
+*** Hook related packages
+#+begin_src haskell
+  import XMonad.Hooks.ManageHelpers (doCenterFloat)
+  import XMonad.Hooks.ManageDocks (avoidStruts, docks)
+  import XMonad.Hooks.EwmhDesktops (ewmh)
+  import XMonad.Hooks.DynamicLog
+  import XMonad.Hooks.StatusBar
+#+end_src
+*** Keymap related packages
+#+begin_src haskell
+  import XMonad.Util.EZConfig (additionalKeysP, removeKeysP, additionalKeys, additionalMouseBindings)
+  import XMonad.Util.SpawnOnce (spawnOnce)
+  import XMonad.Actions.Submap (visualSubmap, subName)
+  import XMonad.Actions.GridSelect (goToSelected)
+#+end_src
+
+
+** Required General Packages
+#+begin_src haskell
+  import Data.Map (fromList)
+  import Text.RE.TDFA.String (RE, matched, (?=~), re)
+  import System.Exit (exitSuccess)
+#+end_src
