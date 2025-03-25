@@ -10,6 +10,7 @@ Need these for using regex for Manage Hook rules
   {-# LANGUAGE QuasiQuotes #-}
 #+end_src
 
+
 * Imports
 ** XMonad Exclusive Packages
 *** The XMonad package itself
@@ -42,10 +43,39 @@ Need these for using regex for Manage Hook rules
   import XMonad.Actions.GridSelect (goToSelected)
 #+end_src
 
-
 ** Required General Packages
 #+begin_src haskell
   import Data.Map (fromList)
+  import Data.Monoid (Endo)
   import Text.RE.TDFA.String (RE, matched, (?=~), re)
   import System.Exit (exitSuccess)
 #+end_src
+
+
+* Manage Hook
+** General Floating Windows
+#+begin_src haskell
+  floatingWindowClasses :: [String]
+  floatingWindowClasses =
+    [ "pavucontrol"
+    , "Qemu-system-x86_64"
+    , "feh" ]
+
+  myFloatingWindowClassRules :: [Query (Endo WindowSet)]
+  myFloatingWindowClassRules =
+    map (\wc -> className =? wc --> doCenterFloat) floatingWindowClasses
+#+end_src
+
+#+begin_src haskell
+  myManageHook :: Query (Endo WindowSet)
+  myManageHook = composeAll
+    [ className =? "pavucontrol" --> doCenterFloat
+    , className =? "Qemu-system-x86_64" --> doCenterFloat
+    , className =? "feh" --> doCenterFloat
+    , (role =? "gimp-toolbox" <||> role ~= [re|gimp-image-window-.*|]) --> (ask >>= doF . StackSet.sink)
+    , className =? "Gimp" --> doCenterFloat
+    , className ~= [re|Awt.*|] --> doCenterFloat ]
+    where role = stringProperty "WM_WINDOW_ROLE"
+          (~=) query re = query >>= \s -> return $ matched $ s ?=~ re
+#+end_src
+
