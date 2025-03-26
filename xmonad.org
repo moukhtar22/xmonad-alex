@@ -22,7 +22,7 @@ Need these for using regex for Manage Hook rules
   import qualified XMonad.StackSet as StackSet
   import XMonad.Layout.Gaps (gaps)
   import XMonad.Layout.Spacing (spacingWithEdge)
-  import XMonad.Layout.SimpleFloat (simpleFloat, shrinkText)
+  import XMonad.Layout.SimpleFloat (simpleFloat)
   import XMonad.Layout.PerWorkspace (onWorkspace)
   import XMonad.Layout.Tabbed
   import XMonad.Layout.Master (mastered)
@@ -47,7 +47,7 @@ Need these for using regex for Manage Hook rules
 #+begin_src haskell
   import Data.Map (fromList)
   import Data.Monoid (Endo)
-  import Text.RE.TDFA.String (RE, matched, (?=~), re)
+  import Text.RE.TDFA.String (matched, (?=~), re)
   import System.Exit (exitSuccess)
 #+end_src
 
@@ -78,7 +78,7 @@ I learn how to deal with window proportions in Java.
     [ (role =? "gimp-toolbox" <||> role ~= [re|gimp-image-window-.*|]) --> (ask >>= doF . StackSet.sink)
     , className ~= [re|Awt.*|] --> doCenterFloat ]
     where role = stringProperty "WM_WINDOW_ROLE"
-          (~=) query re = query >>= \s -> return $ matched $ s ?=~ re
+          (~=) query regex = query >>= \s -> return $ matched $ s ?=~ regex
 #+end_src
 
 ** Manage Hook
@@ -134,16 +134,15 @@ Copied this from the WiKi, have no idea what most of these functions are
 #+begin_src haskell
   myXMobarPP :: PP
   myXMobarPP = def
-    { ppSep            = magenta " . "
-    , ppTitleSanitize  = xmobarStrip
-    , ppCurrent        = white . wrap " " "" . xmobarBorder "Top" "#8be9fd" 2
-    , ppHidden         = white . wrap " " ""
-    , ppHiddenNoWindow = lowWhite . wrap " " ""
-    , ppOrder          = \(ws:_) -> [ws]
-    , ppUrgent         = red . wrap (yellow "!") (yellow "!") }
+    { ppSep             = magenta " . "
+    , ppTitleSanitize   = xmobarStrip
+    , ppCurrent         = white . wrap " " "" . xmobarBorder "Top" "#8be9fd" 2
+    , ppHidden          = white . wrap " " ""
+    , ppHiddenNoWindows = lowWhite . wrap " " ""
+    , ppOrder           = \(ws:_) -> [ws]
+    , ppUrgent          = red . wrap (yellow "!") (yellow "!") }
     where
       magenta  = xmobarColor "#ff79c6" ""
-      blue     = xmobarColor "#bd93f9" ""
       white    = xmobarColor "#f8f8f2" ""
       yellow   = xmobarColor "#f1fa8c" ""
       red      = xmobarColor "#ff5555" ""
