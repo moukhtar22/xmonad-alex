@@ -150,3 +150,18 @@ Copied this from the WiKi, have no idea what most of these functions are
       lowWhite = xmobarColor "#bbbbbb" ""
 #+end_src
 
+
+* Startup Applications
+#+begin_src haskell
+  startupApplications :: [String]
+  startupApplications =
+    [ "~/.cabal/bin/xmobar"
+    , "picom -b"
+    , "conky.sh"
+    , "/usr/libexec/notification-daemon"
+    , "emacs --daemon" ]
+
+  myStartupHook :: X ()
+  myStartupHook = do
+    mapM_ spawnOnce startupApplications
+#+end_src
