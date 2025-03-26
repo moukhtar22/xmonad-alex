@@ -127,3 +127,26 @@ corresponding background color
       delta         = 3/100
       mastered'     = mastered (1/100) (1/2) (tabbed shrinkText myTabbedTheme)
 #+end_src
+
+
+* XMobar
+Copied this from the WiKi, have no idea what most of these functions are
+#+begin_src haskell
+  myXMobarPP :: PP
+  myXMobarPP = def
+    { ppSep            = magenta " . "
+    , ppTitleSanitize  = xmobarStrip
+    , ppCurrent        = white . wrap " " "" . xmobarBorder "Top" "#8be9fd" 2
+    , ppHidden         = white . wrap " " ""
+    , ppHiddenNoWindow = lowWhite . wrap " " ""
+    , ppOrder          = \(ws:_) -> [ws]
+    , ppUrgent         = red . wrap (yellow "!") (yellow "!") }
+    where
+      magenta  = xmobarColor "#ff79c6" ""
+      blue     = xmobarColor "#bd93f9" ""
+      white    = xmobarColor "#f8f8f2" ""
+      yellow   = xmobarColor "#f1fa8c" ""
+      red      = xmobarColor "#ff5555" ""
+      lowWhite = xmobarColor "#bbbbbb" ""
+#+end_src
+
