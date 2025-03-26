@@ -2,7 +2,7 @@
 #+Title: XMonad WM Configuration
 #+Startup: show3levels indent
 
-#+PROPERTY: header-args:haskell :tangle .dotfiles/.config/xmonad/xmonad-alex-org.hs
+#+PROPERTY: header-args:haskell :tangle .dotfiles/.config/xmonad/xmonad-alex.hs
 
 * Language Pragmas
 Need these for using regex for Manage Hook rules
@@ -165,3 +165,21 @@ Copied this from the WiKi, have no idea what most of these functions are
   myStartupHook = do
     mapM_ spawnOnce startupApplications
 #+end_src
+
+
+* Workspaces
+- Workspaces *1 through 9* use the builtin XMonad keybinds
+- The remaining workspaces need custom keybinds, and are thus kept separate
+#+begin_src haskell
+  extraWorkspaces :: [(KeySym, String)]
+  extraWorkspaces = [ (xK_0, "10"), (xK_minus, "11"), (xK_equal, "12") ]
+
+  myWorkspaces :: [String]
+  myWorkspaces =  defaultWorkspaces ++ extraWorkspaces'
+    where
+      defaultWorkspaces = map show [ 1 .. 9 :: Int ]
+      extraWorkspaces'  = map snd extraWorkspaces
+#+end_src
+
+#+end_src
+
