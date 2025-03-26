@@ -54,28 +54,38 @@ Need these for using regex for Manage Hook rules
 
 * Manage Hook
 ** General Floating Windows
+Windows that are /easier/ to configure: exactly match the X11 =WM_CLASS= Property
 #+begin_src haskell
   floatingWindowClasses :: [String]
   floatingWindowClasses =
     [ "pavucontrol"
     , "Qemu-system-x86_64"
-    , "feh" ]
+    , "feh"
+    , "Gimp" ]
 
   myFloatingWindowClassRules :: [Query (Endo WindowSet)]
   myFloatingWindowClassRules =
     map (\wc -> className =? wc --> doCenterFloat) floatingWindowClasses
 #+end_src
 
+** Other Window Rules
+Rules that require special handling, like regex matching =gimp-toolkit= and =gimp-image-window=
+should be tiled. All of my Java =AWT= projects must open as floating windows, atleast until
+I learn how to deal with window proportions in Java.
 #+begin_src haskell
-  myManageHook :: Query (Endo WindowSet)
-  myManageHook = composeAll
-    [ className =? "pavucontrol" --> doCenterFloat
-    , className =? "Qemu-system-x86_64" --> doCenterFloat
-    , className =? "feh" --> doCenterFloat
-    , (role =? "gimp-toolbox" <||> role ~= [re|gimp-image-window-.*|]) --> (ask >>= doF . StackSet.sink)
-    , className =? "Gimp" --> doCenterFloat
+  myMiscWindowRules :: [Query (Endo WindowSet)]
+  myMiscWindowRules =
+    [ (role =? "gimp-toolbox" <||> role ~= [re|gimp-image-window-.*|]) --> (ask >>= doF . StackSet.sink)
     , className ~= [re|Awt.*|] --> doCenterFloat ]
     where role = stringProperty "WM_WINDOW_ROLE"
           (~=) query re = query >>= \s -> return $ matched $ s ?=~ re
+#+end_src
+
+** Manage Hook
+Combine all the rules into a single =Manage Hook= to be used by XMonad
+#+begin_src haskell
+  myManageHook :: Query (Endo WindowSet)
+  myManageHook =
+    composeAll (myFloatingWindowClassRules ++ myMiscWindowRules)
 #+end_src
 
