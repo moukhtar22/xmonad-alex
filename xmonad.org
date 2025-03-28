@@ -1,0 +1,303 @@
+#+Author: Alex Rosegrid
+#+Title: XMonad WM Configuration
+#+Startup: show3levels indent
+
+#+PROPERTY: header-args:haskell :tangle .dotfiles/.config/xmonad/xmonad-alex.hs
+
+* Language Pragmas
+Need these for using regex for Manage Hook rules
+#+begin_src haskell
+  {-# LANGUAGE QuasiQuotes #-}
+#+end_src
+
+
+* Imports
+** XMonad Exclusive Packages
+*** The XMonad package itself
+#+begin_src haskell
+  import XMonad
+#+end_src
+*** Layout related packages
+#+begin_src haskell
+  import qualified XMonad.StackSet as StackSet
+  import XMonad.Layout.Gaps (gaps)
+  import XMonad.Layout.Spacing (spacingWithEdge)
+  import XMonad.Layout.SimpleFloat (simpleFloat)
+  import XMonad.Layout.PerWorkspace (onWorkspace)
+  import XMonad.Layout.Tabbed
+  import XMonad.Layout.Master (mastered)
+#+end_src
+*** Hook related packages
+#+begin_src haskell
+  import XMonad.Hooks.ManageHelpers (doCenterFloat)
+  import XMonad.Hooks.ManageDocks (avoidStruts, docks)
+  import XMonad.Hooks.EwmhDesktops (ewmh)
+  import XMonad.Hooks.DynamicLog
+  import XMonad.Hooks.StatusBar
+#+end_src
+*** Keymap related packages
+#+begin_src haskell
+  import XMonad.Util.EZConfig (additionalKeysP, removeKeysP, additionalKeys, additionalMouseBindings)
+  import XMonad.Util.SpawnOnce (spawnOnce)
+  import XMonad.Actions.Submap (visualSubmap, subName)
+  import XMonad.Actions.GridSelect (goToSelected)
+#+end_src
+
+** Required General Packages
+#+begin_src haskell
+  import Data.Map (fromList)
+  import Data.Monoid (Endo)
+  import Text.RE.TDFA.String (matched, (?=~), re)
+  import System.Exit (exitSuccess)
+#+end_src
+
+
+* Manage Hook
+** General Floating Windows
+Windows that are /easier/ to configure: exactly match the X11 =WM_CLASS= Property
+#+begin_src haskell
+  floatingWindowClasses :: [String]
+  floatingWindowClasses =
+    [ "pavucontrol"
+    , "Qemu-system-x86_64"
+    , "feh"
+    , "Gimp" ]
+
+  myFloatingWindowClassRules :: [Query (Endo WindowSet)]
+  myFloatingWindowClassRules =
+    map (\wc -> className =? wc --> doCenterFloat) floatingWindowClasses
+#+end_src
+
+** Other Window Rules
+Rules that require special handling, like regex matching =gimp-toolkit= and =gimp-image-window=
+should be tiled. All of my Java =AWT= projects must open as floating windows, atleast until
+I learn how to deal with window proportions in Java.
+#+begin_src haskell
+  myMiscWindowRules :: [Query (Endo WindowSet)]
+  myMiscWindowRules =
+    [ (role =? "gimp-toolbox" <||> role ~= [re|gimp-image-window-.*|]) --> (ask >>= doF . StackSet.sink)
+    , className ~= [re|Awt.*|] --> doCenterFloat ]
+    where role = stringProperty "WM_WINDOW_ROLE"
+          (~=) query regex = query >>= \s -> return $ matched $ s ?=~ regex
+#+end_src
+
+** Manage Hook
+Combine all the rules into a single =Manage Hook= to be used by XMonad
+#+begin_src haskell
+  myManageHook :: Query (Endo WindowSet)
+  myManageHook =
+    composeAll (myFloatingWindowClassRules ++ myMiscWindowRules)
+#+end_src
+
+
+
+* Layouts
+** Tabbed Layout Theme
+I don't know how to remove the text, so I set the foreground color the same as the
+corresponding background color
+#+begin_src haskell
+  myTabbedTheme :: Theme
+  myTabbedTheme = def { decoHeight           = 1
+                       , activeBorderWidth   = 0
+                       , inactiveBorderWidth = 0
+                       , urgentBorderWidth   = 0
+                       , decoWidth           = 1
+                       , activeColor         = "#FFFFFF"
+                       , inactiveColor       = "#AAAAAA"
+                       , urgentColor         = "#CCCCCC"
+                       , activeTextColor     = "#FFFFFF"
+                       , inactiveTextColor   = "#AAAAAA"
+                       , urgentTextColor     = "#CCCCCC" }
+#+end_src
+** Define Layouts for Workspaces
+- Workspaces *9 and 8* will default to /Full Screen/ layout
+- Workspace *10* will default to /floating/ layout
+#+begin_src haskell
+  myLayoutHook =
+    onWorkspace "10" simpleFloat $
+    onWorkspace "9" (avoidStruts Full ||| tiled) $
+    onWorkspace "8" (avoidStruts Full ||| tiled) $
+    avoidStruts $ spacingWithEdge 4 $ gaps myGapSpec commonLayouts
+    where
+      myGapSpec     = [(U, 3), (R, 3), (D, 3), (L, 3)]
+      commonLayouts = tiled ||| mastered' ||| Full ||| Mirror tiled
+      tiled         = Tall nmaster delta ratio
+      nmaster       = 1
+      ratio         = 1/2
+      delta         = 3/100
+      mastered'     = mastered (1/100) (1/2) (tabbed shrinkText myTabbedTheme)
+#+end_src
+
+
+* XMobar
+Copied this from the WiKi, have no idea what most of these functions are
+#+begin_src haskell
+  myXMobarPP :: PP
+  myXMobarPP = def
+    { ppSep             = magenta " . "
+    , ppTitleSanitize   = xmobarStrip
+    , ppCurrent         = white . wrap " " "" . xmobarBorder "Top" "#8be9fd" 2
+    , ppHidden          = white . wrap " " ""
+    , ppHiddenNoWindows = lowWhite . wrap " " ""
+    , ppOrder           = \(ws:_) -> [ws]
+    , ppUrgent          = red . wrap (yellow "!") (yellow "!") }
+    where
+      magenta  = xmobarColor "#ff79c6" ""
+      white    = xmobarColor "#f8f8f2" ""
+      yellow   = xmobarColor "#f1fa8c" ""
+      red      = xmobarColor "#ff5555" ""
+      lowWhite = xmobarColor "#bbbbbb" ""
+#+end_src
+
+
+* Startup Applications
+#+begin_src haskell
+  startupApplications :: [String]
+  startupApplications =
+    [ "~/.cabal/bin/xmobar"
+    , "picom -b"
+    , "conky.sh"
+    , "/usr/libexec/notification-daemon"
+    , "emacs --daemon" ]
+
+  myStartupHook :: X ()
+  myStartupHook = do
+    mapM_ spawnOnce startupApplications
+#+end_src
+
+
+* Workspaces
+- Workspaces *1 through 9* use the builtin XMonad keybinds
+- The remaining workspaces need custom keybinds, and are thus kept separate
+#+begin_src haskell
+  extraWorkspaces :: [(KeySym, String)]
+  extraWorkspaces = [ (xK_0, "10"), (xK_minus, "11"), (xK_equal, "12") ]
+
+  myWorkspaces :: [String]
+  myWorkspaces =  defaultWorkspaces ++ extraWorkspaces'
+    where
+      defaultWorkspaces = map show [ 1 .. 9 :: Int ]
+      extraWorkspaces'  = map snd extraWorkspaces
+#+end_src
+
+
+* Keybinding
+** Remove Some of the Default Keys that I do not Use
+#+begin_src haskell
+  keysToRemove :: [String]
+  keysToRemove =
+    [ "M-p"
+    , "M-S-q"
+    , "M-S-c" ]
+#+end_src
+** Set Up the Additional Buttons on my Mouse
+=xev= can be used to figure out which buttons are in use
+#+begin_src haskell
+  mouseButtons :: [((ButtonMask, Button), Window -> X())]
+  mouseButtons = map (\b -> ((0, fst b), const $ spawn (snd b))) buttons
+    where buttons =
+            [ (8, "xdotool type -")
+            , (9, "xdotool type +") ]
+#+end_src
+** Add Keybinds for the Extra Workspaces
+#+begin_src haskell
+  workspaceGoToKeys :: [((KeyMask, KeySym), X ())]
+  workspaceGoToKeys =
+    [ ((mod4Mask, key), windows $ StackSet.greedyView ws)
+      | (key, ws) <- extraWorkspaces ]
+
+  workspaceShiftToKeys :: [((KeyMask, KeySym), X ())]
+  workspaceShiftToKeys =
+    [ ((mod4Mask .|. shiftMask, key), windows $ StackSet.shift ws)
+      | (key, ws) <- extraWorkspaces ]
+#+end_src
+** Launch Applications
+*** The Application Launcher, =rofi=
+#+begin_src haskell
+  rofiKeyBind :: (String, X ())
+  rofiKeyBind = ("M-S-d", spawn "~/.config/rofi/implements/launcher.sh")
+#+end_src
+*** Quick Access Applications and Scripts
+#+begin_src haskell
+  quickAccessKeyBinds :: [(String, X ())]
+  quickAccessKeyBinds =
+    [ ("M-<Return>", spawn terminalEmulator)
+    , ("M-S-<Return>", spawn browser)
+    , ("M-<Print>", spawn screenshotTool)
+    , ("M-S-n", spawn "nettoggle.sh")
+    , ("M-S-p", spawn picomToggle) ]
+    where terminalEmulator = "alacritty"
+          browser          = "~/.local/bin/firefox"
+          screenshotTool   = "flameshot gui"
+          picomToggle      = "if [ `pgrep picom` ]; then pkill picom; else picom -b; fi"
+#+end_src
+*** Submaps
+**** For Commonly used Applications
+#+begin_src haskell
+  commonAppSubmap :: X ()
+  commonAppSubmap = visualSubmap def $ fromList bindings
+    where bindings =
+            [ ((0, xK_z), subName "Zathura -- Resume" $ spawn "~/.config/rofi/implements/fzathura.sh --resume")
+            , ((shiftMask, xK_z), subName "Zathura" $ spawn "~/.config/rofi/implements/fzathura.sh --menu")
+            , ((controlMask, xK_z), subName "Zathura -- No Save" $ spawn "~/.config/rofi/implements/fzathura.sh --no-save-recent --menu")
+            , ((0, xK_w), subName "URxvt" $ spawn "urxvt")
+            , ((0, xK_g), subName "Gimp" $ spawn "gimp")
+            , ((0, xK_e), subName "Emacs" $ spawn "emacsclient --create-frame")
+            , ((0, xK_v), subName "Volume" $ spawn "pavucontrol")
+            , ((0, xK_p), subName "Private Window" $ spawn "~/.local/bin/firefox --private-window") ]
+#+end_src
+**** For Games/Emulators
+#+begin_src haskell
+  gamesSubmap :: X ()
+  gamesSubmap = visualSubmap def $ fromList bindings
+      where bindings =
+              [ ((0, xK_r), subName "RPCS3" $ spawn "~/.local/bin/rpcs3-v0.0.33-17020-d51d5ce8_linux64.AppImage")
+              , ((0, xK_d), subName "Dolphin" $ spawn "dolphin-emu")
+              , ((0, xK_c), subName "Citra" $ spawn "~/.local/bin/citra-qt.AppImage") ]
+#+end_src
+**** Combining into a Single List of Keybind pair
+#+begin_src haskell
+  submapBindings :: [(String, X ())]
+  submapBindings =
+    [ ("M-d", commonAppSubmap)
+    , ("M-a", gamesSubmap) ]
+#+end_src
+*** Combine into a Single List of Keybind pairs
+#+begin_src haskell
+  applicationBindings :: [(String, X ())]
+  applicationBindings = [rofiKeyBind] ++ quickAccessKeyBinds ++ submapBindings
+#+end_src
+
+** Xmonad Bindings
+#+begin_src haskell
+  windowManagerBindings :: [(String, X ())]
+  windowManagerBindings =
+    [ ("M-q", kill)
+    , ("M-g", goToSelected def)
+    , ("M-m", windows StackSet.swapMaster)
+    , ("M-S-<Escape>", io exitSuccess) ]
+#+end_src
+
+
+* Main XMonad Config
+#+begin_src haskell
+  main :: IO ()
+  main = xmonad
+      . ewmh
+      . docks
+      . withEasySB (statusBarProp "xmobar" (pure myXMobarPP)) defToggleStrutsKey
+      $ def
+          { modMask = mod4Mask
+          , workspaces = myWorkspaces
+          , layoutHook = myLayoutHook
+          , manageHook = myManageHook <+> manageHook def
+          , startupHook = myStartupHook
+          , terminal = "alacritty"
+          , borderWidth = 0
+          }
+          `removeKeysP` keysToRemove
+          `additionalMouseBindings` mouseButtons
+          `additionalKeys` workspaceGoToKeys ++ workspaceShiftToKeys
+          `additionalKeysP` applicationBindings ++ windowManagerBindings
+#+end_src
+
