@@ -185,19 +185,22 @@ windowManagerBindings =
 
 main :: IO ()
 main = xmonad
-    . ewmh
-    . docks
-    . withEasySB (statusBarProp "xmobar" (pure myXMobarPP)) defToggleStrutsKey
-    $ def
-        { modMask = mod4Mask
-        , workspaces = myWorkspaces
-        , layoutHook = myLayoutHook
-        , manageHook = myManageHook <+> manageHook def
-        , startupHook = myStartupHook
-        , terminal = "alacritty"
-        , borderWidth = 0
-        }
-        `removeKeysP` keysToRemove
-        `additionalMouseBindings` mouseButtons
-        `additionalKeys` workspaceGoToKeys ++ workspaceShiftToKeys
-        `additionalKeysP` applicationBindings ++ windowManagerBindings
+       . ewmh
+       . docks
+       . withEasySB (statusBarProp "xmobar" (pure myXMobarPP)) defToggleStrutsKey
+       $ addKeybindings myXConfig
+  where
+    addKeybindings xconfig =
+      xconfig
+      `removeKeysP` keysToRemove
+      `additionalMouseBindings` mouseButtons
+      `additionalKeys` workspaceGoToKeys ++ workspaceShiftToKeys
+      `additionalKeysP` applicationBindings ++ windowManagerBindings
+    myXConfig =
+      def { modMask     = mod4Mask
+          , workspaces  = myWorkspaces
+          , layoutHook  = myLayoutHook
+          , manageHook  = myManageHook <+> manageHook def
+          , startupHook = myStartupHook
+          , terminal    = "alacritty"
+          , borderWidth = 0 }
