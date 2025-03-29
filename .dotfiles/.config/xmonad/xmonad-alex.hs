@@ -46,20 +46,20 @@ myMiscWindowRules =
 
 myManageHook :: Query (Endo WindowSet)
 myManageHook =
-  composeAll (myFloatingWindowClassRules ++ myMiscWindowRules)
+  composeAll (myMiscWindowRules ++ myFloatingWindowClassRules)
 
 myTabbedTheme :: Theme
 myTabbedTheme = def { decoHeight           = 1
-                     , activeBorderWidth   = 0
-                     , inactiveBorderWidth = 0
-                     , urgentBorderWidth   = 0
-                     , decoWidth           = 1
-                     , activeColor         = "#FFFFFF"
-                     , inactiveColor       = "#AAAAAA"
-                     , urgentColor         = "#CCCCCC"
-                     , activeTextColor     = "#FFFFFF"
-                     , inactiveTextColor   = "#AAAAAA"
-                     , urgentTextColor     = "#CCCCCC" }
+                    , activeBorderWidth   = 0
+                    , inactiveBorderWidth = 0
+                    , urgentBorderWidth   = 0
+                    , decoWidth           = 1
+                    , activeColor         = "#FFFFFF"
+                    , inactiveColor       = "#AAAAAA"
+                    , urgentColor         = "#CCCCCC"
+                    , activeTextColor     = "#FFFFFF"
+                    , inactiveTextColor   = "#AAAAAA"
+                    , urgentTextColor     = "#CCCCCC" }
 
 myLayoutHook =
   onWorkspace "10" simpleFloat $

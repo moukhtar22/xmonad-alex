@@ -86,9 +86,8 @@ Combine all the rules into a single =Manage Hook= to be used by XMonad
 #+begin_src haskell
   myManageHook :: Query (Endo WindowSet)
   myManageHook =
-    composeAll (myFloatingWindowClassRules ++ myMiscWindowRules)
+    composeAll (myMiscWindowRules ++ myFloatingWindowClassRules)
 #+end_src
-
 
 
 * Layouts
@@ -98,16 +97,16 @@ corresponding background color
 #+begin_src haskell
   myTabbedTheme :: Theme
   myTabbedTheme = def { decoHeight           = 1
-                       , activeBorderWidth   = 0
-                       , inactiveBorderWidth = 0
-                       , urgentBorderWidth   = 0
-                       , decoWidth           = 1
-                       , activeColor         = "#FFFFFF"
-                       , inactiveColor       = "#AAAAAA"
-                       , urgentColor         = "#CCCCCC"
-                       , activeTextColor     = "#FFFFFF"
-                       , inactiveTextColor   = "#AAAAAA"
-                       , urgentTextColor     = "#CCCCCC" }
+                      , activeBorderWidth   = 0
+                      , inactiveBorderWidth = 0
+                      , urgentBorderWidth   = 0
+                      , decoWidth           = 1
+                      , activeColor         = "#FFFFFF"
+                      , inactiveColor       = "#AAAAAA"
+                      , urgentColor         = "#CCCCCC"
+                      , activeTextColor     = "#FFFFFF"
+                      , inactiveTextColor   = "#AAAAAA"
+                      , urgentTextColor     = "#CCCCCC" }
 #+end_src
 ** Define Layouts for Workspaces
 - Workspaces *9 and 8* will default to /Full Screen/ layout
