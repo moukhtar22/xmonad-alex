@@ -20,3 +20,5 @@
       byte-compile-warnings '(not docstrings))
 
 (setq text-mode-ispell-word-completion nil)
+
+(setq-default tab-width 4)

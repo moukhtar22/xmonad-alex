@@ -70,6 +70,12 @@ For Emacs 30+, disable ispell completion (Conflicts with =corfu=)
 #+end_src
 
 
+** Tab Size
+#+begin_src emacs-lisp
+  (setq-default tab-width 4)
+#+end_src
+
+
 * Init Settings
 :PROPERTIES:
 :header-args:emacs-lisp: :tangle (concat (org-entry-get nil "EMACS_CONFIG_DIR" t) "init.el")
