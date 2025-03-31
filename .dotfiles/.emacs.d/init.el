@@ -182,7 +182,8 @@
   
   :config
   (setq-default lsp-enable-on-type-formatting   nil
-		lsp-java-format-on-type-enabled nil))
+				lsp-java-format-on-type-enabled nil
+				lsp-rename-use-prepare          nil))
 
 (use-package lsp-ui
   :ensure t
@@ -349,7 +350,9 @@
 
 (use-package haskell-mode
   :ensure t
-  :defer  t)
+  :defer  t
+  :config
+  (setq lsp-haskell-plugin-rename-config-cross-module t))
 
 (use-package rust-mode
   :ensure t

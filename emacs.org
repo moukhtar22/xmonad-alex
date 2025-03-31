@@ -329,7 +329,8 @@ Set some sane default modes
     
     :config
     (setq-default lsp-enable-on-type-formatting   nil
-  		lsp-java-format-on-type-enabled nil))
+  				lsp-java-format-on-type-enabled nil
+  				lsp-rename-use-prepare          nil))
 #+end_src
 Additional UI features
 #+begin_src emacs-lisp
@@ -580,7 +581,9 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
 
   (use-package haskell-mode
     :ensure t
-    :defer  t)
+    :defer  t
+    :config
+    (setq lsp-haskell-plugin-rename-config-cross-module t))
 
   (use-package rust-mode
     :ensure t
@@ -607,7 +610,6 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
   (add-hook 'prog-mode-hook (lambda() (local-set-key (kbd "C-c r c") 'myProg/compile)))
 #+end_src
 **** Split Window and Open a new Treminal
-
 
 *** Python Settings
 **** ELPY
