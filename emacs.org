@@ -91,6 +91,14 @@ For Emacs 30+, disable ispell completion (Conflicts with =corfu=)
 
 ** Some Quality of Life Features
 
+*** Use User's Shell Environment
+#+begin_src emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t
+    :init
+    (exec-path-from-shell-initialize))
+#+end_src
+
 *** Recentf Mode
 #+begin_src emacs-lisp
   (recentf-mode 1)
@@ -330,7 +338,11 @@ Set some sane default modes
     :config
     (setq-default lsp-enable-on-type-formatting   nil
   				lsp-java-format-on-type-enabled nil
-  				lsp-rename-use-prepare          nil))
+  				lsp-rename-use-prepare          nil)
+
+    :custom
+    (lsp-rust-analyzer-cargo-watch-command "clippy")
+    (lsp-eldoc-render-all t))
 #+end_src
 Additional UI features
 #+begin_src emacs-lisp
@@ -585,9 +597,16 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
     :config
     (setq lsp-haskell-plugin-rename-config-cross-module t))
 
-  (use-package rust-mode
+  (use-package rustic
     :ensure t
-    :defer  t)
+    :defer  t
+    :bind (:map rustic-mode-map
+  			  ("M-?"       . lsp-find-reference)
+  			  ("C-c C-c s" . lsp-rust-analyzer-status))
+    :config
+    (setq lsp-eldoc-hook                 nil
+  		lsp-enable-symbol-highlighting nil
+  		lsp-signature-auto-activate    nil))
 
   (use-package portage-modes
     :ensure t

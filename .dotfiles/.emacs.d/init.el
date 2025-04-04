@@ -1,6 +1,11 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
+(use-package exec-path-from-shell
+  :ensure t
+  :init
+  (exec-path-from-shell-initialize))
+
 (recentf-mode 1)
 (global-set-key "\C-xf" 'recentf-open-files)
 
@@ -183,7 +188,11 @@
   :config
   (setq-default lsp-enable-on-type-formatting   nil
 				lsp-java-format-on-type-enabled nil
-				lsp-rename-use-prepare          nil))
+				lsp-rename-use-prepare          nil)
+
+  :custom
+  (lsp-rust-analyzer-cargo-watch-command "clippy")
+  (lsp-eldoc-render-all t))
 
 (use-package lsp-ui
   :ensure t
@@ -354,9 +363,16 @@
   :config
   (setq lsp-haskell-plugin-rename-config-cross-module t))
 
-(use-package rust-mode
+(use-package rustic
   :ensure t
-  :defer  t)
+  :defer  t
+  :bind (:map rustic-mode-map
+			  ("M-?"       . lsp-find-reference)
+			  ("C-c C-c s" . lsp-rust-analyzer-status))
+  :config
+  (setq lsp-eldoc-hook                 nil
+		lsp-enable-symbol-highlighting nil
+		lsp-signature-auto-activate    nil))
 
 (use-package portage-modes
   :ensure t
