@@ -1,6 +1,11 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
+(use-package exec-path-from-shell
+  :ensure t
+  :init
+  (exec-path-from-shell-initialize))
+
 (recentf-mode 1)
 (global-set-key "\C-xf" 'recentf-open-files)
 
@@ -17,7 +22,8 @@
   (require 'smartparens-config)
   (sp-with-modes 'sh-mode
     (sp-local-pair "[" "]"   :actions '(wrap insert navigate))
-    (sp-local-pair "[ " " ]" :actions '(wrap insert navigate))))
+    (sp-local-pair "[ " " ]" :actions '(wrap insert navigate)))
+  (sp-local-pair 'prog-mode "{" nil :post-handlers '(("||\n[i]" "RET"))))
 
 (defun pref/set-line-number-mode()
   (setq display-line-numbers-type 'relative)
@@ -33,7 +39,16 @@
       read-buffer-completion-ignore-case    t)
 
 (use-package vterm
-  :ensure t)
+  :ensure t
+  :init
+  (defun pref/new-terminal()
+    (interactive)
+    (split-window-below)
+    (other-window 1)
+    (vterm)
+    (rename-uniquely))
+  :bind
+  ("C-c t" . pref/new-terminal))
 
 (use-package pdf-tools
   :ensure t
@@ -61,13 +76,23 @@
   :init
   (global-corfu-mode)
   :config
-  (setq corfu-auto t))
+  (setq corfu-auto           t
+	corfu-on-exact-match nil)
+  (keymap-unset corfu-map "RET"))
 
 (use-package yasnippet
   :ensure t
-  :hook ((prog-mode . yas-minor-mode)
-         (org-mode  . yas-minor-mode))
+  :hook ((prog-mode  . yas-minor-mode)
+         (org-mode   . yas-minor-mode)
+	 (latex-mode . yas-minor-mode))
   :config
+  (define-key yas-minor-mode-map (kbd "<tab>") nil)
+  (define-key yas-minor-mode-map (kbd "TAB") nil)
+  (define-key yas/keymap         (kbd "TAB") nil)
+  (define-key yas/keymap         (kbd "<backtab>") nil)
+  (define-key yas-minor-mode-map (kbd "C-<tab>") #'yas-expand)
+  (define-key yas/keymap         (kbd "C-j") #'yas-next-field)
+  (define-key yas/keymap         (kbd "C-S-j") #'yas-prev-field)
   (yas-reload-all))
 
 (use-package orderless
@@ -78,7 +103,7 @@
   (completion-styles             '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion))))
   :config
-  (setq	orderless-component-separator "[-]"))
+  (setq	orderless-component-separator "[- ]"))
 
 (use-package consult
   :ensure t
@@ -114,19 +139,25 @@
   :config
   (global-evil-surround-mode 1))
 
-(dolist (p '((prog-mode                . normal)
-             (minibuffer-mode          . emacs)
-             (minibuffer-inactive-mode . emacs)
-	     (messages-buffer-mode     . emacs)
-	     (Buffer-menu-mode         . emacs)
-             (haskell-mode             . emacs)
-             (help-mode                . emacs)
-             (emacs-lisp-mode          . emacs)
-             (dired-mode               . emacs)
-             (vterm-mode               . emacs)
-	     (inferior-python-mode     . emacs)
-             (fundamental-mode         . emacs)))
-  (evil-set-initial-state (car p) (cdr p)))
+(require 'compile)
+(require 'vterm)
+(setq prefs/evil-emacs-state-modes
+      '(minibuffer-mode
+	minibuffer-inactive-mode
+	messages-buffer-mode
+	Buffer-menu-mode
+	haskell-mode
+	help-mode
+	compilation-mode
+	emacs-lisp-mode
+	dired-mode
+	vterm-mode
+	inferior-python-mode
+	fundamental-mode))
+(setq evil-normal-state-modes '(prog-mode)
+      evil-insert-state-modes  nil
+      evil-emacs-state-modes   (append prefs/evil-emacs-state-modes
+				       evil-emacs-state-modes))
 
 (use-package lsp-mode
   :ensure t
@@ -156,7 +187,12 @@
   
   :config
   (setq-default lsp-enable-on-type-formatting   nil
-		lsp-java-format-on-type-enabled nil))
+				lsp-java-format-on-type-enabled nil
+				lsp-rename-use-prepare          nil)
+
+  :custom
+  (lsp-rust-analyzer-cargo-watch-command "clippy")
+  (lsp-eldoc-render-all t))
 
 (use-package lsp-ui
   :ensure t
@@ -323,7 +359,20 @@
 
 (use-package haskell-mode
   :ensure t
-  :defer  t)
+  :defer  t
+  :config
+  (setq lsp-haskell-plugin-rename-config-cross-module t))
+
+(use-package rustic
+  :ensure t
+  :defer  t
+  :bind (:map rustic-mode-map
+			  ("M-?"       . lsp-find-reference)
+			  ("C-c C-c s" . lsp-rust-analyzer-status))
+  :config
+  (setq lsp-eldoc-hook                 nil
+		lsp-enable-symbol-highlighting nil
+		lsp-signature-auto-activate    nil))
 
 (use-package portage-modes
   :ensure t
@@ -334,6 +383,10 @@
             (setq c-indentation-style 'k&r
                   c-basic-offset       4)))
 
+(defun myProg/compile()
+  (interactive) (compile compile-command))
+(add-hook 'prog-mode-hook (lambda() (local-set-key (kbd "C-c r c") 'myProg/compile)))
+
 (use-package elpy
   :ensure t
   :hook (python-mode . elpy-enable)
@@ -343,7 +396,7 @@
 (defun myJava/insert-compile-command()
   (interactive)
   (insert (concat "javac " (file-relative-name buffer-file-name))))
-(add-hook 'java-ts-mode-hook (lambda() (local-set-key (kbd "C-c j c") 'myJava/insert-compile-command)))
+(add-hook 'java-ts-mode-hook (lambda() (local-set-key (kbd "C-c r C") 'myJava/insert-compile-command)))
 
 (add-hook 'prog-mode-hook
           (lambda()
