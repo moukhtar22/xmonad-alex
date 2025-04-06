@@ -45,6 +45,28 @@ def get_rofi_menu_selection(home_dir: str) -> str:
     output, _ = rofi_dmenu_proc.communicate(input=all_pdfs)
     return output.replace('\n', '')
 
+def zathura_open_pdf(pdf_file: str, save_to_recents: bool = True) -> None:
+    if save_to_recents:
+        with open("/tmp/zathura_recents.log", "w") as sink:
+            sink.write(pdf_file)
+    subprocess.run(f"zathura --fork '{pdf_file}'", shell=True)
+
 
 HOME:str = set_up_root_dir()
 args = FZathuraParser().parse_args()
+
+pdf_file: str = args.pdf or ""
+if args.resume and not pdf_file:
+    try:
+        with open("/tmp/zathura_recents.log", "r") as source:
+            pdf_file = source.read()
+    except FileNotFoundError:
+        print("No recents log file found")
+elif args.menu and not pdf_file:
+    pdf_file = get_rofi_menu_selection(HOME)
+
+if pdf_file:
+    zathura_open_pdf(
+        pdf_file, not args.no_save_recent
+    )
+else: print("Aborting; Nothing was Selected")
