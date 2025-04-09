@@ -378,6 +378,21 @@
   :ensure t
   :defer  t)
 
+(use-package emmet-mode
+  :ensure t
+  :hook
+  (html-mode . emmet-mode)
+  (css-mode  . emmet-mode))
+
+(defun myWeb/launch-live-server ()
+  (interactive)
+  (save-window-excursion
+	(async-shell-command "live-server")))
+
+(add-hook 'html-mode-hook
+		  (lambda()
+			(local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)))
+
 (add-hook 'prog-mode-hook
           (lambda()
             (setq c-indentation-style 'k&r
