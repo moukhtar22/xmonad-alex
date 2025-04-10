@@ -97,7 +97,8 @@ startupApplications =
   , "picom -b"
   , "conky.sh"
   , "/usr/libexec/notification-daemon"
-  , "emacs --daemon" ]
+  , "emacs --daemon"
+  , "redshift" ]
 
 myStartupHook :: X ()
 myStartupHook = do
