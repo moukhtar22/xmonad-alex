@@ -625,12 +625,22 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
 #+end_src
 
 *** HTML Settings
+**** Web Mode
+#+begin_src emacs-lisp
+  (use-package web-mode
+    :ensure t
+    :hook (html-mode . web-mode))
+#+end_src
+**** Set Indentation to 4 Spaces
+#+begin_src emacs-lisp
+  (setq sgml-basic-offset 4)
+#+end_src
 **** Emmet Templating
 #+begin_src emacs-lisp
   (use-package emmet-mode
     :ensure t
     :hook
-    (html-mode . emmet-mode)
+    (web-mode  . emmet-mode)
     (css-mode  . emmet-mode))
 #+end_src
 **** Live Server Keybind
@@ -640,11 +650,10 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
     (save-window-excursion
   	(async-shell-command "live-server")))
 
-  (add-hook 'html-mode-hook
+  (add-hook 'web-mode-hook
   		  (lambda()
   			(local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)))
 #+end_src
-
 
 *** Sane Indentation for the C Family
 #+begin_src emacs-lisp

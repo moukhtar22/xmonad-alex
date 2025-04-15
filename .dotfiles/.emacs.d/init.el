@@ -386,10 +386,16 @@
   :ensure t
   :defer  t)
 
+(use-package web-mode
+  :ensure t
+  :hook (html-mode . web-mode))
+
+(setq sgml-basic-offset 4)
+
 (use-package emmet-mode
   :ensure t
   :hook
-  (html-mode . emmet-mode)
+  (web-mode  . emmet-mode)
   (css-mode  . emmet-mode))
 
 (defun myWeb/launch-live-server ()
@@ -397,7 +403,7 @@
   (save-window-excursion
 	(async-shell-command "live-server")))
 
-(add-hook 'html-mode-hook
+(add-hook 'web-mode-hook
 		  (lambda()
 			(local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)))
 
