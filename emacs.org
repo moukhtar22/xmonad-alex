@@ -461,6 +461,17 @@ Never save authentication sources
     :after  doom-modeline)
 #+end_src
 
+*** Indent Highlighting
+#+begin_src emacs-lisp
+  (use-package highlight-indent-guides
+    :ensure t
+    :hook
+    (prog-mode-hook . highlight-indent-guides-mode)
+    :config
+    (setq highlight-indent-guides-method 'character)
+    (setq highlight-indent-guides-responsive 'top))
+#+end_src
+
 
 ** LaTeX Mode
 *** Get LaTeX Project Root

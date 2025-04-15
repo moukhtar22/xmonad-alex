@@ -268,6 +268,14 @@
   :ensure t
   :after  doom-modeline)
 
+(use-package highlight-indent-guides
+  :ensure t
+  :hook
+  (prog-mode-hook . highlight-indent-guides-mode)
+  :config
+  (setq highlight-indent-guides-method 'character)
+  (setq highlight-indent-guides-responsive 'top))
+
 (defun myLaTeX/is-project-root(directory counter)
   (if (file-exists-p (concat directory "cfg.cfg"))
       directory
