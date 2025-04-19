@@ -276,6 +276,8 @@
   (setq highlight-indent-guides-method 'character)
   (setq highlight-indent-guides-responsive 'top))
 
+(add-hook 'latex-mode-hook 'flyspell-mode)
+
 (defun myLaTeX/is-project-root(directory counter)
   (if (file-exists-p (concat directory "cfg.cfg"))
       directory

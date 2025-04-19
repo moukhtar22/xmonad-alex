@@ -474,6 +474,10 @@ Never save authentication sources
 
 
 ** LaTeX Mode
+*** Enable Flyspell
+#+begin_src emacs-lisp
+  (add-hook 'latex-mode-hook 'flyspell-mode)
+#+end_src
 *** Get LaTeX Project Root
 All my LaTeX projects have a =cfg.cfg= file in their root directories
 #+begin_src emacs-lisp
