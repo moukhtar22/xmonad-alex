@@ -664,6 +664,15 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
   		  (lambda()
   			(local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)))
 #+end_src
+**** Save on Switching to Normal Mode
+Because this seemed like an appropriate point to update live server
+/evidently, it only looks at saved files/
+#+begin_src emacs-lisp
+  (add-hook 'evil-normal-state-entry-hook
+  		  (lambda ()
+  			(if (eq major-mode 'web-mode)
+  				(save-buffer))))
+#+end_src
 
 *** Sane Indentation for the C Family
 #+begin_src emacs-lisp

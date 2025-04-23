@@ -415,6 +415,11 @@
 		  (lambda()
 			(local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)))
 
+(add-hook 'evil-normal-state-entry-hook
+		  (lambda ()
+			(if (eq major-mode 'web-mode)
+				(save-buffer))))
+
 (add-hook 'prog-mode-hook
           (lambda()
             (setq c-indentation-style 'k&r
