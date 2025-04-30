@@ -120,10 +120,12 @@ keysToRemove =
   , "M-S-c" ]
 
 mouseButtons :: [((ButtonMask, Button), Window -> X())]
-mouseButtons = map (\b -> ((0, fst b), const $ spawn (snd b))) buttons
+mouseButtons = map (\(modifier, key, action) -> ((modifier, key), const $ spawn action)) buttons
   where buttons =
-          [ (8, "xdotool type -")
-          , (9, "xdotool type +") ]
+          [ (0, 8, "xdotool type --clearmodifier -")
+          , (0, 9, "xdotool type --clearmodifier +")
+          , (shiftMask, 8, "xdotool type --clearmodifier [")
+          , (shiftMask, 9, "xdotool type --clearmodifier ]") ]
 
 workspaceGoToKeys :: [((KeyMask, KeySym), X ())]
 workspaceGoToKeys =

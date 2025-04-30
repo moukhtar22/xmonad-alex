@@ -194,10 +194,12 @@ Copied this from the WiKi, have no idea what most of these functions are
 =xev= can be used to figure out which buttons are in use
 #+begin_src haskell
   mouseButtons :: [((ButtonMask, Button), Window -> X())]
-  mouseButtons = map (\b -> ((0, fst b), const $ spawn (snd b))) buttons
+  mouseButtons = map (\(modifier, key, action) -> ((modifier, key), const $ spawn action)) buttons
     where buttons =
-            [ (8, "xdotool type -")
-            , (9, "xdotool type +") ]
+            [ (0, 8, "xdotool type --clearmodifier -")
+            , (0, 9, "xdotool type --clearmodifier +")
+            , (shiftMask, 8, "xdotool type --clearmodifier [")
+            , (shiftMask, 9, "xdotool type --clearmodifier ]") ]
 #+end_src
 ** Add Keybinds for the Extra Workspaces
 #+begin_src haskell
