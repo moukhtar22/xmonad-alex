@@ -167,9 +167,8 @@ commonAppSubmap = visualSubmap def $ fromList bindings
 gamesSubmap :: X ()
 gamesSubmap = visualSubmap def $ fromList bindings
     where bindings =
-            [ ((0, xK_r), subName "RPCS3" $ spawn "~/.local/bin/rpcs3-v0.0.33-17020-d51d5ce8_linux64.AppImage")
-            , ((0, xK_d), subName "Dolphin" $ spawn "dolphin-emu")
-            , ((0, xK_c), subName "Citra" $ spawn "~/.local/bin/citra-qt.AppImage") ]
+            [ ((0, xK_r), subName "RPCS3" $ spawn "~/scripts/game_launch_wrapper.sh ~/.local/bin/rpcs3-v0.0.33-17020-d51d5ce8_linux64.AppImage")
+            , ((0, xK_c), subName "Citra" $ spawn "~/scripts/game_launch_wrapper.sh ~/.local/bin/citra-qt.AppImage") ]
 
 submapBindings :: [(String, X ())]
 submapBindings =
