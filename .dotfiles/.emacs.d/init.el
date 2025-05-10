@@ -420,7 +420,7 @@
 			(if (eq major-mode 'web-mode)
 				(save-buffer))))
 
-(add-hook 'prog-mode-hook
+(add-hook 'c-mode-hook
           (lambda()
             (setq c-indentation-style 'k&r
                   c-basic-offset       4)))
@@ -457,3 +457,6 @@
         (c++-mode  . c++-ts-mode)
         (bash-mode . bash-ts-mode)
         (java-mode . java-ts-mode)))
+
+(add-hook 'prog-mode-hook
+          (lambda() (indent-tabs-mode -1)))

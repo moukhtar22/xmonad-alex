@@ -676,12 +676,11 @@ Because this seemed like an appropriate point to update live server
 
 *** Sane Indentation for the C Family
 #+begin_src emacs-lisp
-  (add-hook 'prog-mode-hook
+  (add-hook 'c-mode-hook
             (lambda()
               (setq c-indentation-style 'k&r
                     c-basic-offset       4)))
 #+end_src
-
 *** General Programming Key Binds
 **** Run Compile Command
 #+begin_src emacs-lisp
@@ -734,3 +733,9 @@ Remap major modes to tree sitter counterparts
           (java-mode . java-ts-mode)))
 #+end_src
 
+
+*** Use Spaces for Indentation
+#+begin_src emacs-lisp
+  (add-hook 'prog-mode-hook
+            (lambda() (indent-tabs-mode -1)))
+#+end_src
