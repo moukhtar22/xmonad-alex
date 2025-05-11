@@ -6,5 +6,6 @@ DIR_NAME=$1
 cd $DIR_NAME
 mkdir pdf
 mkdir assets
-touch ${DIR_NAME}.latex
-touch cfg.cfg
+# More often than not, I name the main file the same as the directory
+touch $DIR_NAME.latex
+echo "$DIR_NAME".latex >> cfg.cfg

@@ -97,7 +97,8 @@ startupApplications =
   , "picom -b"
   , "conky.sh"
   , "/usr/libexec/notification-daemon"
-  , "emacs --daemon" ]
+  , "emacs --daemon"
+  , "redshift" ]
 
 myStartupHook :: X ()
 myStartupHook = do
@@ -119,10 +120,12 @@ keysToRemove =
   , "M-S-c" ]
 
 mouseButtons :: [((ButtonMask, Button), Window -> X())]
-mouseButtons = map (\b -> ((0, fst b), const $ spawn (snd b))) buttons
+mouseButtons = map (\(modifier, key, action) -> ((modifier, key), const $ spawn action)) buttons
   where buttons =
-          [ (8, "xdotool type -")
-          , (9, "xdotool type +") ]
+          [ (0, 8, "xdotool type --clearmodifier -")
+          , (0, 9, "xdotool type --clearmodifier +")
+          , (shiftMask, 8, "xdotool type --clearmodifier [")
+          , (shiftMask, 9, "xdotool type --clearmodifier ]") ]
 
 workspaceGoToKeys :: [((KeyMask, KeySym), X ())]
 workspaceGoToKeys =
@@ -152,9 +155,9 @@ quickAccessKeyBinds =
 commonAppSubmap :: X ()
 commonAppSubmap = visualSubmap def $ fromList bindings
   where bindings =
-          [ ((0, xK_z), subName "Zathura -- Resume" $ spawn "~/.config/rofi/implements/fzathura.sh --resume")
-          , ((shiftMask, xK_z), subName "Zathura" $ spawn "~/.config/rofi/implements/fzathura.sh --menu")
-          , ((controlMask, xK_z), subName "Zathura -- No Save" $ spawn "~/.config/rofi/implements/fzathura.sh --no-save-recent --menu")
+          [ ((0, xK_z), subName "Zathura -- Resume" $ spawn "~/.config/rofi/implements/fzathura.py --resume")
+          , ((shiftMask, xK_z), subName "Zathura" $ spawn "~/.config/rofi/implements/fzathura.py --menu")
+          , ((controlMask, xK_z), subName "Zathura -- No Save" $ spawn "~/.config/rofi/implements/fzathura.py --no-save-recent --menu")
           , ((0, xK_w), subName "URxvt" $ spawn "urxvt")
           , ((0, xK_g), subName "Gimp" $ spawn "gimp")
           , ((0, xK_e), subName "Emacs" $ spawn "emacsclient --create-frame")
@@ -164,9 +167,8 @@ commonAppSubmap = visualSubmap def $ fromList bindings
 gamesSubmap :: X ()
 gamesSubmap = visualSubmap def $ fromList bindings
     where bindings =
-            [ ((0, xK_r), subName "RPCS3" $ spawn "~/.local/bin/rpcs3-v0.0.33-17020-d51d5ce8_linux64.AppImage")
-            , ((0, xK_d), subName "Dolphin" $ spawn "dolphin-emu")
-            , ((0, xK_c), subName "Citra" $ spawn "~/.local/bin/citra-qt.AppImage") ]
+            [ ((0, xK_r), subName "RPCS3" $ spawn "~/scripts/game_launch_wrapper.sh ~/.local/bin/rpcs3-v0.0.33-17020-d51d5ce8_linux64.AppImage")
+            , ((0, xK_c), subName "Citra" $ spawn "~/scripts/game_launch_wrapper.sh ~/.local/bin/citra-qt.AppImage") ]
 
 submapBindings :: [(String, X ())]
 submapBindings =

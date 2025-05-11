@@ -461,8 +461,29 @@ Never save authentication sources
     :after  doom-modeline)
 #+end_src
 
+*** Indent Highlighting
+#+begin_src emacs-lisp
+  (use-package indent-bars
+    :ensure t
+    :hook
+    (prog-mode-hook . indent-bars-mode)
+    :config
+    (setq indent-bars-color '(highlight :face-bg t :blend 0.15)
+  		indent-bars-pattern "."
+  		indent-bars-width-frac 0.1
+  		indent-bars-pad-frac 0.1
+  		indent-bars-zigzag nil
+  		indent-bars-color-by-depth '(:regexp "outline-\\([0-9]+\\)" :blend 1)
+  		indent-bars-highlight-current-depth '(:blend 0.5)
+  		indent-bars-display-on-blank-lines t))
+#+end_src
+
 
 ** LaTeX Mode
+*** Enable Flyspell
+#+begin_src emacs-lisp
+  (add-hook 'latex-mode-hook 'flyspell-mode)
+#+end_src
 *** Get LaTeX Project Root
 All my LaTeX projects have a =cfg.cfg= file in their root directories
 #+begin_src emacs-lisp
@@ -613,14 +634,53 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
     :defer  t)
 #+end_src
 
+*** HTML Settings
+**** Web Mode
+#+begin_src emacs-lisp
+  (use-package web-mode
+    :ensure t
+    :hook (html-mode . web-mode))
+#+end_src
+**** Set Indentation to 4 Spaces
+#+begin_src emacs-lisp
+  (setq sgml-basic-offset 4)
+#+end_src
+**** Emmet Templating
+#+begin_src emacs-lisp
+  (use-package emmet-mode
+    :ensure t
+    :hook
+    (web-mode  . emmet-mode)
+    (css-mode  . emmet-mode))
+#+end_src
+**** Live Server Keybind
+#+begin_src emacs-lisp
+  (defun myWeb/launch-live-server ()
+    (interactive)
+    (save-window-excursion
+  	(async-shell-command "live-server")))
+
+  (add-hook 'web-mode-hook
+  		  (lambda()
+  			(local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)))
+#+end_src
+**** Save on Switching to Normal Mode
+Because this seemed like an appropriate point to update live server
+/evidently, it only looks at saved files/
+#+begin_src emacs-lisp
+  (add-hook 'evil-normal-state-entry-hook
+  		  (lambda ()
+  			(if (eq major-mode 'web-mode)
+  				(save-buffer))))
+#+end_src
+
 *** Sane Indentation for the C Family
 #+begin_src emacs-lisp
-  (add-hook 'prog-mode-hook
+  (add-hook 'c-mode-hook
             (lambda()
               (setq c-indentation-style 'k&r
                     c-basic-offset       4)))
 #+end_src
-
 *** General Programming Key Binds
 **** Run Compile Command
 #+begin_src emacs-lisp
@@ -673,3 +733,9 @@ Remap major modes to tree sitter counterparts
           (java-mode . java-ts-mode)))
 #+end_src
 
+
+*** Use Spaces for Indentation
+#+begin_src emacs-lisp
+  (add-hook 'prog-mode-hook
+            (lambda() (indent-tabs-mode -1)))
+#+end_src

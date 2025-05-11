@@ -268,6 +268,22 @@
   :ensure t
   :after  doom-modeline)
 
+(use-package indent-bars
+  :ensure t
+  :hook
+  (prog-mode-hook . indent-bars-mode)
+  :config
+  (setq indent-bars-color '(highlight :face-bg t :blend 0.15)
+		indent-bars-pattern "."
+		indent-bars-width-frac 0.1
+		indent-bars-pad-frac 0.1
+		indent-bars-zigzag nil
+		indent-bars-color-by-depth '(:regexp "outline-\\([0-9]+\\)" :blend 1)
+		indent-bars-highlight-current-depth '(:blend 0.5)
+		indent-bars-display-on-blank-lines t))
+
+(add-hook 'latex-mode-hook 'flyspell-mode)
+
 (defun myLaTeX/is-project-root(directory counter)
   (if (file-exists-p (concat directory "cfg.cfg"))
       directory
@@ -378,7 +394,33 @@
   :ensure t
   :defer  t)
 
-(add-hook 'prog-mode-hook
+(use-package web-mode
+  :ensure t
+  :hook (html-mode . web-mode))
+
+(setq sgml-basic-offset 4)
+
+(use-package emmet-mode
+  :ensure t
+  :hook
+  (web-mode  . emmet-mode)
+  (css-mode  . emmet-mode))
+
+(defun myWeb/launch-live-server ()
+  (interactive)
+  (save-window-excursion
+	(async-shell-command "live-server")))
+
+(add-hook 'web-mode-hook
+		  (lambda()
+			(local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)))
+
+(add-hook 'evil-normal-state-entry-hook
+		  (lambda ()
+			(if (eq major-mode 'web-mode)
+				(save-buffer))))
+
+(add-hook 'c-mode-hook
           (lambda()
             (setq c-indentation-style 'k&r
                   c-basic-offset       4)))
@@ -415,3 +457,6 @@
         (c++-mode  . c++-ts-mode)
         (bash-mode . bash-ts-mode)
         (java-mode . java-ts-mode)))
+
+(add-hook 'prog-mode-hook
+          (lambda() (indent-tabs-mode -1)))
