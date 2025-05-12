@@ -433,7 +433,11 @@
   :ensure t
   :hook (python-mode . elpy-enable)
   :config
-  (setenv "WORKON_HOME" "~/.venvs"))
+  (setenv "WORKON_HOME" "~/.venvs")
+  (delete 'elpy-module-highlight-indentation elpy-modules))
+
+(add-hook 'elpy-mode-hook
+          (lambda() (company-mode -1)))
 
 (defun myJava/insert-compile-command()
   (interactive)

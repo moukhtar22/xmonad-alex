@@ -697,8 +697,15 @@ Because this seemed like an appropriate point to update live server
     :ensure t
     :hook (python-mode . elpy-enable)
     :config
-    (setenv "WORKON_HOME" "~/.venvs"))
+    (setenv "WORKON_HOME" "~/.venvs")
+    (delete 'elpy-module-highlight-indentation elpy-modules))
 #+end_src
+Deleting the =company= module doesn't seem to work well, so,
+#+begin_src emacs-lisp
+  (add-hook 'elpy-mode-hook
+            (lambda() (company-mode -1)))
+#+end_src
+
 
 *** Java Settings
 #+begin_src emacs-lisp
@@ -732,7 +739,6 @@ Remap major modes to tree sitter counterparts
           (bash-mode . bash-ts-mode)
           (java-mode . java-ts-mode)))
 #+end_src
-
 
 *** Use Spaces for Indentation
 #+begin_src emacs-lisp
