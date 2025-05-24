@@ -61,7 +61,8 @@ Windows that are /easier/ to configure: exactly match the X11 =WM_CLASS= Propert
     [ "pavucontrol"
     , "Qemu-system-x86_64"
     , "feh"
-    , "Gimp" ]
+    , "Gimp"
+    , "matplotlib" ]
 
   myFloatingWindowClassRules :: [Query (Endo WindowSet)]
   myFloatingWindowClassRules =

@@ -31,7 +31,8 @@ floatingWindowClasses =
   [ "pavucontrol"
   , "Qemu-system-x86_64"
   , "feh"
-  , "Gimp" ]
+  , "Gimp"
+  , "matplotlib" ]
 
 myFloatingWindowClassRules :: [Query (Endo WindowSet)]
 myFloatingWindowClassRules =
