@@ -38,40 +38,6 @@ require("lazy").setup({
     },
 
     {
-        "neovim/nvim-lspconfig",
-        config = function()
-            require('functionality.lsp')
-        end,
-    },
-
-    {
-        "hrsh7th/nvim-cmp",
-        config = function()
-            require('functionality.cmp')
-        end,
-    },
-
-    {
-        "hrsh7th/cmp-nvim-lsp",
-    },
-
-    {
-        "hrsh7th/cmp-buffer",
-    },
-
-    {
-        "hrsh7th/cmp-path",
-    },
-
-    {
-        "hrsh7th/cmp-cmdline",
-    },
-
-    {
-        "saadparwaiz1/cmp_luasnip",
-    },
-
-    {
         "L3MON4D3/LuaSnip",
         after = "nvim-cmp",
         config = function ()
@@ -133,20 +99,6 @@ require("lazy").setup({
     },
 
     {
-        "williamboman/mason.nvim",
-        config = function()
-            require('mason').setup {}
-        end,
-    },
-
-    {
-        "williamboman/mason-lspconfig.nvim",
-        config = function()
-            require('mason-lspconfig').setup {}
-        end,
-    },
-
-    {
         "lukas-reineke/indent-blankline.nvim",
         after = "tokyonight.nvim",
         config = function()
@@ -168,24 +120,6 @@ require("lazy").setup({
     {
         "guns/vim-sexp",
         after = "BufEnter",
-    },
-
-    {
-        "Olical/conjure",
-    },
-
-    {
-        "folke/trouble.nvim",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        opts = {},
-        cmd = "Trouble",
-        keys = {
-            {
-                "<space>T",
-                "<cmd>Trouble diagnostics toggle<cr>",
-                desc = "Diagnostics",
-            },
-        },
     },
 
     {
