@@ -184,6 +184,7 @@
   (lua-mode     . lsp-deferred)
   (python-mode  . lsp-deferred)
   (latex-mode   . lsp-deferred)
+  (web-mode     . lsp-deferred)
   
   :config
   (setq-default lsp-enable-on-type-formatting   nil

@@ -334,6 +334,7 @@ Set some sane default modes
     (lua-mode     . lsp-deferred)
     (python-mode  . lsp-deferred)
     (latex-mode   . lsp-deferred)
+    (web-mode     . lsp-deferred)
     
     :config
     (setq-default lsp-enable-on-type-formatting   nil
@@ -705,7 +706,6 @@ Deleting the =company= module doesn't seem to work well, so,
   (add-hook 'elpy-mode-hook
             (lambda() (company-mode -1)))
 #+end_src
-
 
 *** Java Settings
 #+begin_src emacs-lisp
