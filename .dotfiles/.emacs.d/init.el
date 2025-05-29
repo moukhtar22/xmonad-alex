@@ -405,7 +405,11 @@
   :ensure t
   :hook
   (web-mode  . emmet-mode)
-  (css-mode  . emmet-mode))
+  (css-mode  . emmet-mode)
+  :config
+  (setq emmet-self-closing-tag-style "")
+  (remhash "!!!" (gethash "snippets" (gethash "html" emmet-snippets)))
+  (puthash "!!!" "<!DOCTYPE html>" (gethash "snippets" (gethash "html" emmet-snippets))))
 
 (defun myWeb/launch-live-server ()
   (interactive)
