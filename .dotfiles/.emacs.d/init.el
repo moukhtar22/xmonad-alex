@@ -245,6 +245,14 @@
   :ensure t
   :hook emacs-lisp-mode)
 
+(defun myTabs/hide-tab-bar-if-alone ()
+  (interactive)
+  (tab-bar-close-tab)
+  (when (<= (length (tab-bar-tabs)) 1)
+    (tab-bar-mode -1)))
+
+(global-set-key (kbd "C-x t 0") 'myTabs/hide-tab-bar-if-alone)
+
 (add-to-list 'auto-mode-alist '("\\.latex\\'" . latex-mode))
 
 (setq auth-source-save-behavior nil)

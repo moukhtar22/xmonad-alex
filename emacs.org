@@ -417,6 +417,17 @@ Mainly for emacs lisp, but the delimitors work for other languages too
     :hook emacs-lisp-mode)
 #+end_src
 
+*** Tab Bar Autoclosing
+#+begin_src emacs-lisp
+  (defun myTabs/hide-tab-bar-if-alone ()
+    (interactive)
+    (tab-bar-close-tab)
+    (when (<= (length (tab-bar-tabs)) 1)
+      (tab-bar-mode -1)))
+
+  (global-set-key (kbd "C-x t 0") 'myTabs/hide-tab-bar-if-alone)
+#+end_src
+
 
 ** File Extension Matching
 #+begin_src emacs-lisp
