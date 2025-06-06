@@ -30,7 +30,7 @@ if [[ $USE_INTERNAL -eq 0 ]]; then
 	KBD_DEVICE="$1"
 	if [[ -z "$KBD_DEVICE" ]]; then
 		echo "No device file was specified; will look for an input device: *-kbd"
-		KBD_DEVICE="$(find /dev/input/by-id/ -name '*kbd')"
+		KBD_DEVICE="$(find /dev/input/by-id/ -name '*kbd'| awk 'NR==1 {print $0}')"
 	fi
 	# If a keyboard device was specified, or was found, start KMonad using it
 	if [[ -n "$KBD_DEVICE" ]]; then
