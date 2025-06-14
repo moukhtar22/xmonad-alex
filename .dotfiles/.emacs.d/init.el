@@ -143,21 +143,22 @@
 (require 'vterm)
 (setq prefs/evil-emacs-state-modes
       '(minibuffer-mode
-	minibuffer-inactive-mode
-	messages-buffer-mode
-	Buffer-menu-mode
-	haskell-mode
-	help-mode
-	compilation-mode
-	emacs-lisp-mode
-	dired-mode
-	vterm-mode
-	inferior-python-mode
-	fundamental-mode))
+	    minibuffer-inactive-mode
+	    messages-buffer-mode
+	    Buffer-menu-mode
+	    haskell-mode
+	    help-mode
+	    compilation-mode
+	    emacs-lisp-mode
+	    dired-mode
+	    vterm-mode
+        nix-repl-mode
+	    inferior-python-mode
+	    fundamental-mode))
 (setq evil-normal-state-modes '(prog-mode)
       evil-insert-state-modes  nil
       evil-emacs-state-modes   (append prefs/evil-emacs-state-modes
-				       evil-emacs-state-modes))
+				                       evil-emacs-state-modes))
 
 (use-package lsp-mode
   :ensure t
@@ -400,6 +401,10 @@
 		lsp-signature-auto-activate    nil))
 
 (use-package portage-modes
+  :ensure t
+  :defer  t)
+
+(use-package nix-mode
   :ensure t
   :defer  t)
 
