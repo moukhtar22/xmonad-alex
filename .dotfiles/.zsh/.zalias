@@ -11,7 +11,5 @@ alias rexmonad="xmonad --recompile&& xmonad --restart"
 alias rexinit="grep -P '(xinput|xset|setxkb)' ~/.xinitrc| bash -"
 alias wallpaper="nitrogen --no-recurse ~/Wallpapers/"
 alias forgosleep="systemd-inhibit --what=handle-lid-switch:sleep:idle"
-
 alias kinit="kmonad-init.sh"
-
 alias toclip="xclip -selection clip-board -i"
