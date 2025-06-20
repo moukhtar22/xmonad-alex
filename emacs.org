@@ -189,7 +189,7 @@ Marginalia, to get relevant hints/annonations about the commands.
     :ensure t
     :bind
     (:map minibuffer-local-map
-                ("M-A" . marginalia-cycle))
+          ("M-A" . marginalia-cycle))
     :init
     (marginalia-mode))
 #+end_src
@@ -204,7 +204,7 @@ Corfu, for auto completion popups
     (global-corfu-mode)
     :config
     (setq corfu-auto           t
-  	corfu-on-exact-match nil)
+  	    corfu-on-exact-match nil)
     (keymap-unset corfu-map "RET"))
 #+end_src
 Yasnippet, for snippets
@@ -213,7 +213,7 @@ Yasnippet, for snippets
     :ensure t
     :hook ((prog-mode  . yas-minor-mode)
            (org-mode   . yas-minor-mode)
-  	 (latex-mode . yas-minor-mode))
+  	     (latex-mode . yas-minor-mode))
     :config
     (define-key yas-minor-mode-map (kbd "<tab>") nil)
     (define-key yas-minor-mode-map (kbd "TAB") nil)
@@ -224,6 +224,11 @@ Yasnippet, for snippets
     (define-key yas/keymap         (kbd "C-S-j") #'yas-prev-field)
     (yas-reload-all))
 #+end_src
+Hippie Expansion: mostly for file name expansion
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-c c e") 'hippie-expand)
+#+end_src
+
 
 *** Orderless
 #+begin_src emacs-lisp
@@ -299,6 +304,7 @@ Set some sane default modes
   	    emacs-lisp-mode
   	    dired-mode
   	    vterm-mode
+          eshell-mode
           nix-repl-mode
   	    inferior-python-mode
   	    fundamental-mode))
@@ -691,7 +697,7 @@ Because this seemed like an appropriate point to update live server
 #+begin_src emacs-lisp
   (add-hook 'evil-normal-state-entry-hook
   		  (lambda ()
-  			(if (eq major-mode 'web-mode)
+  			(if (or (eq major-mode 'web-mode) (eq major-mode 'css-mode))
   				(save-buffer))))
 #+end_src
 

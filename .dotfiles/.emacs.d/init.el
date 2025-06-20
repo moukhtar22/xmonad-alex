@@ -64,7 +64,7 @@
   :ensure t
   :bind
   (:map minibuffer-local-map
-              ("M-A" . marginalia-cycle))
+        ("M-A" . marginalia-cycle))
   :init
   (marginalia-mode))
 
@@ -77,14 +77,14 @@
   (global-corfu-mode)
   :config
   (setq corfu-auto           t
-	corfu-on-exact-match nil)
+	    corfu-on-exact-match nil)
   (keymap-unset corfu-map "RET"))
 
 (use-package yasnippet
   :ensure t
   :hook ((prog-mode  . yas-minor-mode)
          (org-mode   . yas-minor-mode)
-	 (latex-mode . yas-minor-mode))
+	     (latex-mode . yas-minor-mode))
   :config
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
   (define-key yas-minor-mode-map (kbd "TAB") nil)
@@ -94,6 +94,8 @@
   (define-key yas/keymap         (kbd "C-j") #'yas-next-field)
   (define-key yas/keymap         (kbd "C-S-j") #'yas-prev-field)
   (yas-reload-all))
+
+(global-set-key (kbd "C-c c e") 'hippie-expand)
 
 (use-package orderless
   :ensure t
@@ -152,6 +154,7 @@
 	    emacs-lisp-mode
 	    dired-mode
 	    vterm-mode
+        eshell-mode
         nix-repl-mode
 	    inferior-python-mode
 	    fundamental-mode))
@@ -435,7 +438,7 @@
 
 (add-hook 'evil-normal-state-entry-hook
 		  (lambda ()
-			(if (eq major-mode 'web-mode)
+			(if (or (eq major-mode 'web-mode) (eq major-mode 'css-mode))
 				(save-buffer))))
 
 (add-hook 'c-mode-hook
