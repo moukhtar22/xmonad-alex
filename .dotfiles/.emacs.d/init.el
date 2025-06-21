@@ -485,3 +485,6 @@
 
 (add-hook 'prog-mode-hook
           (lambda() (indent-tabs-mode -1)))
+
+(add-hook 'makefile-gmake-mode-hook
+          (lambda() (indent-tabs-mode 1)))

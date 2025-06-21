@@ -771,3 +771,9 @@ Remap major modes to tree sitter counterparts
   (add-hook 'prog-mode-hook
             (lambda() (indent-tabs-mode -1)))
 #+end_src
+But, we don't want this for Makefiles
+#+begin_src emacs-lisp
+  (add-hook 'makefile-gmake-mode-hook
+            (lambda() (indent-tabs-mode 1)))
+#+end_src
+
