@@ -98,18 +98,8 @@ This needs to be =sourced= inside the =~/.zshrc= file, as such
 #+begin_src shell
   eval "$(zoxide init zsh)"
   eval "$(fzf --zsh)"
-#+end_src
-*** Direnv
-Predominantly for =nix-shell=
-Piping the messages; I mean, who'd ever want to read them
-#+begin_src shell
-  export DIRENV_LOG_FORMAT=" "
   eval "$(direnv hook zsh)"
-  _direnv_hook() {
-      eval "$(direnv export zsh 2>/dev/null)"
-  }
 #+end_src
-
 
 ** Emacs Vterm compatability
 Sourced this from https://github.com/akermu/emacs-libvterm

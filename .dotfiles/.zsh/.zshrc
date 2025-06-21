@@ -8,12 +8,7 @@ compinit
 
 eval "$(zoxide init zsh)"
 eval "$(fzf --zsh)"
-
-export DIRENV_LOG_FORMAT=" "
 eval "$(direnv hook zsh)"
-_direnv_hook() {
-    eval "$(direnv export zsh 2>/dev/null)"
-}
 
 vterm_printf() {
     if [ -n "$TMUX" ] \
