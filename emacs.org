@@ -229,7 +229,6 @@ Hippie Expansion: mostly for file name expansion
   (global-set-key (kbd "C-c c e") 'hippie-expand)
 #+end_src
 
-
 *** Orderless
 #+begin_src emacs-lisp
   (use-package orderless
@@ -495,6 +494,12 @@ Never save authentication sources
   		indent-bars-color-by-depth '(:regexp "outline-\\([0-9]+\\)" :blend 1)
   		indent-bars-highlight-current-depth '(:blend 0.5)
   		indent-bars-display-on-blank-lines t))
+#+end_src
+
+*** Emoji Support
+#+begin_src emacs-lisp
+  (use-package emojify
+    :hook (after-init . global-emojify-mode))
 #+end_src
 
 

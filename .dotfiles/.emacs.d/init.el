@@ -295,6 +295,9 @@
 		indent-bars-highlight-current-depth '(:blend 0.5)
 		indent-bars-display-on-blank-lines t))
 
+(use-package emojify
+  :hook (after-init . global-emojify-mode))
+
 (add-hook 'latex-mode-hook 'flyspell-mode)
 
 (defun myLaTeX/is-project-root(directory counter)
