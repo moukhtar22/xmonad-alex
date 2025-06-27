@@ -568,7 +568,6 @@ All my LaTeX projects have a =cfg.cfg= file in their root directories
 
 
 ** Org Mode
-
 *** Performance Improvements
 Otherwise, at least on my system, entering text in the code blocks is *slow*.
 #+begin_src emacs-lisp
@@ -606,6 +605,7 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
                'org-babel-load-languages '((emacs-lisp . t)
                                            (C . t)
                                            (shell . t)
+                                           (python . t)
                                            (lua . t)))))
 #+end_src
 
@@ -737,6 +737,44 @@ Deleting the =company= module doesn't seem to work well, so,
   (add-hook 'elpy-mode-hook
             (lambda() (company-mode -1)))
 #+end_src
+Sometimes, I use =conda= based venvs, while sometimes, I use the standard python venvs.
+This should provide an easy way to switch between the two; or, optionally, to any other arbitrary
+environment directory.
+#+begin_src emacs-lisp
+  (defun myProg/switch-workon-dir(&optional workon-home)
+    (interactive)
+    (if workon-home
+        (setenv "WORKON_HOME" workon-home)
+      (if (string-equal (getenv "WORKON_HOME") "~/.venvs")
+          (setenv "WORKON_HOME" "~/.opt/miniconda3/envs")
+        (setenv "WORKON_HOME" "~/.venvs")))
+    (message "Switched to %s" (getenv "WORKON_HOME")))
+
+  (global-set-key (kbd "C-c r w") 'myProg/switch-workon-dir)
+#+end_src
+
+**** Jupyter
+#+begin_src emacs-lisp
+  (use-package jupyter
+    :ensure t
+    :defer t)
+#+end_src
+A quick function to activate the relevant conda environment, and then append jupyter to org-babel.
+This was done under the assumption that the =jupyter= program itself should be available
+for org-babel to recognise the =jupyter= src type.
+#+begin_src emacs-lisp
+  (defun myPython/activate-conda-env(&optional conda-env)
+    (interactive)
+    (if conda-env
+        (pyvenv-activate conda-env)
+      (progn (myProg/switch-workon-dir "~/.opt/miniconda3/envs")
+             (call-interactively 'pyvenv-workon)))
+    (org-babel-do-load-languages 'org-babel-load-languages
+                                 (append org-babel-load-languages
+                                         '((jupyter . t))))
+    (normal-mode))
+#+end_src
+
 
 *** Java Settings
 #+begin_src emacs-lisp

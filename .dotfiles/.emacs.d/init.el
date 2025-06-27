@@ -370,6 +370,7 @@
              'org-babel-load-languages '((emacs-lisp . t)
                                          (C . t)
                                          (shell . t)
+                                         (python . t)
                                          (lua . t)))))
 
 (use-package org-bullets
@@ -462,6 +463,32 @@
 
 (add-hook 'elpy-mode-hook
           (lambda() (company-mode -1)))
+
+(defun myProg/switch-workon-dir(&optional workon-home)
+  (interactive)
+  (if workon-home
+      (setenv "WORKON_HOME" workon-home)
+    (if (string-equal (getenv "WORKON_HOME") "~/.venvs")
+        (setenv "WORKON_HOME" "~/.opt/miniconda3/envs")
+      (setenv "WORKON_HOME" "~/.venvs")))
+  (message "Switched to %s" (getenv "WORKON_HOME")))
+
+(global-set-key (kbd "C-c r w") 'myProg/switch-workon-dir)
+
+(use-package jupyter
+  :ensure t
+  :defer t)
+
+(defun myPython/activate-conda-env(&optional conda-env)
+  (interactive)
+  (if conda-env
+      (pyvenv-activate conda-env)
+    (progn (myProg/switch-workon-dir "~/.opt/miniconda3/envs")
+           (call-interactively 'pyvenv-workon)))
+  (org-babel-do-load-languages 'org-babel-load-languages
+                               (append org-babel-load-languages
+                                       '((jupyter . t))))
+  (normal-mode))
 
 (defun myJava/insert-compile-command()
   (interactive)
