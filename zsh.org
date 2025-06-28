@@ -119,7 +119,6 @@ Sourced this from https://github.com/akermu/emacs-libvterm
   }
 #+end_src
 
-
 ** Source Companion Files
 #+begin_src shell
   source ~/.zsh/themes/p10k/powerlevel10k.zsh-theme
