@@ -660,6 +660,10 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
   (use-package nix-mode
     :ensure t
     :defer  t)
+
+  (use-package csv-mode
+    :ensure t
+    :defer t)
 #+end_src
 
 *** HTML Settings
@@ -774,7 +778,6 @@ for org-babel to recognise the =jupyter= src type.
                                          '((jupyter . t))))
     (normal-mode))
 #+end_src
-
 
 *** Java Settings
 #+begin_src emacs-lisp
