@@ -190,6 +190,8 @@
   (python-mode  . lsp-deferred)
   (latex-mode   . lsp-deferred)
   (web-mode     . lsp-deferred)
+  (js-mode      . lsp-deferred)
+  (js-ts-mode   . lsp-deferred)
   
   :config
   (setq-default lsp-enable-on-type-formatting   nil
@@ -511,13 +513,13 @@
       '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
         (c "https://github.com/tree-sitter/tree-sitter-c")
         (bash "https://github.com/tree-sitter/tree-sitter-bash")
-        (java "https://github.com/tree-sitter/tree-sitter-java")))
+        (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")))
 
 (setq major-mode-remap-alist
-      '((c-mode    . c-ts-mode)
-        (c++-mode  . c++-ts-mode)
-        (bash-mode . bash-ts-mode)
-        (java-mode . java-ts-mode)))
+      '((c-mode          . c-ts-mode)
+        (c++-mode        . c++-ts-mode)
+        (bash-mode       . bash-ts-mode)
+        (javascript-mode . js-ts-mode)))
 
 (add-hook 'prog-mode-hook
           (lambda() (indent-tabs-mode -1)))
