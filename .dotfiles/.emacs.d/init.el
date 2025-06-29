@@ -157,6 +157,7 @@
         eshell-mode
         nix-repl-mode
 	    inferior-python-mode
+        jupyter-repl-mode
 	    fundamental-mode))
 (setq evil-normal-state-modes '(prog-mode)
       evil-insert-state-modes  nil
@@ -384,7 +385,8 @@
 (use-package olivetti
   :config
   (setq-default olivetti-body-width 120)
-  :hook org-mode)
+  :hook (org-mode
+         markdown-mode))
 
 (use-package lua-mode
   :ensure t
