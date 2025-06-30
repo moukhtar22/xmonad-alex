@@ -180,18 +180,19 @@
   :hook
   (lsp-completion-mode . myLsp/lsp-mode-setup-completion)
   
-  (c-mode       . lsp-deferred)
-  (c-ts-mode    . lsp-deferred)
-  (haskell-mode . lsp-deferred)
-  (c++-mode     . lsp-deferred)
-  (c++-ts-mode  . lsp-deferred)
-  (java-ts-mode . lsp-deferred)
-  (lua-mode     . lsp-deferred)
-  (python-mode  . lsp-deferred)
-  (latex-mode   . lsp-deferred)
-  (web-mode     . lsp-deferred)
-  (js-mode      . lsp-deferred)
-  (js-ts-mode   . lsp-deferred)
+  (c-mode         . lsp-deferred)
+  (c-ts-mode      . lsp-deferred)
+  (haskell-mode   . lsp-deferred)
+  (c++-mode       . lsp-deferred)
+  (c++-ts-mode    . lsp-deferred)
+  (java-ts-mode   . lsp-deferred)
+  (lua-mode       . lsp-deferred)
+  (python-mode    . lsp-deferred)
+  (python-ts-mode . lsp-deferred)
+  (latex-mode     . lsp-deferred)
+  (web-mode       . lsp-deferred)
+  (js-mode        . lsp-deferred)
+  (js-ts-mode     . lsp-deferred)
   
   :config
   (setq-default lsp-enable-on-type-formatting   nil
@@ -513,13 +514,15 @@
       '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
         (c "https://github.com/tree-sitter/tree-sitter-c")
         (bash "https://github.com/tree-sitter/tree-sitter-bash")
-        (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")))
+        (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+        (python "https://github.com/tree-sitter/tree-sitter-python")))
 
 (setq major-mode-remap-alist
       '((c-mode          . c-ts-mode)
         (c++-mode        . c++-ts-mode)
         (bash-mode       . bash-ts-mode)
-        (javascript-mode . js-ts-mode)))
+        (javascript-mode . js-ts-mode)
+        (python-mode     . python-ts-mode)))
 
 (add-hook 'prog-mode-hook
           (lambda() (indent-tabs-mode -1)))
