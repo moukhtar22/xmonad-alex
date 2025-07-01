@@ -381,6 +381,10 @@
                                          (python . t)
                                          (lua . t)))))
 
+(setq org-confirm-babel-evaluate
+      (lambda (lang body)
+        (not (string= lang "jupyter-python"))))
+
 (use-package org-bullets
   :ensure t
   :hook (org-mode . org-bullets-mode))
@@ -469,10 +473,14 @@
 
 (use-package elpy
   :ensure t
-  :hook (python-mode . elpy-enable)
+  :hook ((python-mode    . elpy-enable)
+         (python-ts-mode . elpy-enable))
   :config
   (setenv "WORKON_HOME" "~/.venvs")
-  (delete 'elpy-module-highlight-indentation elpy-modules))
+  (delete 'elpy-module-highlight-indentation elpy-modules)
+  :init
+  (add-hook 'python-ts-mode-hook
+            (lambda () (elpy-mode 1))))
 
 (add-hook 'elpy-mode-hook
           (lambda() (company-mode -1)))

@@ -623,6 +623,13 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
                                            (python . t)
                                            (lua . t)))))
 #+end_src
+For languages that probably can't affect the system much, I'd rather not have to confirm every time
+#+begin_src emacs-lisp
+  (setq org-confirm-babel-evaluate
+        (lambda (lang body)
+          (not (string= lang "jupyter-python"))))
+#+end_src
+
 
 *** Appearance
 #+begin_src emacs-lisp
@@ -747,10 +754,14 @@ Because this seemed like an appropriate point to update live server
 #+begin_src emacs-lisp
   (use-package elpy
     :ensure t
-    :hook (python-mode . elpy-enable)
+    :hook ((python-mode    . elpy-enable)
+           (python-ts-mode . elpy-enable))
     :config
     (setenv "WORKON_HOME" "~/.venvs")
-    (delete 'elpy-module-highlight-indentation elpy-modules))
+    (delete 'elpy-module-highlight-indentation elpy-modules)
+    :init
+    (add-hook 'python-ts-mode-hook
+              (lambda () (elpy-mode 1))))
 #+end_src
 Deleting the =company= module doesn't seem to work well, so,
 #+begin_src emacs-lisp
