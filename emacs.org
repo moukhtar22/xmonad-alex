@@ -68,6 +68,13 @@ For Emacs 30+, disable ispell completion (Conflicts with =corfu=)
 #+begin_src emacs-lisp
   (setq text-mode-ispell-word-completion nil)
 #+end_src
+Supress the  =org-element= warnings (these seem to be some sort of bug)
+#+begin_src emacs-lisp
+  (use-package warnings
+    :config
+    (add-to-list 'warning-suppress-log-types
+          '(org-element org-element-parser)))
+#+end_src
 
 
 ** Tab Size
