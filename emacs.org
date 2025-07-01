@@ -284,7 +284,9 @@ To make the integration a bit better,
     :after evil
     :ensure t
     :config
-    (evil-collection-init))
+    (evil-collection-init)
+    (evil-define-key 'normal org-mode-map (kbd "gj") 'evil-next-visual-line)
+    (evil-define-key 'normal org-mode-map (kbd "gk") 'evil-previous-visual-line))
 #+end_src
 Vim surround emulation
 #+begin_src emacs-lisp
@@ -469,8 +471,10 @@ Never save authentication sources
     (setq doom-themes-enable-bold   t
           doom-themes-enable-italic t)
     (set-face-italic 'font-lock-comment-face t)
-    (load-theme 'doom-city-lights t)
-    (doom-themes-org-config))
+    (load-theme 'doom-tokyo-night t)
+    (doom-themes-org-config)
+    (with-eval-after-load 'org
+      (set-face-foreground 'org-level-3 "Skyblue")))
 #+end_src
 
 *** Font

@@ -133,7 +133,9 @@
   :after evil
   :ensure t
   :config
-  (evil-collection-init))
+  (evil-collection-init)
+  (evil-define-key 'normal org-mode-map (kbd "gj") 'evil-next-visual-line)
+  (evil-define-key 'normal org-mode-map (kbd "gk") 'evil-previous-visual-line))
 
 (use-package evil-surround
   :after evil
@@ -271,8 +273,10 @@
   (setq doom-themes-enable-bold   t
         doom-themes-enable-italic t)
   (set-face-italic 'font-lock-comment-face t)
-  (load-theme 'doom-city-lights t)
-  (doom-themes-org-config))
+  (load-theme 'doom-tokyo-night t)
+  (doom-themes-org-config)
+  (with-eval-after-load 'org
+    (set-face-foreground 'org-level-3 "Skyblue")))
 
 (custom-set-faces
  '(default ((t (:family "JetBrains Mono" :foundry "JB" :slant normal :weight regular :height 143 :width normal)))))
