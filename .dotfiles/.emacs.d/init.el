@@ -483,9 +483,19 @@
 
 (global-set-key (kbd "C-c r w") 'myProg/switch-workon-dir)
 
-(use-package jupyter
+(use-package zmq
   :ensure t
   :defer t)
+(use-package simple-httpd
+  :ensure t
+  :defer t)
+(use-package websocket
+  :ensure t
+  :defer t)
+
+(use-package jupyter
+  :ensure t
+  :after (zmq simple-http websocket))
 
 (defun myPython/activate-conda-env(&optional conda-env)
   (interactive)

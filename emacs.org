@@ -614,7 +614,6 @@ For languages that probably can't affect the system much, I'd rather not have to
           (not (string= lang "jupyter-python"))))
 #+end_src
 
-
 *** Appearance
 #+begin_src emacs-lisp
   (use-package org-bullets
@@ -771,9 +770,19 @@ environment directory.
 
 **** Jupyter
 #+begin_src emacs-lisp
-  (use-package jupyter
+  (use-package zmq
     :ensure t
     :defer t)
+  (use-package simple-httpd
+    :ensure t
+    :defer t)
+  (use-package websocket
+    :ensure t
+    :defer t)
+
+  (use-package jupyter
+    :ensure t
+    :after (zmq simple-http websocket))
 #+end_src
 A quick function to activate the relevant conda environment, and then append jupyter to org-babel.
 This was done under the assumption that the =jupyter= program itself should be available
