@@ -356,9 +356,7 @@ Set some sane default modes
     (js-ts-mode     . lsp-deferred)
     
     :config
-    (setq-default lsp-enable-on-type-formatting   nil
-  				lsp-java-format-on-type-enabled nil
-  				lsp-rename-use-prepare          nil)
+    (setq-default lsp-rename-use-prepare nil)
 
     :custom
     (lsp-rust-analyzer-cargo-watch-command "clippy")
@@ -380,21 +378,6 @@ Additional UI features
 ***** Python
 #+begin_src emacs-lisp
   (use-package lsp-pyright
-    :ensure t
-    :defer  t)
-#+end_src
-***** Java
-#+begin_src emacs-lisp
-  (use-package dap-mode
-    :ensure t
-    :defer  t)
-  (use-package lsp-treemacs
-    :ensure t
-    :defer  t)
-  (use-package treemacs
-    :ensure t
-    :defer  t)
-  (use-package lsp-java
     :ensure t
     :defer  t)
 #+end_src
@@ -514,6 +497,7 @@ Never save authentication sources
 *** Emoji Support
 #+begin_src emacs-lisp
   (use-package emojify
+    :ensure t
     :hook (after-init . global-emojify-mode))
 #+end_src
 
@@ -644,6 +628,7 @@ For languages that probably can't affect the system much, I'd rather not have to
 #+end_src
 #+begin_src emacs-lisp
   (use-package olivetti
+    :ensure t
     :config
     (setq-default olivetti-body-width 120)
     :hook (org-mode

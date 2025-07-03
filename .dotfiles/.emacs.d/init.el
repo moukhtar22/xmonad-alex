@@ -197,9 +197,7 @@
   (js-ts-mode     . lsp-deferred)
   
   :config
-  (setq-default lsp-enable-on-type-formatting   nil
-				lsp-java-format-on-type-enabled nil
-				lsp-rename-use-prepare          nil)
+  (setq-default lsp-rename-use-prepare nil)
 
   :custom
   (lsp-rust-analyzer-cargo-watch-command "clippy")
@@ -216,19 +214,6 @@
 	lsp-eldoc-enable-hover      nil))
 
 (use-package lsp-pyright
-  :ensure t
-  :defer  t)
-
-(use-package dap-mode
-  :ensure t
-  :defer  t)
-(use-package lsp-treemacs
-  :ensure t
-  :defer  t)
-(use-package treemacs
-  :ensure t
-  :defer  t)
-(use-package lsp-java
   :ensure t
   :defer  t)
 
@@ -304,6 +289,7 @@
 		indent-bars-display-on-blank-lines t))
 
 (use-package emojify
+  :ensure t
   :hook (after-init . global-emojify-mode))
 
 (add-hook 'latex-mode-hook 'flyspell-mode)
@@ -394,6 +380,7 @@
             (setq org-startup-indented  t)))
 
 (use-package olivetti
+  :ensure t
   :config
   (setq-default olivetti-body-width 120)
   :hook (org-mode
