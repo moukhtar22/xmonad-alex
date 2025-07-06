@@ -94,6 +94,9 @@
   (define-key yas/keymap         (kbd "C-j") #'yas-next-field)
   (define-key yas/keymap         (kbd "C-S-j") #'yas-prev-field)
   (yas-reload-all))
+(use-package yasnippet-snippets
+  :ensure t
+  :after yasnippet)
 
 (global-set-key (kbd "C-c c e") 'hippie-expand)
 
@@ -112,7 +115,8 @@
   :bind
   ("C-c c b" . consult-buffer)
   ("C-c c w" . consult-buffer-other-window)
-  ("C-c c /" . consult-ripgrep))
+  ("C-c c /" . consult-ripgrep)
+  ("C-c c i" . consult-imenu))
 (add-hook 'org-mode-hook
 	  (lambda()
 	    (local-set-key (kbd "C-c c o") 'consult-outline)))
@@ -290,7 +294,9 @@
 
 (use-package emojify
   :ensure t
-  :hook (after-init . global-emojify-mode))
+  :hook ((org-mode  . emojify-mode)
+         (text-mode . emojify-mode)
+         (web-mode  . emojify-mode)))
 
 (add-hook 'latex-mode-hook 'flyspell-mode)
 
