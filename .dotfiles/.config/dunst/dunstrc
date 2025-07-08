@@ -4,7 +4,7 @@
 	follow = none
 	title = Dunst
 	class = Dunst
-	corner_radius = 0
+	corner_radius = 6
 	corners = all
 	ignore_dbusclose = false
 	force_xwayland = false
@@ -18,14 +18,13 @@
 	transparency = 35
 	separator_height = 0
 	padding = 8
-	horizontal_padding = 8
-	text_icon_padding = 0
+	horizontal_padding = 25
+	text_icon_padding = 20
 	frame_width = 2
 	gap_size = 10
 	separator_color = frame
 	sort = yes
 	# Text and Font
-	format = "<b>%s</b>\n%b"
 	indicate_hidden = yes
 	font = Roboto 13
 	line_height = 0
@@ -38,6 +37,7 @@
 	stack_duplicates = false
 	hide_duplicate_count = false
 	show_indicators = yes
+	format = "<span size='14pt' weight='bold'>%s</span>\n<i>%b</i>"
 	# Progress Bar
 	progress_bar = true
 	progress_bar_height = 10
@@ -54,7 +54,7 @@
 	icon_position = left
 	min_icon_size = 32
 	max_icon_size = 128
-	icon_path = /usr/share/icons/Adiwata/16x16/status/:/usr/share/icons/Adiwata/16x16/devices/
+	icon_path = /usr/share/icons/Adiwata/scalable/status/:/usr/share/icons/Adiwata/scalable/devices/
 	# History
     timeout = 5
 	sticky_history = yes
@@ -70,20 +70,21 @@
 [experimental]
 	per_monitor_dpi = false
 
-[urgency_low]
+[urgency_normal]
 	background = "#222222"
     foreground = "#888888"
-	frame_color = "#222222"
-
-[urgency_normal]
-    background = "#285577"
-    foreground = "#ffffff"
-    frame_color = "#4682b4"
-	highlight = "#00bfff"
+	frame_color = "#383838"
+	highlight = "#9b30ff"
     override_pause_level = 30
 
+[urgency_low]
+    background = "#ffffff"
+    foreground = "#7d7d7d"
+    frame_color = "#9c9c9c"
+	highlight = "#00bfff"
+
 [urgency_critical]
-	format = "<span>%a</span>\n<b>%s</b>\n%b"
+	format = "<span size='15pt' text_transform='capitalize' weight='heavy'>%a:</span> <span size='14pt' weight='bold'>%s</span>\n%b"
     background = "#900000"
     foreground = "#ffffff"
     frame_color = "#ff0000"
