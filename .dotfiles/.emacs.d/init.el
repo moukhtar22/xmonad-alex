@@ -425,6 +425,12 @@
   :ensure t
   :defer t)
 
+(add-to-list 'load-path "~/.emacs.d/src/ebuild-mode")
+(add-to-list 'auto-mode-alist
+             '("\\.ebuild\\'" . (lambda ()
+                                  (require 'ebuild-mode)
+                                  (ebuild-mode))))
+
 (use-package web-mode
   :ensure t
   :hook (html-mode . web-mode))

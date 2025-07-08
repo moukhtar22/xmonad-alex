@@ -677,6 +677,12 @@ For languages that probably can't affect the system much, I'd rather not have to
   (use-package csv-mode
     :ensure t
     :defer t)
+
+  (add-to-list 'load-path "~/.emacs.d/src/ebuild-mode")
+  (add-to-list 'auto-mode-alist
+               '("\\.ebuild\\'" . (lambda ()
+                                    (require 'ebuild-mode)
+                                    (ebuild-mode))))
 #+end_src
 
 *** HTML Settings
