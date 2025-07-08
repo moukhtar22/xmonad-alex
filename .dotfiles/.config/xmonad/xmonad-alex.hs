@@ -97,7 +97,7 @@ startupApplications =
   [ "~/.cabal/bin/xmobar"
   , "picom -b"
   , "conky.sh"
-  , "/usr/libexec/notification-daemon"
+  , "dunst"
   , "emacs --daemon"
   , "redshift" ]
 

@@ -30,6 +30,7 @@
   (display-line-numbers-mode))
 (add-hook 'prog-mode-hook 'pref/set-line-number-mode)
 (add-hook 'latex-mode-hook 'pref/set-line-number-mode)
+(add-hook 'conf-mode-hook 'pref/set-line-number-mode)
 
 (setq column-number-mode t)
 

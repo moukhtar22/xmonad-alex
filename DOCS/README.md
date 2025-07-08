@@ -17,7 +17,7 @@ changing systems.
 - **Picom**: as the compositor; I use the one available in the official Arch Linux *extra* repository.
 - **Conky**: for resource monitoring
 - **Nitrogen**: for the wallpaper
-- **notification-daemon**: I mean, its in the name
+- **dunst**: For notifications
 - **Redshift**: to not make my eyes hurt
 - **Unclutter**: to not have to stare at the mouse pointer
 - **Rofi**: as the application launcher
