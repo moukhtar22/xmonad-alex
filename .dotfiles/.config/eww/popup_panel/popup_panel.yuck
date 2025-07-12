@@ -12,6 +12,10 @@
     :interval "10s"
     `popup_panel/scripts/brightness.sh --get`)
 
+(defpoll zram_status
+    :interval "2s"
+    `popup_panel/scripts/zram.sh --used`)
+
 (defwindow popup-panel
     :stacking "fg"
     :windowtype "normal"
@@ -128,9 +132,9 @@
 
 (defwidget zram-toggle-button []
     (toggle-button
-     :class "action-button zram-button"
-     :onclick ""
-     :icon "󰍛" :caption "ZRam"))
+     :class "action-button zram-button ${zram_status == '' ? '' : 'active'}"
+     :onclick "popup_panel/scripts/zram.sh --toggle"
+     :icon "󰍛" :caption "${zram_status == '' ? 'ZRam' : zram_status}"))
 
 (defwidget update-fixed-action-button []
   (fixed-action-button
