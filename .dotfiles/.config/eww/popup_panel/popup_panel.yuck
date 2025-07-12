@@ -115,7 +115,7 @@
     (toggle-button
      :class "action-button ${ssid == '' ? '' : 'active'}"
      :onclick "popup_panel/scripts/wifi.sh --toggle"
-     :icon " " :caption ssid))
+     :icon " " :caption "${ssid == '' ? 'WiFi' : ssid}"))
 
 (defwidget hotspot-toggle-button []
     (toggle-button
