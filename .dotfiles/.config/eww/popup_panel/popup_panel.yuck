@@ -20,6 +20,10 @@
     :interval "5s"
     `popup_panel/scripts/volume.sh --get`)
 
+(defpoll hotspot_ssid
+    :interval "2s"
+    `popup_panel/scripts/hotspot.sh --ssid`)
+
 (defwindow popup-panel
     :stacking "fg"
     :windowtype "normal"
@@ -124,9 +128,9 @@
 
 (defwidget hotspot-toggle-button []
     (toggle-button
-     :class "action-button"
-     :onclick ""
-     :icon "󰀃" :caption "HotSpot"))
+     :class "action-button ${hotspot_ssid == '' ? '' : 'active'}"
+     :onclick "popup_panel/scripts/hotspot.sh --toggle"
+     :icon "󰀃" :caption "${hotspot_ssid == '' ? 'HotSpot' : hotspot_ssid}"))
 
 (defwidget kmonad-toggle-button  []
     (toggle-button-tristate
