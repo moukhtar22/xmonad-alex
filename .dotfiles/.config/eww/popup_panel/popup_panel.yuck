@@ -16,6 +16,10 @@
     :interval "2s"
     `popup_panel/scripts/zram.sh --used`)
 
+(defpoll volume
+    :interval "5s"
+    `popup_panel/scripts/volume.sh --get`)
+
 (defwindow popup-panel
     :stacking "fg"
     :windowtype "normal"
@@ -104,7 +108,8 @@
   (box
    :style "margin-right: 50px"
    (overlay
-    (scale :value 60 :min 0 :max 100)
+    (scale :value volume :min 0 :max 150
+           :onchange `popup_panel/scripts/volume.sh --set {}`)
     (box
      :spacing 30
      (label :class "icon" :text "󰝞")
