@@ -164,26 +164,22 @@
 
 (defwidget toggle-button-tristate
     [class onclick onrightclick icon caption]
-    (eventbox
-     :class "action-button-wrapper"
-     (button
-      :class class
-      :onclick onclick :onrightclick onrightclick
-      (box
-       :valign "center"
-       :orientation "vertical"
-       (label :class "icon" :text icon)
-       (label :text caption)))))
+    (button
+     :class class
+     :onclick onclick :onrightclick onrightclick
+     (box
+      :valign "center"
+      :orientation "vertical"
+      (label :class "icon" :text icon)
+      (label :text caption))))
 
 (defwidget fixed-action-button
     [class onclick icon caption hexpand]
-    (eventbox
-     :class "action-button-wrapper"
+    (button
+     :class class
+     :onclick onclick
      :hexpand hexpand
-     (button
-      :class class
-      :onclick onclick
-      (box
-       :halign "center"
-       (label :class "icon" :text icon)
-       (label :text caption)))))
+     (box
+      :halign "center"
+      (label :class "icon" :text icon)
+      (label :text caption))))
