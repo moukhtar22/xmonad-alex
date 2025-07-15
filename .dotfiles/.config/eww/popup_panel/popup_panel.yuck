@@ -30,10 +30,10 @@
     :wm-ignore true
     :geometry (geometry
                :anchor "top right"
-               :width "28%"
-               :height "62%"
+               :width "29.5%"
+               :height "60%"
                :x "-0.9%"
-               :y "2.7%")
+               :y "4%")
     :window-type "dock"
     (popup-panel-layout))
 
@@ -44,8 +44,9 @@
    (box
     :orientation "vertical"
     :space-evenly false
-    :spacing 70
+    :spacing 30
     (box
+     :class "sliders-wrapper"
      (popup-panel-row-1))
     (button-rows))))
 
@@ -78,7 +79,7 @@
 (defwidget popup-panel-row-2 []
   (box
    :class "row-2"
-   :spacing 35
+   :spacing 40
    (wifi-toggle-button)
    (hotspot-toggle-button)
    (kmonad-toggle-button)))
@@ -134,7 +135,7 @@
 
 (defwidget kmonad-toggle-button  []
     (toggle-button-tristate
-     :class "action-button ${kmonad_status == 'off' ? '' : 'active'}"
+     :class "action-button  ${kmonad_status == 'off' ? '' : 'active'}"
      :onclick "popup_panel/scripts/kmonad.sh --toggle"
      :onrightclick "popup_panel/scripts/kmonad.sh --toggle-in-ext"
      :icon "󰌌" :caption kmonad_status))
