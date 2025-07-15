@@ -99,7 +99,8 @@ startupApplications =
   , "conky.sh"
   , "dunst"
   , "emacs --daemon"
-  , "redshift" ]
+  , "redshift"
+  , "eww daemon" ]
 
 myStartupHook :: X ()
 myStartupHook = do

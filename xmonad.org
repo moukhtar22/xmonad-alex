@@ -159,7 +159,8 @@ Copied this from the WiKi, have no idea what most of these functions are
     , "conky.sh"
     , "dunst"
     , "emacs --daemon"
-    , "redshift" ]
+    , "redshift"
+    , "eww daemon" ]
 
   myStartupHook :: X ()
   myStartupHook = do
