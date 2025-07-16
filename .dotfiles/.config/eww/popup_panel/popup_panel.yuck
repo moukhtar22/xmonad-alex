@@ -28,6 +28,10 @@
     :interval "2s"
     `popup_panel/scripts/backup.sh --status`)
 
+(defpoll updates_running
+    :interval "2s"
+    `popup_panel/scripts/update.sh --status`)
+
 (defwindow popup-panel
     :stacking "fg"
     :windowtype "normal"
@@ -152,10 +156,10 @@
 
 (defwidget update-fixed-action-button []
   (fixed-action-button
-   :class "action-button update-button"
-   :onclick ""
+   :class "action-button update-button active"
+   :onclick "${updates_running == '0' ? 'popup_panel/scripts/update.sh --run' : ''}"
    :hexpand false
-   :icon "󰚰" :caption "Update"))
+   :icon "󰚰" :caption "${updates_running == '0' ? 'Update Sys' : 'Updates Running'}"))
 
 (defwidget backup-fixed-action-button []
   (fixed-action-button
@@ -190,5 +194,7 @@
      :hexpand hexpand
      (box
       :halign "center"
+      :space-evenly false
+      :spacing 15
       (label :class "icon" :text icon)
       (label :text caption))))
