@@ -24,6 +24,10 @@
     :interval "2s"
     `popup_panel/scripts/hotspot.sh --ssid`)
 
+(defpoll backup_dev_status
+    :interval "2s"
+    `popup_panel/scripts/backup.sh --status`)
+
 (defwindow popup-panel
     :stacking "fg"
     :windowtype "normal"
@@ -155,10 +159,10 @@
 
 (defwidget backup-fixed-action-button []
   (fixed-action-button
-   :class "action-button backup-button"
-   :onclick ""
+   :class "action-button backup-button ${backup_dev_status == '0' ? '' : 'active'}"
+   :onclick "${backup_dev_status == '1' ? 'popup_panel/scripts/backup.sh --run-backup' : ''}"
    :hexpand true
-   :icon " " :caption "Backup"))
+   :icon " " :caption "${backup_dev_status == '1' ? 'Device Ready' : backup_dev_status == '2' ? 'In Progress' : 'No Device'}"))
 
 (defwidget toggle-button
     [class onclick icon caption]

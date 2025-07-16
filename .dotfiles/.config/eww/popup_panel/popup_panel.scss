@@ -67,6 +67,10 @@ scale trough highlight {
     .action-button.backup-button {
         background-color: #E5E5E5;
     }
+    .action-button.update-button.active,
+    .action-button.backup-button.active {
+        background-color: #EB797B;
+    }
 }
 
 .popup-panel .action-button.active,
