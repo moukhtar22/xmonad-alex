@@ -10,7 +10,7 @@ OPERATION="$1"
 
 
 update_current_volume_status() {
-    CURRENT_VOLUME=$(pactl get-sink-volume 46 \
+    CURRENT_VOLUME=$(pactl get-sink-volume $SINK \
                          | awk -F',' 'NR==1 {print $1}' \
                          | grep -o "[0-9]*%" \
                          | tr -d ' ' \

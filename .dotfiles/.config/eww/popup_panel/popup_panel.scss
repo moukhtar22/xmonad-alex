@@ -1,0 +1,102 @@
+* {
+    all: unset;
+}
+
+.popup-panel {
+    font-family: "Roboto";
+    font-size: 13pt;
+    color: #FFFFFF;
+    background-color: rgba(58, 58, 58, 0.6);
+    border-radius: 8pt;
+    border-left: 4pt solid #E86264;
+}
+
+.icon {
+    font-size: 24pt;
+    color: #666666;
+}
+
+.popup-panel > box {
+    padding: 32pt 14pt 24pt 14pt;
+}
+
+.popup-panel .bv-slider {
+    border-radius: 4pt;
+    font-size: 18pt;
+}
+
+scale trough {
+    background-color: #FFFFFF;
+    border-radius: 4pt;
+    min-height: 45px;
+    min-width: 70px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+scale trough highlight {
+    background: #E98F90;
+    background: linear-gradient(90deg, rgba(233, 143, 144, 1) 0%, rgba(232, 97, 100, 1) 100%);
+    border-radius: 4pt;
+}
+
+.popup-panel {
+    .sliders-wrapper,
+    .button-rows-wrapper {
+        border-radius: 8pt;
+        margin: 0 8px 0 28px;
+        background-color: rgba(68, 70, 72, 0.6);
+        padding: 24px;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    }
+
+    .button-rows-wrapper {
+        margin: 0 16px 0 36px;
+    }
+}
+
+.popup-panel {
+    .action-button {
+        border-radius: 8pt;
+        background-color: #D5D5D5;
+        color: #A19494;
+        font-style: italic;
+        font-weight: 300;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    }
+    .action-button.update-button,
+    .action-button.backup-button {
+        background-color: #E5E5E5;
+    }
+    .action-button.update-button.active,
+    .action-button.backup-button.active {
+        background-color: #EB797B;
+    }
+}
+
+.popup-panel .action-button.active,
+.popup-panel .action-button:hover {
+    background-color: #E86264;
+    color: #FFFFFF;
+    .icon {
+        color: #FFFFFF;
+    }
+}
+
+.popup-panel .row-2 .action-button {
+    min-height: 122px;
+}
+
+.popup-panel .row-3 .action-button {
+    min-height: 100px;
+}
+
+.popup-panel .row-4 {
+    .action-button {
+        min-height: 124px;
+    }
+    .backup-button {
+    }
+    .zram-button {
+        min-width: 120px;
+    }
+}
