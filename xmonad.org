@@ -70,9 +70,9 @@ Windows that are /easier/ to configure: exactly match the X11 =WM_CLASS= Propert
 #+end_src
 
 ** Other Window Rules
-Rules that require special handling, like regex matching =gimp-toolkit= and =gimp-image-window=
-should be tiled. All of my Java =AWT= projects must open as floating windows, atleast until
-I learn how to deal with window proportions in Java.
+Rules that require special handling, like regex matching.
+=gimp-toolkit= and =gimp-image-window= should be tiled. All of my Java =AWT= projects must open as floating
+windows, atleast until I learn how to deal with window proportions in Java.
 #+begin_src haskell
   myMiscWindowRules :: [Query (Endo WindowSet)]
   myMiscWindowRules =
@@ -130,7 +130,7 @@ corresponding background color
 
 
 * XMobar
-Copied this from the WiKi, have no idea what most of these functions are
+Copied this from the WiKi, have no idea what most of these functions, data constructors are
 #+begin_src haskell
   myXMobarPP :: PP
   myXMobarPP = def
