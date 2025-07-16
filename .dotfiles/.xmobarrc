@@ -1,7 +1,7 @@
--- /* vim: set filetype=haskell : */
+-- -*- haskell -*-
 
 Config { font         = "MesloLGS NF 13"
-       , bgColor      = "#000c19"
+       , bgColor      = "#192027"
        , fgColor      = "#a9b1d6"
        , position     = TopSize C 100 24
        , lowerOnStart = True
