@@ -32,6 +32,7 @@ Need these for using regex for Manage Hook rules
   import XMonad.Hooks.ManageHelpers (doCenterFloat)
   import XMonad.Hooks.ManageDocks (avoidStruts, docks)
   import XMonad.Hooks.EwmhDesktops (ewmh)
+  import XMonad.Hooks.SetWMName
   import XMonad.Hooks.DynamicLog
   import XMonad.Hooks.StatusBar
 #+end_src
@@ -305,7 +306,7 @@ Copied this from the WiKi, have no idea what most of these functions, data const
             , workspaces  = myWorkspaces
             , layoutHook  = myLayoutHook
             , manageHook  = myManageHook <+> manageHook def
-            , startupHook = myStartupHook
+            , startupHook = myStartupHook >> setWMName "LG3D"
             , terminal    = "alacritty"
             , borderWidth = 0 }
 #+end_src

@@ -13,6 +13,7 @@ import XMonad.Layout.Master (mastered)
 import XMonad.Hooks.ManageHelpers (doCenterFloat)
 import XMonad.Hooks.ManageDocks (avoidStruts, docks)
 import XMonad.Hooks.EwmhDesktops (ewmh)
+import XMonad.Hooks.SetWMName
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.StatusBar
 
@@ -208,6 +209,6 @@ main = xmonad
           , workspaces  = myWorkspaces
           , layoutHook  = myLayoutHook
           , manageHook  = myManageHook <+> manageHook def
-          , startupHook = myStartupHook
+          , startupHook = myStartupHook >> setWMName "LG3D"
           , terminal    = "alacritty"
           , borderWidth = 0 }
