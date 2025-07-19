@@ -44,7 +44,7 @@ if [[ -z $WINDOW_MANAGER ]] || [[ -z $TOUCHPAD_ID ]] || [[ -z $ACCEL_PROP_ID ]] 
 fi
     
 
-cat ./dummy.xinitrc \
+cat ~/xmonad-alex/helpers/dummy.xinitrc \
     | sed "s|%WINDOW_MANAGER%|$WINDOW_MANAGER|g" \
     | sed "s|%TOUCHPAD_ID%|$TOUCHPAD_ID|g" \
     | sed "s|%ACCEL_PROP_ID%|$ACCEL_PROP_ID|g" \
