@@ -268,6 +268,10 @@
   (set-face-italic 'font-lock-comment-face t)
   (load-theme 'doom-tokyo-night t)
   (doom-themes-org-config)
+  (set-face-foreground 'font-lock-property-name-face "#6dcec0")
+  (set-face-foreground 'font-lock-delimiter-face "SkyBlue3")
+  (set-face-attribute 'font-lock-keyword-face nil :slant 'italic)
+  (set-face-attribute 'font-lock-function-call-face nil :slant 'italic)
   (with-eval-after-load 'org
     (set-face-foreground 'org-level-3 "Skyblue")))
 
