@@ -123,15 +123,12 @@ keysToRemove =
   , "M-S-c" ]
 
 mouseButtons :: [((ButtonMask, Button), Window -> X())]
-mouseButtons = map (\(modifier, key, action) -> ((modifier, key), const $ spawn action)) buttons
+mouseButtons = map (\(modifier, key, action) -> ((modifier, key), const $ action)) buttons
   where buttons =
-          [ (0, 8, "xdotool type --clearmodifier -")
-          , (0, 9, "xdotool type --clearmodifier +")
-          , (shiftMask, 8, "xdotool type --clearmodifier [")
-          , (shiftMask, 9, "xdotool type --clearmodifier ]")
-          , (mod4Mask, 4, "~/scripts/soundctrl.sh +")
-          , (mod4Mask, 5, "~/scripts/soundctrl.sh -")
-          , (mod4Mask, 8, "~/scripts/toggle_eww_popup_panel.sh") ]
+          [ (mod4Mask, 2, withFocused $ windows . StackSet.sink)
+          , (mod4Mask, 4, spawn "~/scripts/soundctrl.sh +")
+          , (mod4Mask, 5, spawn "~/scripts/soundctrl.sh -")
+          , (mod4Mask, 8, spawn "~/scripts/toggle_eww_popup_panel.sh") ]
 
 workspaceGoToKeys :: [((KeyMask, KeySym), X ())]
 workspaceGoToKeys =
