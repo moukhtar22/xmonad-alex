@@ -466,7 +466,8 @@
 
 (add-hook 'evil-normal-state-entry-hook
 		  (lambda ()
-			(if (or (eq major-mode 'web-mode) (eq major-mode 'css-mode))
+			(if (or (eq major-mode 'web-mode)
+                    (eq major-mode 'css-ts-mode))
 				(save-buffer))))
 
 (add-hook 'c-mode-hook
@@ -544,6 +545,7 @@
         (c "https://github.com/tree-sitter/tree-sitter-c")
         (bash "https://github.com/tree-sitter/tree-sitter-bash")
         (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+        (css "https://github.com/tree-sitter/tree-sitter-css")
         (python "https://github.com/tree-sitter/tree-sitter-python")))
 
 (setq major-mode-remap-alist
@@ -551,6 +553,7 @@
         (c++-mode        . c++-ts-mode)
         (bash-mode       . bash-ts-mode)
         (javascript-mode . js-ts-mode)
+        (css-mode        . css-ts-mode)
         (python-mode     . python-ts-mode)))
 
 (add-hook 'prog-mode-hook
