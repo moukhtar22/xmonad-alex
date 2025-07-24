@@ -138,3 +138,80 @@ These are permanent (non toggle) switches, though, I guess, the =QWERTY= layout 
       lswch (tap-hold-press 150 150 caps
              (layer-toggle layoutswitch)))
 #+end_src
+
+
+* Mouse
+:PROPERTIES:
+:header-args: :tangle ".dotfiles/.config/kanata/kanata-alex.mouse"
+:END:
+
+** Global settings
+#+begin_src text :noweb yes
+  (defcfg
+    <<device-and-name-mouse>>
+    <<extra-options-mouse>>
+  )
+#+end_src
+
+*** Device and Name
+#+NAME: device-and-name-mouse
+#+begin_src text :tangle no
+  linux-dev /dev/input/by-id/usb-30fa_USB_Optical_Mouse-event-mouse
+  linux-output-device-name "Kanata-Alex-Mouse"
+#+end_src
+
+*** Other Options
+#+NAME: extra-options-mouse
+#+begin_src text :tangle no
+  process-unmapped-keys yes
+  movemouse-inherit-accel-state yes
+  concurrent-tap-hold yes
+  rapid-event-delay 5
+#+end_src
+
+
+** Mouse Source
+Standard 5 button (left, middle, right, forward, backward) mouse
+#+begin_src text
+  (defsrc
+    mfwd mbck
+    mlft mmid mrgt
+  )
+#+end_src
+
+** Layers
+The main layer only modifies the forward and backward buttons
+#+begin_src text
+  (deflayermap (mod-mouse)
+    mfwd @mmod
+    mbck @gimp)
+#+end_src
+=mmod= is just using the forward button as an extra =Meta= key
+#+begin_src text
+  (defalias
+    mmod (tap-hold-press 200 200
+           mfwd lmet))
+#+end_src
+
+*** GIMP convenience
+The left and right buttons for zooming
+#+begin_src text
+  (deflayer gimp-zoom
+    _  _
+    +  _  -
+  )
+#+end_src
+and scrolling for brush size
+#+begin_src text
+  (deflayermap (gimp-brush)
+    mwu ]
+    mwd [)
+#+end_src
+Alias to run them both
+#+begin_src text
+  (defalias
+    gimp (tap-hold-press 200 200
+           mbck (multi (layer-toggle gimp-brush)
+  		             (layer-toggle gimp-zoom))))
+#+end_src
+
