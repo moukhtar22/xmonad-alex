@@ -2,7 +2,7 @@
 #+Title: Kanata Configuration
 #+Startup: indent show3levels
 
-This configuration uses 2 instances of KMonad at a time, one for the keyboard and one for the mouse.
+This configuration uses 2 instances of Kanata at a time, one for the keyboard and one for the mouse.
 
 * Keyboard
 :PROPERTIES:
