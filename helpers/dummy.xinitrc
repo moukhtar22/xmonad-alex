@@ -1,5 +1,6 @@
-# KMonad
-~/.local/bin/kmonad ~/.config/kmonad/kmonad-alex.kbd &
+# Kanata
+~/.local/bin/kanata ~/.config/kanata/kanata-alex.kbd &
+~/.local/bin/kanata ~/.config/kanata/kanata-alex.mouse &
 
 # Set up input devices
 xinput set-prop %TOUCHPAD_ID% %ACCEL_PROP_ID% %TOUCHPAD_ACCELERATIION%

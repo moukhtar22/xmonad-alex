@@ -54,7 +54,7 @@
   alias rexinit="grep -P '(xinput|xset|setxkb)' ~/.xinitrc| bash -"
   alias wallpaper="nitrogen --no-recurse ~/Wallpapers/"
   alias forgosleep="systemd-inhibit --what=handle-lid-switch:sleep:idle"
-  alias kinit="kmonad-init.sh"
+  alias kinit="kanata-init.sh"
   alias toclip="xclip -selection clip-board -i"
 #+end_src
 

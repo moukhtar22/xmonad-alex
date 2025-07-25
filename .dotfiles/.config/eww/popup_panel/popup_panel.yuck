@@ -4,9 +4,9 @@
     :interval "2s"
     `popup_panel/scripts/wifi.sh --ssid`)
 
-(defpoll kmonad_status
+(defpoll kanata_status
     :interval "2s"
-    `popup_panel/scripts/kmonad.sh --status`)
+    `popup_panel/scripts/kanata.sh --status`)
 
 (defpoll brightness
     :interval "10s"
@@ -90,7 +90,7 @@
    :spacing 40
    (wifi-toggle-button)
    (hotspot-toggle-button)
-   (kmonad-toggle-button)))
+   (kanata-toggle-button)))
 
 (defwidget popup-panel-row-3 []
   (box
@@ -141,12 +141,12 @@
      :onclick "popup_panel/scripts/hotspot.sh --toggle"
      :icon "󰀃" :caption "${hotspot_ssid == '' ? 'HotSpot' : hotspot_ssid}"))
 
-(defwidget kmonad-toggle-button  []
+(defwidget kanata-toggle-button  []
     (toggle-button-tristate
-     :class "action-button  ${kmonad_status == 'off' ? '' : 'active'}"
-     :onclick "popup_panel/scripts/kmonad.sh --toggle"
-     :onrightclick "popup_panel/scripts/kmonad.sh --toggle-in-ext"
-     :icon "󰌌" :caption kmonad_status))
+     :class "action-button  ${kanata_status == 'off' ? '' : 'active'}"
+     :onclick "popup_panel/scripts/kanata.sh --toggle"
+     :onrightclick ""
+     :icon "󰌌" :caption kanata_status))
 
 (defwidget zram-toggle-button []
     (toggle-button

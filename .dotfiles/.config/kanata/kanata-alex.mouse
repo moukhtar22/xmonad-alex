@@ -1,0 +1,35 @@
+(defcfg
+  linux-dev /dev/input/by-id/usb-30fa_USB_Optical_Mouse-event-mouse
+  linux-output-device-name "Kanata-Alex-Mouse"
+  process-unmapped-keys yes
+  movemouse-inherit-accel-state yes
+  concurrent-tap-hold yes
+  rapid-event-delay 5
+)
+
+(defsrc
+  mfwd mbck
+  mlft mmid mrgt
+)
+
+(deflayermap (mod-mouse)
+  mfwd @mmod
+  mbck @gimp)
+
+(defalias
+  mmod (tap-hold-press 200 200
+         mfwd lmet))
+
+(deflayer gimp-zoom
+  _  _
+  +  _  -
+)
+
+(deflayermap (gimp-brush)
+  mwu ]
+  mwd [)
+
+(defalias
+  gimp (tap-hold-press 200 200
+         mbck (multi (layer-toggle gimp-brush)
+		             (layer-toggle gimp-zoom))))

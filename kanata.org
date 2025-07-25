@@ -1,0 +1,217 @@
+#+Author: Alex Rosegrid
+#+Title: Kanata Configuration
+#+Startup: indent show3levels
+
+This configuration uses 2 instances of Kanata at a time, one for the keyboard and one for the mouse.
+
+* Keyboard
+:PROPERTIES:
+:header-args: :tangle ".dotfiles/.config/kanata/kanata-alex.kbd"
+:END:
+
+** Global Settings
+#+begin_src text :noweb yes
+  (defcfg
+    <<device-and-name>>
+    <<repeat-and-delay>>
+    <<extra-options>>
+  )
+#+end_src
+
+*** Device and Name
+#+NAME: device-and-name
+#+begin_src text :tangle no
+  linux-dev /dev/input/by-id/usb-HTLTEK_Gaming_keyboard-event-kbd
+  linux-output-device-name "Kanata-Alex"
+#+end_src
+
+*** Repeat Rate and Delay
+#+NAME: repeat-and-delay
+#+begin_src text :tangle no
+  linux-x11-repeat-delay-rate 310,30
+#+end_src
+
+*** Other Options
+#+NAME: extra-options
+#+begin_src text :tangle no
+  linux-use-trackpoint-property no
+  process-unmapped-keys yes
+  concurrent-tap-hold yes
+  rapid-event-delay 5
+#+end_src
+
+** Board Source
+This was made for a TKL keyboard, but only really uses keys available on a 60% board.
+#+begin_src text
+  (defsrc
+    esc
+    grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+    tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+    caps a    s    d    f    g    h    j    k    l    ;    '    ret
+    lsft z    x    c    v    b    n    m    ,    .    /         rsft
+    lctl lmet lalt           spc            ralt           cmp  rctl
+  )
+#+end_src
+
+** Layers
+First the main layer: a COLEMAK-DH layout, with slight modifications and extra layout keys
+#+begin_src text
+  (deflayer colemak-dh-cust
+    @lswch
+    @ctlk 1    2    3    4    5    6    7    8    9    0    -     =    bspc
+    tab   q    w    f    p    b    j    l    u    y    grv  @num  ;    lmet
+    @msc  a    r    s    t    g    m    n    e    i    o    '     ret
+    lsft  x    c    d    v    z    k    h    ,    .    /          rsft
+    lctl  lalt lmet           spc            ralt          rctl   ret
+  )
+#+end_src
+And a QWERTY layout, since it's easier to use one handed
+#+begin_src text
+  (deflayer qwerty
+    @lswch
+    grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
+    tab   q    w    e    r    t    y    u    i    o    p    [    ]    \
+    @msc  a    s    d    f    g    h    j    k    l    ;    '    ret
+    lsft  z    x    c    v    b    n    m    ,    .    /         rsft
+    lctl  lmet lalt           spc            ralt           cmp  rctl
+  )
+#+end_src
+
+*** Toggle-able Control key
+Virtual key for Control
+#+begin_src text
+  (defvirtualkeys
+    vkctl lctl)
+#+end_src
+And the =ctlk= /Control Lock/ alias
+#+begin_src text
+  (defalias
+    ctlk-toggle (on-press toggle-virtualkey vkctl)
+    ctlk        (tap-hold 200 200 @ctlk-toggle lctl))
+#+end_src
+
+*** Vi* hjkl and Arrow Keys
+#+begin_src text
+  (deflayer movement
+    XX
+    XX   XX  XX    XX  XX  XX  XX   XX    XX  XX    XX  XX  XX  XX
+    XX   XX  XX    XX  XX  XX  lft  down  up  rght  XX  XX  XX  XX
+    XX   XX  lctl  XX  XX  XX  h    j     k   l     XX  XX  lmet
+    XX   XX  XX    XX  XX  XX  home end   XX  XX    XX      spc
+    _    _   _             lsft           _         _       _
+  )
+#+end_src
+The =msc= /Movement - Escape/ alias
+#+begin_src text
+  (defalias
+    mov (layer-toggle movement)
+    msc (tap-hold-press 150 150 esc @mov))
+#+end_src
+
+*** Numbers and Symbols
+#+begin_src text
+  (deflayer numeric
+    XX
+    XX   [  ]  \  XX  XX  XX  XX  XX   XX    XX  XX  XX  XX
+    /    7  8  9  0   XX  XX  XX  XX   XX    XX  XX  XX  XX
+    bspc 4  5  6  -   XX  XX  .   lalt rsft  XX  XX  XX
+    spc  1  2  3  =   XX  XX  '   ;    ,     XX      XX
+    XX   XX  spc    lmet          XX         XX      XX
+  )
+#+end_src
+And, the corresponding alias
+#+begin_src text
+  (defalias num (layer-toggle numeric))
+#+end_src
+
+*** Layout Switching
+#+begin_src text
+  (deflayermap (layoutswitch)
+    1 @col
+    2 @qwr)
+#+end_src
+These are permanent (non toggle) switches, though, I guess, the =QWERTY= layout has no toggle option to begin with
+#+begin_src text
+  (defalias
+      col (layer-switch colemak-dh-cust)
+      qwr (layer-switch qwerty)
+      lswch (tap-hold-press 150 150 caps
+             (layer-toggle layoutswitch)))
+#+end_src
+
+
+* Mouse
+:PROPERTIES:
+:header-args: :tangle ".dotfiles/.config/kanata/kanata-alex.mouse"
+:END:
+
+** Global settings
+#+begin_src text :noweb yes
+  (defcfg
+    <<device-and-name-mouse>>
+    <<extra-options-mouse>>
+  )
+#+end_src
+
+*** Device and Name
+#+NAME: device-and-name-mouse
+#+begin_src text :tangle no
+  linux-dev /dev/input/by-id/usb-30fa_USB_Optical_Mouse-event-mouse
+  linux-output-device-name "Kanata-Alex-Mouse"
+#+end_src
+
+*** Other Options
+#+NAME: extra-options-mouse
+#+begin_src text :tangle no
+  process-unmapped-keys yes
+  movemouse-inherit-accel-state yes
+  concurrent-tap-hold yes
+  rapid-event-delay 5
+#+end_src
+
+
+** Mouse Source
+Standard 5 button (left, middle, right, forward, backward) mouse
+#+begin_src text
+  (defsrc
+    mfwd mbck
+    mlft mmid mrgt
+  )
+#+end_src
+
+** Layers
+The main layer only modifies the forward and backward buttons
+#+begin_src text
+  (deflayermap (mod-mouse)
+    mfwd @mmod
+    mbck @gimp)
+#+end_src
+=mmod= is just using the forward button as an extra =Meta= key
+#+begin_src text
+  (defalias
+    mmod (tap-hold-press 200 200
+           mfwd lmet))
+#+end_src
+
+*** GIMP convenience
+The left and right buttons for zooming
+#+begin_src text
+  (deflayer gimp-zoom
+    _  _
+    +  _  -
+  )
+#+end_src
+and scrolling for brush size
+#+begin_src text
+  (deflayermap (gimp-brush)
+    mwu ]
+    mwd [)
+#+end_src
+Alias to run them both
+#+begin_src text
+  (defalias
+    gimp (tap-hold-press 200 200
+           mbck (multi (layer-toggle gimp-brush)
+  		             (layer-toggle gimp-zoom))))
+#+end_src
+

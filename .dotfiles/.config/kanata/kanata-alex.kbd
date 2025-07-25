@@ -1,0 +1,77 @@
+(defcfg
+  linux-dev /dev/input/by-id/usb-HTLTEK_Gaming_keyboard-event-kbd
+  linux-output-device-name "Kanata-Alex"
+  linux-x11-repeat-delay-rate 310,30
+  linux-use-trackpoint-property no
+  process-unmapped-keys yes
+  concurrent-tap-hold yes
+  rapid-event-delay 5
+)
+
+(defsrc
+  esc
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /         rsft
+  lctl lmet lalt           spc            ralt           cmp  rctl
+)
+
+(deflayer colemak-dh-cust
+  @lswch
+  @ctlk 1    2    3    4    5    6    7    8    9    0    -     =    bspc
+  tab   q    w    f    p    b    j    l    u    y    grv  @num  ;    lmet
+  @msc  a    r    s    t    g    m    n    e    i    o    '     ret
+  lsft  x    c    d    v    z    k    h    ,    .    /          rsft
+  lctl  lalt lmet           spc            ralt          rctl   ret
+)
+
+(deflayer qwerty
+  @lswch
+  grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab   q    w    e    r    t    y    u    i    o    p    [    ]    \
+  @msc  a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft  z    x    c    v    b    n    m    ,    .    /         rsft
+  lctl  lmet lalt           spc            ralt           cmp  rctl
+)
+
+(defvirtualkeys
+  vkctl lctl)
+
+(defalias
+  ctlk-toggle (on-press toggle-virtualkey vkctl)
+  ctlk        (tap-hold 200 200 @ctlk-toggle lctl))
+
+(deflayer movement
+  XX
+  XX   XX  XX    XX  XX  XX  XX   XX    XX  XX    XX  XX  XX  XX
+  XX   XX  XX    XX  XX  XX  lft  down  up  rght  XX  XX  XX  XX
+  XX   XX  lctl  XX  XX  XX  h    j     k   l     XX  XX  lmet
+  XX   XX  XX    XX  XX  XX  home end   XX  XX    XX      spc
+  _    _   _             lsft           _         _       _
+)
+
+(defalias
+  mov (layer-toggle movement)
+  msc (tap-hold-press 150 150 esc @mov))
+
+(deflayer numeric
+  XX
+  XX   [  ]  \  XX  XX  XX  XX  XX   XX    XX  XX  XX  XX
+  /    7  8  9  0   XX  XX  XX  XX   XX    XX  XX  XX  XX
+  bspc 4  5  6  -   XX  XX  .   lalt rsft  XX  XX  XX
+  spc  1  2  3  =   XX  XX  '   ;    ,     XX      XX
+  XX   XX  spc    lmet          XX         XX      XX
+)
+
+(defalias num (layer-toggle numeric))
+
+(deflayermap (layoutswitch)
+  1 @col
+  2 @qwr)
+
+(defalias
+    col (layer-switch colemak-dh-cust)
+    qwr (layer-switch qwerty)
+    lswch (tap-hold-press 150 150 caps
+           (layer-toggle layoutswitch)))
