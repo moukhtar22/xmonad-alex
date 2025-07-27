@@ -1,5 +1,5 @@
 # Kanata
-~/scripts/kanata-init.sh &
+~/scripts/kanata-init.sh
 
 # Set up input devices
 xinput set-prop %TOUCHPAD_ID% %ACCEL_PROP_ID% %TOUCHPAD_ACCELERATIION%
