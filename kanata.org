@@ -169,13 +169,13 @@ These are permanent (non toggle) switches, though, I guess, the =QWERTY= layout 
   rapid-event-delay 5
 #+end_src
 
-
 ** Mouse Source
 Standard 5 button (left, middle, right, forward, backward) mouse
 #+begin_src text
   (defsrc
-    mfwd mbck
-    mlft mmid mrgt
+    mfwd        mwu
+          mlft  mmid mrgt
+    mbck        mwd
   )
 #+end_src
 
@@ -184,7 +184,7 @@ The main layer only modifies the forward and backward buttons
 #+begin_src text
   (deflayermap (mod-mouse)
     mfwd @mmod
-    mbck @gimp)
+    mbck @mgimp)
 #+end_src
 =mmod= is just using the forward button as an extra =Meta= key
 #+begin_src text
@@ -194,24 +194,18 @@ The main layer only modifies the forward and backward buttons
 #+end_src
 
 *** GIMP convenience
-The left and right buttons for zooming
+The left and right buttons for zooming, and scrolling for brush size
 #+begin_src text
-  (deflayer gimp-zoom
-    _  _
-    +  _  -
+  (deflayer gimp
+    _     ]
+       +  _  -
+    _     [
   )
 #+end_src
-and scrolling for brush size
-#+begin_src text
-  (deflayermap (gimp-brush)
-    mwu ]
-    mwd [)
-#+end_src
-Alias to run them both
+And an alias
 #+begin_src text
   (defalias
-    gimp (tap-hold-press 200 200
-           mbck (multi (layer-toggle gimp-brush)
-  		             (layer-toggle gimp-zoom))))
+    mgimp (tap-hold-press 200 200
+           mbck (layer-toggle gimp)))
 #+end_src
 

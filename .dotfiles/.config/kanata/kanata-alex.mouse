@@ -8,28 +8,25 @@
 )
 
 (defsrc
-  mfwd mbck
-  mlft mmid mrgt
+  mfwd        mwu
+        mlft  mmid mrgt
+  mbck        mwd
 )
 
 (deflayermap (mod-mouse)
   mfwd @mmod
-  mbck @gimp)
+  mbck @mgimp)
 
 (defalias
   mmod (tap-hold-press 200 200
          mfwd lmet))
 
-(deflayer gimp-zoom
-  _  _
-  +  _  -
+(deflayer gimp
+  _     ]
+     +  _  -
+  _     [
 )
 
-(deflayermap (gimp-brush)
-  mwu ]
-  mwd [)
-
 (defalias
-  gimp (tap-hold-press 200 200
-         mbck (multi (layer-toggle gimp-brush)
-		             (layer-toggle gimp-zoom))))
+  mgimp (tap-hold-press 200 200
+         mbck (layer-toggle gimp)))
