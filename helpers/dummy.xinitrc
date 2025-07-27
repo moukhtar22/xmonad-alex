@@ -1,6 +1,5 @@
 # Kanata
-~/.local/bin/kanata ~/.config/kanata/kanata-alex.kbd &
-~/.local/bin/kanata ~/.config/kanata/kanata-alex.mouse &
+~/scripts/kanata-init.sh &
 
 # Set up input devices
 xinput set-prop %TOUCHPAD_ID% %ACCEL_PROP_ID% %TOUCHPAD_ACCELERATIION%
