@@ -203,7 +203,8 @@
   (js-ts-mode     . lsp-deferred)
   
   :config
-  (setq-default lsp-rename-use-prepare nil)
+  (setq-default lsp-rename-use-prepare nil
+                lsp-enable-indentation nil)
 
   :custom
   (lsp-rust-analyzer-cargo-watch-command "clippy")
@@ -441,7 +442,11 @@
 
 (use-package web-mode
   :ensure t
-  :hook (html-mode . web-mode))
+  :hook (html-mode . web-mode)
+  :config
+  (setq web-mode-markup-indent-offset 4
+        web-mode-css-indent-offset    4
+        web-mode-code-indent-offset   4))
 
 (setq sgml-basic-offset 4)
 
