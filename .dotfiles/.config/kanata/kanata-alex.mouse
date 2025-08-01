@@ -18,8 +18,9 @@
   mbck @mgimp)
 
 (defalias
-  mmod (tap-hold-press 200 200
-         mfwd lmet))
+  mmod (tap-dance 200
+         ((tap-hold-press 200 200 mfwd lmet)
+		  lctl)))
 
 (deflayer gimp
   _     ]

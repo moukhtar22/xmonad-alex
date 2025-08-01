@@ -189,8 +189,9 @@ The main layer only modifies the forward and backward buttons
 =mmod= is just using the forward button as an extra =Meta= key
 #+begin_src text
   (defalias
-    mmod (tap-hold-press 200 200
-           mfwd lmet))
+    mmod (tap-dance 200
+           ((tap-hold-press 200 200 mfwd lmet)
+  		  lctl)))
 #+end_src
 
 *** GIMP convenience
