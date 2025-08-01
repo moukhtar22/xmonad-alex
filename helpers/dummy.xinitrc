@@ -1,5 +1,6 @@
 # Kanata
 ~/scripts/kanata-init.sh
+sleep 0.2
 
 # Set up input devices
 xinput set-prop %TOUCHPAD_ID% %ACCEL_PROP_ID% %TOUCHPAD_ACCELERATIION%
@@ -13,7 +14,7 @@ xset dpms %SCREEN_TIMEOUT% %SCREEN_TIMEOUT% %SCREEN_TIMEOUT%
 # start some nice programs
 if [ -d /etc/X11/xinit/xinitrc.d ] ; then
     for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
-    [ -x "$f" ] && . "$f"
+        [ -x "$f" ] && . "$f"
     done
     unset f
 fi

@@ -13,7 +13,6 @@ This configuration uses 2 instances of Kanata at a time, one for the keyboard an
 #+begin_src text :noweb yes
   (defcfg
     <<device-and-name>>
-    <<repeat-and-delay>>
     <<extra-options>>
   )
 #+end_src
