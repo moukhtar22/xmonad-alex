@@ -78,7 +78,8 @@ windows, atleast until I learn how to deal with window proportions in Java.
   myMiscWindowRules :: [Query (Endo WindowSet)]
   myMiscWindowRules =
     [ (role =? "gimp-toolbox" <||> role ~= [re|gimp-image-window-.*|]) --> (ask >>= doF . StackSet.sink)
-    , className ~= [re|Awt.*|] --> doCenterFloat ]
+    , className ~= [re|Awt.*|] --> doCenterFloat
+    , className =? "PopupPanelUpdateWindow" --> doShift "11" ]
     where role = stringProperty "WM_WINDOW_ROLE"
           (~=) query regex = query >>= \s -> return $ matched $ s ?=~ regex
 #+end_src
