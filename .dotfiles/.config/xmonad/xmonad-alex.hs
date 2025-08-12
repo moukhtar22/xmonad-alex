@@ -13,6 +13,7 @@ import XMonad.Layout.Master (mastered)
 import XMonad.Hooks.ManageHelpers (doCenterFloat)
 import XMonad.Hooks.ManageDocks (avoidStruts, docks)
 import XMonad.Hooks.EwmhDesktops (ewmh)
+import XMonad.Hooks.SetWMName
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.StatusBar
 
@@ -31,7 +32,8 @@ floatingWindowClasses =
   [ "pavucontrol"
   , "Qemu-system-x86_64"
   , "feh"
-  , "Gimp" ]
+  , "Gimp"
+  , "matplotlib" ]
 
 myFloatingWindowClassRules :: [Query (Endo WindowSet)]
 myFloatingWindowClassRules =
@@ -40,7 +42,8 @@ myFloatingWindowClassRules =
 myMiscWindowRules :: [Query (Endo WindowSet)]
 myMiscWindowRules =
   [ (role =? "gimp-toolbox" <||> role ~= [re|gimp-image-window-.*|]) --> (ask >>= doF . StackSet.sink)
-  , className ~= [re|Awt.*|] --> doCenterFloat ]
+  , className ~= [re|Awt.*|] --> doCenterFloat
+  , className =? "PopupPanelUpdateWindow" --> doShift "11" ]
   where role = stringProperty "WM_WINDOW_ROLE"
         (~=) query regex = query >>= \s -> return $ matched $ s ?=~ regex
 
@@ -96,9 +99,10 @@ startupApplications =
   [ "~/.cabal/bin/xmobar"
   , "picom -b"
   , "conky.sh"
-  , "/usr/libexec/notification-daemon"
+  , "dunst"
   , "emacs --daemon"
-  , "redshift" ]
+  , "redshift"
+  , "eww daemon" ]
 
 myStartupHook :: X ()
 myStartupHook = do
@@ -120,12 +124,12 @@ keysToRemove =
   , "M-S-c" ]
 
 mouseButtons :: [((ButtonMask, Button), Window -> X())]
-mouseButtons = map (\(modifier, key, action) -> ((modifier, key), const $ spawn action)) buttons
+mouseButtons = map (\(modifier, key, action) -> ((modifier, key), const $ action)) buttons
   where buttons =
-          [ (0, 8, "xdotool type --clearmodifier -")
-          , (0, 9, "xdotool type --clearmodifier +")
-          , (shiftMask, 8, "xdotool type --clearmodifier [")
-          , (shiftMask, 9, "xdotool type --clearmodifier ]") ]
+          [ (mod4Mask, 2, withFocused $ windows . StackSet.sink)
+          , (mod4Mask, 4, spawn "~/scripts/soundctrl.sh +")
+          , (mod4Mask, 5, spawn "~/scripts/soundctrl.sh -")
+          , (mod4Mask, 8, spawn "~/scripts/toggle_eww_popup_panel.sh") ]
 
 workspaceGoToKeys :: [((KeyMask, KeySym), X ())]
 workspaceGoToKeys =
@@ -203,6 +207,6 @@ main = xmonad
           , workspaces  = myWorkspaces
           , layoutHook  = myLayoutHook
           , manageHook  = myManageHook <+> manageHook def
-          , startupHook = myStartupHook
+          , startupHook = myStartupHook >> setWMName "LG3D"
           , terminal    = "alacritty"
           , borderWidth = 0 }

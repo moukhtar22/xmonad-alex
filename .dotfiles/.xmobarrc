@@ -1,7 +1,7 @@
--- /* vim: set filetype=haskell : */
+-- -*- haskell -*-
 
 Config { font         = "MesloLGS NF 13"
-       , bgColor      = "#000c19"
+       , bgColor      = "#192027"
        , fgColor      = "#a9b1d6"
        , position     = TopSize C 100 24
        , lowerOnStart = True
@@ -39,5 +39,5 @@ Config { font         = "MesloLGS NF 13"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "       <fc=#f7768e>%XMonadLog%</fc>}<fc=#f7768e>%coretemp%</fc>   <fc=#9ece6a><action=`alacritty -e htop`>%cpu%</action></fc>   <fc=#e0af68><action=`alacritty -e htop`>%memory%</action></fc>   <fc=#bb9af7>%dynnetwork%</fc> { <fc=#f7768e>%baticon%  %battery%</fc>    <fc=#9ece6a><action=`emacsclient -c -a 'emacs' --eval '(doom/window-maximize-buffer(dt/year-calendar))'`>%date%</action></fc>        "
+       , template = "       <fc=#f7768e>%XMonadLog%</fc>}<fc=#f7768e>%coretemp%</fc>   <fc=#9ece6a>%cpu%</fc>   <fc=#e0af68>%memory%</fc>   <fc=#bb9af7>%dynnetwork%</fc> { <fc=#f7768e>%baticon%  %battery%</fc>    <fc=#9ece6a>%date%</fc>        "
        }

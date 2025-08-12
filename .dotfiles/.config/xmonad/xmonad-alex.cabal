@@ -39,7 +39,7 @@ executable xmonad-alex
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
 
-    build-depends:    base ^>=4.17.2.1
+    build-depends:    base
                     , xmonad
                     , xmonad-contrib
                     , containers

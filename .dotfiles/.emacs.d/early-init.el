@@ -21,4 +21,9 @@
 
 (setq text-mode-ispell-word-completion nil)
 
+(use-package warnings
+  :config
+  (add-to-list 'warning-suppress-log-types
+        '(org-element org-element-parser)))
+
 (setq-default tab-width 4)

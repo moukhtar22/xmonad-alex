@@ -30,6 +30,7 @@
   (display-line-numbers-mode))
 (add-hook 'prog-mode-hook 'pref/set-line-number-mode)
 (add-hook 'latex-mode-hook 'pref/set-line-number-mode)
+(add-hook 'conf-mode-hook 'pref/set-line-number-mode)
 
 (setq column-number-mode t)
 
@@ -64,7 +65,7 @@
   :ensure t
   :bind
   (:map minibuffer-local-map
-              ("M-A" . marginalia-cycle))
+        ("M-A" . marginalia-cycle))
   :init
   (marginalia-mode))
 
@@ -77,14 +78,14 @@
   (global-corfu-mode)
   :config
   (setq corfu-auto           t
-	corfu-on-exact-match nil)
+	    corfu-on-exact-match nil)
   (keymap-unset corfu-map "RET"))
 
 (use-package yasnippet
   :ensure t
   :hook ((prog-mode  . yas-minor-mode)
          (org-mode   . yas-minor-mode)
-	 (latex-mode . yas-minor-mode))
+	     (latex-mode . yas-minor-mode))
   :config
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
   (define-key yas-minor-mode-map (kbd "TAB") nil)
@@ -94,6 +95,11 @@
   (define-key yas/keymap         (kbd "C-j") #'yas-next-field)
   (define-key yas/keymap         (kbd "C-S-j") #'yas-prev-field)
   (yas-reload-all))
+(use-package yasnippet-snippets
+  :ensure t
+  :after yasnippet)
+
+(global-set-key (kbd "C-c c e") 'hippie-expand)
 
 (use-package orderless
   :ensure t
@@ -110,7 +116,8 @@
   :bind
   ("C-c c b" . consult-buffer)
   ("C-c c w" . consult-buffer-other-window)
-  ("C-c c /" . consult-ripgrep))
+  ("C-c c /" . consult-ripgrep)
+  ("C-c c i" . consult-imenu))
 (add-hook 'org-mode-hook
 	  (lambda()
 	    (local-set-key (kbd "C-c c o") 'consult-outline)))
@@ -131,7 +138,9 @@
   :after evil
   :ensure t
   :config
-  (evil-collection-init))
+  (evil-collection-init)
+  (evil-define-key 'normal org-mode-map (kbd "gj") 'evil-next-visual-line)
+  (evil-define-key 'normal org-mode-map (kbd "gk") 'evil-previous-visual-line))
 
 (use-package evil-surround
   :after evil
@@ -143,21 +152,25 @@
 (require 'vterm)
 (setq prefs/evil-emacs-state-modes
       '(minibuffer-mode
-	minibuffer-inactive-mode
-	messages-buffer-mode
-	Buffer-menu-mode
-	haskell-mode
-	help-mode
-	compilation-mode
-	emacs-lisp-mode
-	dired-mode
-	vterm-mode
-	inferior-python-mode
-	fundamental-mode))
+	    minibuffer-inactive-mode
+	    messages-buffer-mode
+	    Buffer-menu-mode
+	    haskell-mode
+	    help-mode
+	    compilation-mode
+        emacs-lisp-mode
+	    lisp-mode
+	    dired-mode
+	    vterm-mode
+        eshell-mode
+        nix-repl-mode
+	    inferior-python-mode
+        jupyter-repl-mode
+	    fundamental-mode))
 (setq evil-normal-state-modes '(prog-mode)
       evil-insert-state-modes  nil
       evil-emacs-state-modes   (append prefs/evil-emacs-state-modes
-				       evil-emacs-state-modes))
+				                       evil-emacs-state-modes))
 
 (use-package lsp-mode
   :ensure t
@@ -175,20 +188,23 @@
   :hook
   (lsp-completion-mode . myLsp/lsp-mode-setup-completion)
   
-  (c-mode       . lsp-deferred)
-  (c-ts-mode    . lsp-deferred)
-  (haskell-mode . lsp-deferred)
-  (c++-mode     . lsp-deferred)
-  (c++-ts-mode  . lsp-deferred)
-  (java-ts-mode . lsp-deferred)
-  (lua-mode     . lsp-deferred)
-  (python-mode  . lsp-deferred)
-  (latex-mode   . lsp-deferred)
+  (c-mode         . lsp-deferred)
+  (c-ts-mode      . lsp-deferred)
+  (haskell-mode   . lsp-deferred)
+  (c++-mode       . lsp-deferred)
+  (c++-ts-mode    . lsp-deferred)
+  (java-ts-mode   . lsp-deferred)
+  (lua-mode       . lsp-deferred)
+  (python-mode    . lsp-deferred)
+  (python-ts-mode . lsp-deferred)
+  (latex-mode     . lsp-deferred)
+  (web-mode       . lsp-deferred)
+  (js-mode        . lsp-deferred)
+  (js-ts-mode     . lsp-deferred)
   
   :config
-  (setq-default lsp-enable-on-type-formatting   nil
-				lsp-java-format-on-type-enabled nil
-				lsp-rename-use-prepare          nil)
+  (setq-default lsp-rename-use-prepare nil
+                lsp-enable-indentation nil)
 
   :custom
   (lsp-rust-analyzer-cargo-watch-command "clippy")
@@ -205,19 +221,6 @@
 	lsp-eldoc-enable-hover      nil))
 
 (use-package lsp-pyright
-  :ensure t
-  :defer  t)
-
-(use-package dap-mode
-  :ensure t
-  :defer  t)
-(use-package lsp-treemacs
-  :ensure t
-  :defer  t)
-(use-package treemacs
-  :ensure t
-  :defer  t)
-(use-package lsp-java
   :ensure t
   :defer  t)
 
@@ -244,6 +247,16 @@
   :ensure t
   :hook emacs-lisp-mode)
 
+(defun myTabs/hide-tab-bar-if-alone ()
+  (interactive)
+  (tab-bar-close-tab)
+  (when (<= (length (tab-bar-tabs)) 1)
+    (tab-bar-mode -1)))
+
+(global-set-key (kbd "C-x t 0") 'myTabs/hide-tab-bar-if-alone)
+
+(global-set-key (kbd "C-x M-q") 'save-buffers-kill-emacs)
+
 (add-to-list 'auto-mode-alist '("\\.latex\\'" . latex-mode))
 
 (setq auth-source-save-behavior nil)
@@ -254,8 +267,14 @@
   (setq doom-themes-enable-bold   t
         doom-themes-enable-italic t)
   (set-face-italic 'font-lock-comment-face t)
-  (load-theme 'doom-city-lights t)
-  (doom-themes-org-config))
+  (load-theme 'doom-tokyo-night t)
+  (doom-themes-org-config)
+  (set-face-foreground 'font-lock-property-name-face "#6dcec0")
+  (set-face-foreground 'font-lock-delimiter-face "SkyBlue3")
+  (set-face-attribute 'font-lock-keyword-face nil :slant 'italic)
+  (set-face-attribute 'font-lock-function-call-face nil :slant 'italic)
+  (with-eval-after-load 'org
+    (set-face-foreground 'org-level-3 "Skyblue")))
 
 (custom-set-faces
  '(default ((t (:family "JetBrains Mono" :foundry "JB" :slant normal :weight regular :height 143 :width normal)))))
@@ -281,6 +300,12 @@
 		indent-bars-color-by-depth '(:regexp "outline-\\([0-9]+\\)" :blend 1)
 		indent-bars-highlight-current-depth '(:blend 0.5)
 		indent-bars-display-on-blank-lines t))
+
+(use-package emojify
+  :ensure t
+  :hook ((org-mode  . emojify-mode)
+         (text-mode . emojify-mode)
+         (web-mode  . emojify-mode)))
 
 (add-hook 'latex-mode-hook 'flyspell-mode)
 
@@ -354,7 +379,12 @@
              'org-babel-load-languages '((emacs-lisp . t)
                                          (C . t)
                                          (shell . t)
+                                         (python . t)
                                          (lua . t)))))
+
+(setq org-confirm-babel-evaluate
+      (lambda (lang body)
+        (not (string= lang "jupyter-python"))))
 
 (use-package org-bullets
   :ensure t
@@ -365,9 +395,11 @@
             (setq org-startup-indented  t)))
 
 (use-package olivetti
+  :ensure t
   :config
   (setq-default olivetti-body-width 120)
-  :hook org-mode)
+  :hook (org-mode
+         markdown-mode))
 
 (use-package lua-mode
   :ensure t
@@ -394,9 +426,27 @@
   :ensure t
   :defer  t)
 
+(use-package nix-mode
+  :ensure t
+  :defer  t)
+
+(use-package csv-mode
+  :ensure t
+  :defer t)
+
+(add-to-list 'load-path "~/.emacs.d/src/ebuild-mode")
+(add-to-list 'auto-mode-alist
+             '("\\.ebuild\\'" . (lambda ()
+                                  (require 'ebuild-mode)
+                                  (ebuild-mode))))
+
 (use-package web-mode
   :ensure t
-  :hook (html-mode . web-mode))
+  :hook (html-mode . web-mode)
+  :config
+  (setq web-mode-markup-indent-offset 4
+        web-mode-css-indent-offset    4
+        web-mode-code-indent-offset   4))
 
 (setq sgml-basic-offset 4)
 
@@ -404,7 +454,11 @@
   :ensure t
   :hook
   (web-mode  . emmet-mode)
-  (css-mode  . emmet-mode))
+  (css-mode  . emmet-mode)
+  :config
+  (setq emmet-self-closing-tag-style "")
+  (remhash "!!!" (gethash "snippets" (gethash "html" emmet-snippets)))
+  (puthash "!!!" "<!DOCTYPE html>" (gethash "snippets" (gethash "html" emmet-snippets))))
 
 (defun myWeb/launch-live-server ()
   (interactive)
@@ -417,7 +471,8 @@
 
 (add-hook 'evil-normal-state-entry-hook
 		  (lambda ()
-			(if (eq major-mode 'web-mode)
+			(if (or (eq major-mode 'web-mode)
+                    (eq major-mode 'css-ts-mode))
 				(save-buffer))))
 
 (add-hook 'c-mode-hook
@@ -431,9 +486,53 @@
 
 (use-package elpy
   :ensure t
-  :hook (python-mode . elpy-enable)
+  :hook ((python-mode    . elpy-enable)
+         (python-ts-mode . elpy-enable))
   :config
-  (setenv "WORKON_HOME" "~/.venvs"))
+  (setenv "WORKON_HOME" "~/.venvs")
+  (delete 'elpy-module-highlight-indentation elpy-modules)
+  :init
+  (add-hook 'python-ts-mode-hook
+            (lambda () (elpy-mode 1))))
+
+(add-hook 'elpy-mode-hook
+          (lambda() (company-mode -1)))
+
+(defun myProg/switch-workon-dir(&optional workon-home)
+  (interactive)
+  (if workon-home
+      (setenv "WORKON_HOME" workon-home)
+    (if (string-equal (getenv "WORKON_HOME") "~/.venvs")
+        (setenv "WORKON_HOME" "~/.opt/miniconda3/envs")
+      (setenv "WORKON_HOME" "~/.venvs")))
+  (message "Switched to %s" (getenv "WORKON_HOME")))
+
+(global-set-key (kbd "C-c r w") 'myProg/switch-workon-dir)
+
+(use-package zmq
+  :ensure t
+  :defer t)
+(use-package simple-httpd
+  :ensure t
+  :defer t)
+(use-package websocket
+  :ensure t
+  :defer t)
+
+(use-package jupyter
+  :ensure t
+  :after (zmq simple-http websocket))
+
+(defun myPython/activate-conda-env(&optional conda-env)
+  (interactive)
+  (if conda-env
+      (pyvenv-activate conda-env)
+    (progn (myProg/switch-workon-dir "~/.opt/miniconda3/envs")
+           (call-interactively 'pyvenv-workon)))
+  (org-babel-do-load-languages 'org-babel-load-languages
+                               (append org-babel-load-languages
+                                       '((jupyter . t))))
+  (normal-mode))
 
 (defun myJava/insert-compile-command()
   (interactive)
@@ -450,13 +549,20 @@
       '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
         (c "https://github.com/tree-sitter/tree-sitter-c")
         (bash "https://github.com/tree-sitter/tree-sitter-bash")
-        (java "https://github.com/tree-sitter/tree-sitter-java")))
+        (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+        (css "https://github.com/tree-sitter/tree-sitter-css")
+        (python "https://github.com/tree-sitter/tree-sitter-python")))
 
 (setq major-mode-remap-alist
-      '((c-mode    . c-ts-mode)
-        (c++-mode  . c++-ts-mode)
-        (bash-mode . bash-ts-mode)
-        (java-mode . java-ts-mode)))
+      '((c-mode          . c-ts-mode)
+        (c++-mode        . c++-ts-mode)
+        (bash-mode       . bash-ts-mode)
+        (javascript-mode . js-ts-mode)
+        (css-mode        . css-ts-mode)
+        (python-mode     . python-ts-mode)))
 
 (add-hook 'prog-mode-hook
           (lambda() (indent-tabs-mode -1)))
+
+(add-hook 'makefile-gmake-mode-hook
+          (lambda() (indent-tabs-mode 1)))

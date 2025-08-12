@@ -32,6 +32,7 @@ Need these for using regex for Manage Hook rules
   import XMonad.Hooks.ManageHelpers (doCenterFloat)
   import XMonad.Hooks.ManageDocks (avoidStruts, docks)
   import XMonad.Hooks.EwmhDesktops (ewmh)
+  import XMonad.Hooks.SetWMName
   import XMonad.Hooks.DynamicLog
   import XMonad.Hooks.StatusBar
 #+end_src
@@ -61,7 +62,8 @@ Windows that are /easier/ to configure: exactly match the X11 =WM_CLASS= Propert
     [ "pavucontrol"
     , "Qemu-system-x86_64"
     , "feh"
-    , "Gimp" ]
+    , "Gimp"
+    , "matplotlib" ]
 
   myFloatingWindowClassRules :: [Query (Endo WindowSet)]
   myFloatingWindowClassRules =
@@ -69,14 +71,15 @@ Windows that are /easier/ to configure: exactly match the X11 =WM_CLASS= Propert
 #+end_src
 
 ** Other Window Rules
-Rules that require special handling, like regex matching =gimp-toolkit= and =gimp-image-window=
-should be tiled. All of my Java =AWT= projects must open as floating windows, atleast until
-I learn how to deal with window proportions in Java.
+Rules that require special handling, like regex matching.
+=gimp-toolkit= and =gimp-image-window= should be tiled. All of my Java =AWT= projects must open as floating
+windows, atleast until I learn how to deal with window proportions in Java.
 #+begin_src haskell
   myMiscWindowRules :: [Query (Endo WindowSet)]
   myMiscWindowRules =
     [ (role =? "gimp-toolbox" <||> role ~= [re|gimp-image-window-.*|]) --> (ask >>= doF . StackSet.sink)
-    , className ~= [re|Awt.*|] --> doCenterFloat ]
+    , className ~= [re|Awt.*|] --> doCenterFloat
+    , className =? "PopupPanelUpdateWindow" --> doShift "11" ]
     where role = stringProperty "WM_WINDOW_ROLE"
           (~=) query regex = query >>= \s -> return $ matched $ s ?=~ regex
 #+end_src
@@ -129,7 +132,7 @@ corresponding background color
 
 
 * XMobar
-Copied this from the WiKi, have no idea what most of these functions are
+Copied this from the WiKi, have no idea what most of these functions, data constructors are
 #+begin_src haskell
   myXMobarPP :: PP
   myXMobarPP = def
@@ -156,9 +159,10 @@ Copied this from the WiKi, have no idea what most of these functions are
     [ "~/.cabal/bin/xmobar"
     , "picom -b"
     , "conky.sh"
-    , "/usr/libexec/notification-daemon"
+    , "dunst"
     , "emacs --daemon"
-    , "redshift" ]
+    , "redshift"
+    , "eww daemon" ]
 
   myStartupHook :: X ()
   myStartupHook = do
@@ -194,12 +198,12 @@ Copied this from the WiKi, have no idea what most of these functions are
 =xev= can be used to figure out which buttons are in use
 #+begin_src haskell
   mouseButtons :: [((ButtonMask, Button), Window -> X())]
-  mouseButtons = map (\(modifier, key, action) -> ((modifier, key), const $ spawn action)) buttons
+  mouseButtons = map (\(modifier, key, action) -> ((modifier, key), const $ action)) buttons
     where buttons =
-            [ (0, 8, "xdotool type --clearmodifier -")
-            , (0, 9, "xdotool type --clearmodifier +")
-            , (shiftMask, 8, "xdotool type --clearmodifier [")
-            , (shiftMask, 9, "xdotool type --clearmodifier ]") ]
+            [ (mod4Mask, 2, withFocused $ windows . StackSet.sink)
+            , (mod4Mask, 4, spawn "~/scripts/soundctrl.sh +")
+            , (mod4Mask, 5, spawn "~/scripts/soundctrl.sh -")
+            , (mod4Mask, 8, spawn "~/scripts/toggle_eww_popup_panel.sh") ]
 #+end_src
 ** Add Keybinds for the Extra Workspaces
 #+begin_src haskell
@@ -300,7 +304,7 @@ Copied this from the WiKi, have no idea what most of these functions are
             , workspaces  = myWorkspaces
             , layoutHook  = myLayoutHook
             , manageHook  = myManageHook <+> manageHook def
-            , startupHook = myStartupHook
+            , startupHook = myStartupHook >> setWMName "LG3D"
             , terminal    = "alacritty"
             , borderWidth = 0 }
 #+end_src

@@ -1,3 +1,6 @@
 [submodule ".dotfiles/.zsh/themes/p10k"]
 	path = .dotfiles/.zsh/themes/p10k
 	url = https://github.com/romkatv/powerlevel10k
+[submodule ".dotfiles/.emacs.d/src/ebuild-mode"]
+	path = .dotfiles/.emacs.d/src/ebuild-mode
+	url = https://github.com/emacsmirror/ebuild-mode

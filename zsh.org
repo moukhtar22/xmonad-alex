@@ -1,6 +1,6 @@
 #+Author: Alex Rosegrid
 #+Title: Zsh Configuration
-#+Startup: show2levels
+#+Startup: show2levels indent
 
 #+PROPERTY: BASE_CONFIG_DIR .dotfiles/
 #+PROPERTY: ZSH_CONFIG_DIR  .dotfiles/.zsh/
@@ -23,9 +23,9 @@
 
   if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
       systemd-inhibit \
-	  --what=handle-power-key \
-	  --why="Restrict power key in Graphical environment" \
-	  startx &>/dev/null
+  	    --what=handle-power-key \
+  	    --why="Restrict power key in Graphical environment" \
+  	    startx &>/dev/null
       logout
   fi
 #+end_src
@@ -54,6 +54,8 @@
   alias rexinit="grep -P '(xinput|xset|setxkb)' ~/.xinitrc| bash -"
   alias wallpaper="nitrogen --no-recurse ~/Wallpapers/"
   alias forgosleep="systemd-inhibit --what=handle-lid-switch:sleep:idle"
+  alias kinit="kanata-init.sh"
+  alias toclip="xclip -selection clip-board -i"
 #+end_src
 
 
@@ -96,6 +98,7 @@ This needs to be =sourced= inside the =~/.zshrc= file, as such
 #+begin_src shell
   eval "$(zoxide init zsh)"
   eval "$(fzf --zsh)"
+  eval "$(direnv hook zsh)"
 #+end_src
 
 ** Emacs Vterm compatability
@@ -103,19 +106,18 @@ Sourced this from https://github.com/akermu/emacs-libvterm
 #+begin_src shell
   vterm_printf() {
       if [ -n "$TMUX" ] \
-	  && { [ "${TERM%%-*}" = "tmux" ] \
-	      || [ "${TERM%%-*}" = "screen" ]; }; then
-	  # Tell tmux to pass the escape sequences through
-	  printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+          && { [ "${TERM%%-*}" = "tmux" ] \
+              || [ "${TERM%%-*}" = "screen" ]; }; then
+          # Tell tmux to pass the escape sequences through
+          printf "\ePtmux;\e\e]%s\007\e\\" "$1"
       elif [ "${TERM%%-*}" = "screen" ]; then
-	  # GNU screen (screen, screen-256color, screen-256color-bce)
-	  printf "\eP\e]%s\007\e\\" "$1"
+          # GNU screen (screen, screen-256color, screen-256color-bce)
+          printf "\eP\e]%s\007\e\\" "$1"
       else
-	  printf "\e]%s\e\\" "$1"
+          printf "\e]%s\e\\" "$1"
       fi
   }
 #+end_src
-
 
 ** Source Companion Files
 #+begin_src shell
