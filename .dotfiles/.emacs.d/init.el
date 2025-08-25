@@ -34,7 +34,7 @@
 
 (setq column-number-mode t)
 
-(auto-revert-mode 1)
+(global-auto-revert-mode 1)
 
 (setq read-file-name-completion-ignore-case t
       read-buffer-completion-ignore-case    t)
@@ -321,6 +321,7 @@
 
 (defvar myLaTeX/main-tex-file nil)
 (defun myLaTeX/set-main-tex-file()
+  (interactive)
   (setq myLaTeX/main-tex-file (file-relative-name buffer-file-name))
   (remove-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file))
 (add-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file)

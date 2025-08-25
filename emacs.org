@@ -151,7 +151,7 @@ and use =smartparens-mode=
 
 *** Auto Revert Mode
 #+begin_src emacs-lisp
-  (auto-revert-mode 1)
+  (global-auto-revert-mode 1)
 #+end_src
 
 *** Case Sensitivity
@@ -542,6 +542,7 @@ All my LaTeX projects have a =cfg.cfg= file in their root directories
 #+begin_src emacs-lisp
   (defvar myLaTeX/main-tex-file nil)
   (defun myLaTeX/set-main-tex-file()
+    (interactive)
     (setq myLaTeX/main-tex-file (file-relative-name buffer-file-name))
     (remove-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file))
   (add-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file)
