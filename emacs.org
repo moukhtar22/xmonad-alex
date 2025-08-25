@@ -73,7 +73,7 @@ Supress the  =org-element= warnings (these seem to be some sort of bug)
   (use-package warnings
     :config
     (add-to-list 'warning-suppress-log-types
-          '(org-element org-element-parser)))
+                 '(org-element org-element-parser)))
 #+end_src
 
 
