@@ -215,7 +215,8 @@ The main layer only modifies the forward and backward buttons
   (defalias
     mmod (tap-dance 200
            ((tap-hold-press 200 200 mfwd lmet)
-  		  lctl)))
+  		  lctl
+  		  lsft)))
 #+end_src
 
 *** GIMP convenience
