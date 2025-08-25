@@ -746,7 +746,8 @@ Because this seemed like an appropriate point to update live server
   				(save-buffer))))
 #+end_src
 
-*** Sane Indentation for the C Family
+*** C Family Settings
+**** Indentation
 #+begin_src emacs-lisp
   (add-hook 'c-mode-hook
             (lambda()
