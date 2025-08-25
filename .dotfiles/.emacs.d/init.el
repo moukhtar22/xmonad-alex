@@ -17,7 +17,7 @@
 
 (use-package smartparens
   :ensure t
-  :hook  (prog-mode)
+  :hook  (prog-mode latex-mode)
   :config
   (require 'smartparens-config)
   (sp-with-modes 'sh-mode
@@ -271,6 +271,7 @@
   (doom-themes-org-config)
   (set-face-foreground 'font-lock-property-name-face "#6dcec0")
   (set-face-foreground 'font-lock-delimiter-face "SkyBlue3")
+  (set-face-foreground 'font-lock-type-face "#2698b0")
   (set-face-attribute 'font-lock-keyword-face nil :slant 'italic)
   (set-face-attribute 'font-lock-function-call-face nil :slant 'italic)
   (with-eval-after-load 'org

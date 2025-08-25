@@ -1,4 +1,5 @@
 (visual-line-mode -1)
+(setq-default fill-column 110)
 (setq-default truncate-lines t)
 (setq-default blink-cursor-mode nil)
 (setq-default inhibit-startup-screen t)
