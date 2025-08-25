@@ -482,6 +482,10 @@
             (setq c-indentation-style 'k&r
                   c-basic-offset       4)))
 
+(use-package cmake-mode
+  :ensure t
+  :defer t)
+
 (defun myProg/compile()
   (interactive) (compile compile-command))
 (add-hook 'prog-mode-hook (lambda() (local-set-key (kbd "C-c r c") 'myProg/compile)))

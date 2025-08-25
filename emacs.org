@@ -757,6 +757,13 @@ Because this seemed like an appropriate point to update live server
               (setq c-indentation-style 'k&r
                     c-basic-offset       4)))
 #+end_src
+**** Major Mode for CMake
+#+begin_src emacs-lisp
+  (use-package cmake-mode
+    :ensure t
+    :defer t)
+#+end_src
+
 *** General Programming Key Binds
 **** Run Compile Command
 #+begin_src emacs-lisp
