@@ -20,7 +20,8 @@
 (defalias
   mmod (tap-dance 200
          ((tap-hold-press 200 200 mfwd lmet)
-		  lctl)))
+		  lctl
+		  lsft)))
 
 (deflayer gimp
   _     ]

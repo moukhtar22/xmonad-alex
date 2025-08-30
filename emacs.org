@@ -19,6 +19,7 @@ and it disables cursor blinking too./
 
 #+begin_src emacs-lisp
   (visual-line-mode -1)
+  (setq-default fill-column 110)
   (setq-default truncate-lines t)
   (setq-default blink-cursor-mode nil)
   (setq-default inhibit-startup-screen t)
@@ -73,7 +74,7 @@ Supress the  =org-element= warnings (these seem to be some sort of bug)
   (use-package warnings
     :config
     (add-to-list 'warning-suppress-log-types
-          '(org-element org-element-parser)))
+                 '(org-element org-element-parser)))
 #+end_src
 
 
@@ -128,7 +129,7 @@ and use =smartparens-mode=
 #+begin_src emacs-lisp
   (use-package smartparens
     :ensure t
-    :hook  (prog-mode)
+    :hook  (prog-mode latex-mode)
     :config
     (require 'smartparens-config)
     (sp-with-modes 'sh-mode
@@ -151,7 +152,7 @@ and use =smartparens-mode=
 
 *** Auto Revert Mode
 #+begin_src emacs-lisp
-  (auto-revert-mode 1)
+  (global-auto-revert-mode 1)
 #+end_src
 
 *** Case Sensitivity
@@ -470,6 +471,7 @@ Never save authentication sources
     (doom-themes-org-config)
     (set-face-foreground 'font-lock-property-name-face "#6dcec0")
     (set-face-foreground 'font-lock-delimiter-face "SkyBlue3")
+    (set-face-foreground 'font-lock-type-face "#2698b0")
     (set-face-attribute 'font-lock-keyword-face nil :slant 'italic)
     (set-face-attribute 'font-lock-function-call-face nil :slant 'italic)
     (with-eval-after-load 'org
@@ -542,6 +544,7 @@ All my LaTeX projects have a =cfg.cfg= file in their root directories
 #+begin_src emacs-lisp
   (defvar myLaTeX/main-tex-file nil)
   (defun myLaTeX/set-main-tex-file()
+    (interactive)
     (setq myLaTeX/main-tex-file (file-relative-name buffer-file-name))
     (remove-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file))
   (add-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file)
@@ -746,13 +749,21 @@ Because this seemed like an appropriate point to update live server
   				(save-buffer))))
 #+end_src
 
-*** Sane Indentation for the C Family
+*** C Family Settings
+**** Indentation
 #+begin_src emacs-lisp
   (add-hook 'c-mode-hook
             (lambda()
               (setq c-indentation-style 'k&r
                     c-basic-offset       4)))
 #+end_src
+**** Major Mode for CMake
+#+begin_src emacs-lisp
+  (use-package cmake-mode
+    :ensure t
+    :defer t)
+#+end_src
+
 *** General Programming Key Binds
 **** Run Compile Command
 #+begin_src emacs-lisp

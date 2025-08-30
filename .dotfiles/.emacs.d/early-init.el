@@ -1,4 +1,5 @@
 (visual-line-mode -1)
+(setq-default fill-column 110)
 (setq-default truncate-lines t)
 (setq-default blink-cursor-mode nil)
 (setq-default inhibit-startup-screen t)
@@ -24,6 +25,6 @@
 (use-package warnings
   :config
   (add-to-list 'warning-suppress-log-types
-        '(org-element org-element-parser)))
+               '(org-element org-element-parser)))
 
 (setq-default tab-width 4)

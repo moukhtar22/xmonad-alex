@@ -17,7 +17,7 @@
 
 (use-package smartparens
   :ensure t
-  :hook  (prog-mode)
+  :hook  (prog-mode latex-mode)
   :config
   (require 'smartparens-config)
   (sp-with-modes 'sh-mode
@@ -34,7 +34,7 @@
 
 (setq column-number-mode t)
 
-(auto-revert-mode 1)
+(global-auto-revert-mode 1)
 
 (setq read-file-name-completion-ignore-case t
       read-buffer-completion-ignore-case    t)
@@ -271,6 +271,7 @@
   (doom-themes-org-config)
   (set-face-foreground 'font-lock-property-name-face "#6dcec0")
   (set-face-foreground 'font-lock-delimiter-face "SkyBlue3")
+  (set-face-foreground 'font-lock-type-face "#2698b0")
   (set-face-attribute 'font-lock-keyword-face nil :slant 'italic)
   (set-face-attribute 'font-lock-function-call-face nil :slant 'italic)
   (with-eval-after-load 'org
@@ -321,6 +322,7 @@
 
 (defvar myLaTeX/main-tex-file nil)
 (defun myLaTeX/set-main-tex-file()
+  (interactive)
   (setq myLaTeX/main-tex-file (file-relative-name buffer-file-name))
   (remove-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file))
 (add-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file)
@@ -479,6 +481,10 @@
           (lambda()
             (setq c-indentation-style 'k&r
                   c-basic-offset       4)))
+
+(use-package cmake-mode
+  :ensure t
+  :defer t)
 
 (defun myProg/compile()
   (interactive) (compile compile-command))
