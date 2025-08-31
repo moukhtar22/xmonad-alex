@@ -104,7 +104,7 @@ The =msc= /Movement - Escape/ alias
 #+begin_src text
   (defalias
     mov (layer-toggle movement)
-    msc (tap-hold-press 150 150 esc @mov))
+    msc (tap-hold-press 400 400 esc @mov))
 #+end_src
 
 *** Numbers and Symbols
@@ -145,7 +145,7 @@ The alias,
 #+begin_src text
   (defalias
     mouse (layer-toggle mousekeys)
-    mret (tap-hold-press 150 150 ret @mouse))
+    mret (tap-hold-press 400 400 ret @mouse))
 #+end_src
 
 *** Layout Switching
