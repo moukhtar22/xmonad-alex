@@ -19,7 +19,7 @@
 (deflayer colemak-dh-cust
   @lswch
   @ctlk 1    2    3    4    5    6    7    8    9    0    -     =    bspc
-  tab   q    w    f    p    b    j    l    u    y    grv  @num  ;    lmet
+  tab   q    w    f    p    b    j    l    u    y    grv  @nfd  ;    lmet
   @msc  a    r    s    t    g    m    n    e    i    o    '     @mret
   lsft  x    c    d    v    z    k    h    ,    .    /          rsft
   lctl  lalt lmet           spc            ralt          rctl   ret
@@ -84,6 +84,21 @@
 (defalias
   mouse (layer-toggle mousekeys)
   mret (tap-hold-press 400 400 ret @mouse))
+
+(deflayer functionkeys
+  XX
+  XX   XX  XX  XX  XX  XX  XX   XX    XX  XX    XX  XX  XX  XX
+  f12  f7  f8  f9  XX  XX  XX   XX    XX  XX    XX  XX  XX  XX
+  f11  f4  f5  f6  XX  XX  XX   XX    XX  XX    XX  XX  XX
+  f10  f1  f2  f3  XX  XX  XX   XX    XX  XX    XX      XX
+  _    _   _             XX           _         _       _
+)
+
+(defalias
+  fkeys (layer-toggle functionkeys))
+
+(defalias nfd
+  (tap-dance 200 (@num @fkeys)))
 
 (deflayermap (layoutswitch)
   1 @col
