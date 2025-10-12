@@ -332,7 +332,7 @@ Set some sane default modes
 *Currently, the cursor needs to be located somewhere on the number.*
 #+begin_src emacs-lisp
   (defun myEvil/increment-number-at-point (increment)
-    (interactive)
+    (interactive "*p")
     (skip-chars-backward "0-9")
     (or (looking-at  "[0-9]+")
         (error "No number found"))
